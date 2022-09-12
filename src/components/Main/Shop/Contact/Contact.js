@@ -42,9 +42,10 @@ import {
 //import { LinearGradient } from 'expo-linear-gradient';
 
 
-export default function LoginScreen2() {
+export default function Contact() {
   useEffect(() => {
     StatusBar.setBarStyle('light-content', true);
+    StatusBar.setHidden(true);
   }, []);
 
   return (
