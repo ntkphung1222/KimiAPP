@@ -9,6 +9,7 @@ import Contact from './Contact/Contact';
 import Search from './Search/Search';
 import Cart from './Cart/Cart';
 //import Header from './Header';
+import color from '../../../../assets/color';
 
 const Tab = createBottomTabNavigator();
 
@@ -19,7 +20,14 @@ export default function Shop() {
       <Header />
     </View> */}
 
-    <Tab.Navigator screenOptions={{ headerShown: false, position: 'absolute' }}>
+    <Tab.Navigator 
+    screenOptions={{
+     headerShown: false,
+      position: 'absolute',
+      tabBarActiveTintColor: color.primary,  
+      tabBarInactiveTintColor: 'gray',
+      }}
+    >
       <Tab.Screen
         name='Trang chủ'
         component={Home}

@@ -25,47 +25,34 @@
     
 //     );
 //   }
-import React, { useEffect } from 'react';
+import React from 'react';
 import {
   StyleSheet,
   Text,
   View,
   TextInput,
-  StatusBar,
   Image,
   Keyboard,
   TouchableWithoutFeedback,
   TouchableOpacity,
 } from 'react-native';
-//import { Icon } from 'react-native-elements';
+import color from '../../../../../assets/color';
 
-//import { LinearGradient } from 'expo-linear-gradient';
-
-
-export default function Contact() {
-  useEffect(() => {
-    StatusBar.setBarStyle('light-content', true);
-    StatusBar.setHidden(true);
-  }, []);
-
+export default function Contact({ navigation }) {
   return (
     <TouchableWithoutFeedback
       onPress={() => {
         Keyboard.dismiss();
       }}
     >
-      {/* <LinearGradient
-        colors={['#222', '#222', '#111']}
-        style={styles.container}
-      > */}
       <View style={styles.container}>
         <Text style={styles.welcomeText}>Welcome Back!</Text>
         <Text style={styles.loginText}>Đăng nhập</Text>
         <TextInput
-          placeholder='Tên đăng nhập'
+          placeholder='Số điện thoại'
           placeholderTextColor='#000'
           style={styles.input}
-          autoCorrect
+          maxLength={10}
           autoCapitalize={false}
           keyboardType='default'
           textContentType='none'
@@ -102,7 +89,7 @@ export default function Contact() {
         </View>
         <View style={styles.signUpTextView}>
           <Text style={styles.signUpText}>Chưa có tài khoản? </Text>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => navigation.navigate('Cart')}>
             <Text style={[styles.signUpText, { color: '#3DBCAF' }]}>
               {' Đăng ký '}
             </Text>
@@ -123,11 +110,11 @@ const styles = StyleSheet.create({
   welcomeText: {
     fontSize: 30,
     fontWeight: '900',
-    color: '#3DBCAF',
+    color: color.primary,
     alignSelf: 'center',
   },
   loginText: {
-    color: '#3DBCAF',
+    color: color.primary,
     fontSize: 28,
     fontWeight: 'bold',
     marginTop: 20,
@@ -141,17 +128,17 @@ const styles = StyleSheet.create({
     marginTop: 10,
     paddingHorizontal: 10,
     fontSize: 16,
-    color: '#808e9b',
+    color: color.text,
   },
   fpText: {
     alignSelf: 'flex-end',
-    color: '#3DBCAF',
+    color: color.primary,
     fontSize: 18,
     fontWeight: '600',
     marginTop: 10,
   },
   loginButton: {
-    backgroundColor: '#3DBCAF',
+    backgroundColor: color.primary,
     paddingVertical: 12,
     borderRadius: 6,
     marginTop: 20,
@@ -186,7 +173,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   signUpText: {
-    color: '#000',
+    color: color.text,
     fontSize: 20,
     //fontfamily: 'Poppin-Medium',
     fontWeight: '500',
