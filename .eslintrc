@@ -1,3 +1,4 @@
 {
     "extends": "rallycoding"
+   // "prettier.singleQuote": true
 }

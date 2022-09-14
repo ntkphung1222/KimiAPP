@@ -22,7 +22,7 @@
 //         <NavigationContainer>
 //         <MyDrawer />
 //         </NavigationContainer>
-    
+
 //     );
 //   }
 import React, { useEffect } from 'react';
@@ -40,7 +40,6 @@ import {
 //import { Icon } from 'react-native-elements';
 
 //import { LinearGradient } from 'expo-linear-gradient';
-
 
 export default function LoginScreen2() {
   useEffect(() => {
@@ -61,20 +60,20 @@ export default function LoginScreen2() {
         <Text style={styles.welcomeText}>Welcome Back!</Text>
         <Text style={styles.loginText}>Đăng nhập</Text>
         <TextInput
-          placeholder='Tên đăng nhập'
-          placeholderTextColor='#000'
+          placeholder="Tên đăng nhập"
+          placeholderTextColor="#000"
           style={styles.input}
           autoCorrect
           autoCapitalize={false}
-          keyboardType='default'
-          textContentType='none'
+          keyboardType="default"
+          textContentType="none"
         />
         <TextInput
-          placeholder='Mật khẩu'
-          placeholderTextColor='#000'
+          placeholder="Mật khẩu"
+          placeholderTextColor="#000"
           style={styles.input}
           secureTextEntry
-          textContentType='password'
+          textContentType="password"
         />
         <TouchableOpacity>
           <Text style={styles.fpText}>Quên mật khẩu?</Text>
@@ -92,12 +91,17 @@ export default function LoginScreen2() {
           
           </TouchableOpacity> */}
           <TouchableOpacity style={styles.iconButton}>
-          <Image source={{ uri: 'https://i.imgur.com/2SToj3t.png' }} style={styles.icon} /> 
+            <Image
+              source={{ uri: 'https://i.imgur.com/2SToj3t.png' }}
+              style={styles.icon}
+            />
           </TouchableOpacity>
           <TouchableOpacity style={styles.iconButton}>
-          <Image source={{ uri: 'https://i.imgur.com/bTjkx4Y.png' }} style={styles.icon} /> 
+            <Image
+              source={{ uri: 'https://i.imgur.com/bTjkx4Y.png' }}
+              style={styles.icon}
+            />
           </TouchableOpacity>
-          
         </View>
         <View style={styles.signUpTextView}>
           <Text style={styles.signUpText}>Chưa có tài khoản? </Text>
@@ -107,7 +111,7 @@ export default function LoginScreen2() {
             </Text>
           </TouchableOpacity>
         </View>
-      {/* </LinearGradient> */}
+        {/* </LinearGradient> */}
       </View>
     </TouchableWithoutFeedback>
   );

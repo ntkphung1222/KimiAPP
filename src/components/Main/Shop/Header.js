@@ -1,19 +1,32 @@
 //import { StatusBar } from 'expo-status-bar';
-import React, { useEffect } from 'react';
-import { View, Text, Dimensions, SafeAreaView, StatusBar } from 'react-native';
+import React from 'react';
+import { View, TouchableOpacity } from 'react-native';
+import { withBadge, Icon } from '@rneui/base';
+import color from '../../../../assets/color';
 
-const { height } = Dimensions.get('window'); 
+const BadgedIcon = withBadge(1)(Icon);
+
 export default function Header() {
-    useEffect(() => {
-        //StatusBar.setBarStyle('light-content', true);
-        StatusBar.setHidden(true);
-      }, []);
-    return (
-        <SafeAreaView>
-            <View style={{ height: height / 10 }}>
-                <Text>Header</Text>
-            </View>
-        </SafeAreaView>
-    );
+  return (
+    <Header
+      containerStyle={{ height: 60 }}
+      //style={styles.headerContainer}
+      leftComponent={{
+        icon: 'menu',
+        color: '#fff',
+        size: 30,
+      }}
+      rightComponent={
+        <View>
+          <TouchableOpacity
+            // posititon='absolute'
+            style={{ marginLeft: -20 }}
+          >
+            <BadgedIcon name="shopping-cart" color="white" size={30} />
+          </TouchableOpacity>
+        </View>
+      }
+      backgroundColor={color.primary}
+    />
+  );
 }
-

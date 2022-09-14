@@ -95,7 +95,7 @@ const styles = StyleSheet.create({
     fontWeight: '500',
     color: color.white,
     alignSelf: 'center',
-    fontFamily: 'Poppin-Medium'
+    //fontFamily: 'Poppin-Medium'
   },
   loginWithBar: {
     display: 'flex',
