@@ -14,6 +14,8 @@ import Contact from './src/components/Main/Shop/Contact/Contact';
 const Stack = createNativeStackNavigator();
 
 export default function App() {
+      // 'PoppinsBold' : require('./assets/fonts/Poppins-Bold.ttf') 
+
   // eslint-disable-next-line no-unused-expressions
   <StatusBar hidden />;
   return (

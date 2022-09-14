@@ -93,8 +93,9 @@ const styles = StyleSheet.create({
   buttonText: {
     fontSize: 20,
     fontWeight: '500',
-    color: '#fafafa',
+    color: color.white,
     alignSelf: 'center',
+    fontFamily: 'Poppin-Medium'
   },
   loginWithBar: {
     display: 'flex',
