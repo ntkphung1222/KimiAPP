@@ -1,30 +1,3 @@
-// import { createDrawerNavigator } from '@react-navigation/drawer';
-// import { NavigationContainer } from '@react-navigation/native';
-// //import { createNativeStackNavigator } from '@react-navigation/native-stack';
-// import * as React from 'react';
-// import Home from './Home/Home';
-// import Menu from './Menu';
-
-// const Drawer = createDrawerNavigator();
-// //const Stack = createNativeStackNavigator();
-
-// function MyDrawer() {
-//   return (
-//     <Drawer.Navigator >
-//       <Drawer.Screen name="Home" component={Home} />
-//       <Drawer.Screen name="Menu" component={Menu} />
-//     </Drawer.Navigator>
-//   );
-// }
-
-// export default function Main() {
-//     return (
-//         <NavigationContainer>
-//         <MyDrawer />
-//         </NavigationContainer>
-    
-//     );
-//   }
 import React from 'react';
 import {
   StyleSheet,
@@ -49,20 +22,20 @@ export default function Contact({ navigation }) {
         <Text style={styles.welcomeText}>Welcome Back!</Text>
         <Text style={styles.loginText}>Đăng nhập</Text>
         <TextInput
-          placeholder='Số điện thoại'
-          placeholderTextColor='#000'
+          placeholder="Số điện thoại"
+          placeholderTextColor={color.text}
           style={styles.input}
           maxLength={10}
           autoCapitalize={false}
-          keyboardType='default'
-          textContentType='none'
+          keyboardType="default"
+          textContentType="none"
         />
         <TextInput
-          placeholder='Mật khẩu'
-          placeholderTextColor='#000'
+          placeholder="Mật khẩu"
+          placeholderTextColor={color.text}
           style={styles.input}
           secureTextEntry
-          textContentType='password'
+          textContentType="password"
         />
         <TouchableOpacity>
           <Text style={styles.fpText}>Quên mật khẩu?</Text>
@@ -80,12 +53,17 @@ export default function Contact({ navigation }) {
           
           </TouchableOpacity> */}
           <TouchableOpacity style={styles.iconButton}>
-          <Image source={{ uri: 'https://i.imgur.com/2SToj3t.png' }} style={styles.icon} /> 
+            <Image
+              source={{ uri: 'https://i.imgur.com/2SToj3t.png' }}
+              style={styles.icon}
+            />
           </TouchableOpacity>
           <TouchableOpacity style={styles.iconButton}>
-          <Image source={{ uri: 'https://i.imgur.com/bTjkx4Y.png' }} style={styles.icon} /> 
+            <Image
+              source={{ uri: 'https://i.imgur.com/bTjkx4Y.png' }}
+              style={styles.icon}
+            />
           </TouchableOpacity>
-          
         </View>
         <View style={styles.signUpTextView}>
           <Text style={styles.signUpText}>Chưa có tài khoản? </Text>
@@ -95,7 +73,7 @@ export default function Contact({ navigation }) {
             </Text>
           </TouchableOpacity>
         </View>
-      {/* </LinearGradient> */}
+        {/* </LinearGradient> */}
       </View>
     </TouchableWithoutFeedback>
   );

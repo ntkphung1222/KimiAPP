@@ -1,6 +1,4 @@
 import * as React from 'react';
-//import { SafeAreaView } from 'react-native';
-//import { StatusBar } from 'expo-status-bar';
 import { NavigationContainer } from '@react-navigation/native';
 import { StatusBar } from 'expo-status-bar';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -9,8 +7,10 @@ import ChangeInfo from './src/components/ChangeInfo/ChangeInfo';
 import Main from './src/components/Main/Main';
 import OrderHistory from './src/components/OrderHistory/OrderHistory';
 import Cart from './src/components/Main/Shop/Cart/Cart';
+import Payment from './src/components/Main/Shop/Cart/Payment';
 import Contact from './src/components/Main/Shop/Contact/Contact';
 import Products from './src/components/Main/Shop/Home/Products';
+import Search from './src/components/Main/Shop/Search/Search';
 
 const Stack = createNativeStackNavigator();
 
@@ -27,14 +27,40 @@ export default function App() {
           component={Main}
           options={{ headerShown: false }}
         />
-        <Stack.Screen name="ChangeInfo" component={ChangeInfo} />
-        <Stack.Screen name="Cart" component={Cart} />
-        <Stack.Screen name="Contact" component={Contact} />
-        <Stack.Screen name="Products" component={Products} />
-
-        <Stack.Screen name="OrderHistory" component={OrderHistory} />
-        <Stack.Screen name="Authentication" component={Authentication} />
+        <Stack.Screen name="ChangeInfo" component={ChangeInfo} options={{ headerShown: false }} />
+        <Stack.Screen name="Cart" component={Cart} options={{ headerShown: false }} />
+        <Stack.Screen
+          name="Payment"
+          component={Payment}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="Contact"
+          component={Contact}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="Search"
+          component={Search}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="Products"
+          component={Products}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="OrderHistory"
+          component={OrderHistory}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="Authentication"
+          component={Authentication}
+          options={{ headerShown: false }}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );
 }
+

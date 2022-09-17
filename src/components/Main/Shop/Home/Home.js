@@ -11,15 +11,7 @@ import {
 } from 'react-native';
 import Swiper from 'react-native-swiper';
 import { Col, Grid } from 'react-native-easy-grid';
-import {
-  SearchBar,
-  Header,
-  Icon,
-  Card,
-  Button,
-  withBadge,
-} from '@rneui/themed';
-// import Header from '../Header';
+import { Header, Icon, Card, Button, withBadge } from '@rneui/themed';
 import color from '../../../../../assets/color';
 import partyIcon from '../../../../images/temp/party.jpg';
 import maxiIcon from '../../../../images/temp/maxi.jpg';
@@ -28,16 +20,16 @@ import littleIcon from '../../../../images/temp/little.jpg';
 const { width, height } = Dimensions.get('window');
 const BadgedIcon = withBadge(1)(Icon);
 
-export default function Home() {
+export default function Home({ navigation }) {
   useEffect(() => {
     StatusBar.setHidden(true);
   }, []);
-  const { wrapper, imageStyle } = styles;
+  const { textSearch, wrapper, imageStyle } = styles;
   return (
     <ScrollView style={{ flex: 1 }}>
       <View>
         <Header
-          containerStyle={{ height: 60 }}
+          containerStyle={{ height: height / 12 }}
           //style={styles.headerContainer}
           leftComponent={{
             icon: 'menu',
@@ -53,7 +45,15 @@ export default function Home() {
           }
           backgroundColor={color.primary}
         />
-        <SearchBar lightTheme placeholder="Tìm kiếm ở đây..." />
+        <View style={styles.searchContainer}>
+          <TouchableOpacity
+            style={styles.search}
+            onPress={() => navigation.navigate('Search')}
+          >
+            <Icon name="search" size={30} color={color.text} />
+            <Text style={textSearch}>Tìm kiếm ở đây...</Text>
+          </TouchableOpacity>
+        </View>
         <View style={wrapper}>
           <Swiper autoplay>
             <Image source={littleIcon} style={imageStyle} />
@@ -102,6 +102,24 @@ const imageWidth = width - 20;
 const imageHeight = (imageWidth / 933) * 465;
 
 const styles = StyleSheet.create({
+  searchContainer: {
+    backgroundColor: color.primary,
+    paddingHorizontal: 20,
+    paddingVertical: 5,
+    height: 50,
+  },
+  search: {
+    flexDirection: 'row',
+    backgroundColor: color.white,
+    alignItems: 'center',
+    paddingHorizontal: 20,
+    height: 40
+  },
+  textSearch: {
+    paddingHorizontal: 10,
+    fontSize: 16,
+    color: color.text,
+  },
   wrapper: {
     height: height * 0.28,
     margin: 0,
