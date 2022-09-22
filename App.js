@@ -8,8 +8,12 @@ import Main from './src/components/Main/Main';
 import OrderHistory from './src/components/OrderHistory/OrderHistory';
 import Cart from './src/components/Main/Shop/Cart/Cart';
 import Payment from './src/components/Main/Shop/Cart/Payment';
-import Contact from './src/components/Main/Shop/Contact/Contact';
+import ShippingAddress from './src/components/Main/Shop/Cart/ShippingAddress';
+import Account from './src/components/Main/Shop/Account/Account';
 import Products from './src/components/Main/Shop/Home/Products';
+import Categories from './src/components/Main/Shop/Home/Categories';
+import Post from './src/components/Main/Shop/Post/Post';
+
 import Search from './src/components/Main/Shop/Search/Search';
 
 const Stack = createNativeStackNavigator();
@@ -27,16 +31,29 @@ export default function App() {
           component={Main}
           options={{ headerShown: false }}
         />
-        <Stack.Screen name="ChangeInfo" component={ChangeInfo} options={{ headerShown: false }} />
-        <Stack.Screen name="Cart" component={Cart} options={{ headerShown: false }} />
+        <Stack.Screen
+          name="ChangeInfo"
+          component={ChangeInfo}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="Cart"
+          component={Cart}
+          options={{ headerShown: false }}
+        />
         <Stack.Screen
           name="Payment"
           component={Payment}
           options={{ headerShown: false }}
         />
         <Stack.Screen
-          name="Contact"
-          component={Contact}
+          name="ShippingAddress"
+          component={ShippingAddress}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="Account"
+          component={Account}
           options={{ headerShown: false }}
         />
         <Stack.Screen
@@ -47,6 +64,16 @@ export default function App() {
         <Stack.Screen
           name="Products"
           component={Products}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="Post"
+          component={Post}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="Categories"
+          component={Categories}
           options={{ headerShown: false }}
         />
         <Stack.Screen
@@ -63,4 +90,3 @@ export default function App() {
     </NavigationContainer>
   );
 }
-

@@ -10,6 +10,7 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import color from '../../../assets/color';
+import gmail from '../../images/gmail.png';
 
 export default function Contact({ navigation }) {
   return (
@@ -35,6 +36,8 @@ export default function Contact({ navigation }) {
           placeholderTextColor={color.text}
           style={styles.input}
           secureTextEntry
+          autoCapitalize={false}
+          keyboardType="default"
           textContentType="password"
         />
         <TouchableOpacity>
@@ -44,14 +47,6 @@ export default function Contact({ navigation }) {
           <Text style={styles.loginButtonText}>Đăng nhập</Text>
         </TouchableOpacity>
         <View style={styles.loginWithBar}>
-          {/* <TouchableOpacity style={styles.iconButton}>
-            <Icon
-              name='facebook'
-              type='font-awesome'
-              color='#fff'
-            />
-          
-          </TouchableOpacity> */}
           <TouchableOpacity style={styles.iconButton}>
             <Image
               source={{ uri: 'https://i.imgur.com/2SToj3t.png' }}
@@ -60,7 +55,7 @@ export default function Contact({ navigation }) {
           </TouchableOpacity>
           <TouchableOpacity style={styles.iconButton}>
             <Image
-              source={{ uri: 'https://i.imgur.com/bTjkx4Y.png' }}
+              source={gmail}
               style={styles.icon}
             />
           </TouchableOpacity>

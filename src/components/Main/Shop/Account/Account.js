@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 import color from '../../../../../assets/color';
 
-export default function Contact({ navigation }) {
+export default function Account({ navigation }) {
   return (
     <TouchableWithoutFeedback
       onPress={() => {

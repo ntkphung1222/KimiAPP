@@ -6,8 +6,8 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 // import { Icon } from 'react-native-elements';
 import { Icon, withBadge } from '@rneui/themed';
 import Home from './Home/Home';
-import Contact from './Contact/Contact';
-import Products from './Home/Products';
+import Authentication from '../../Authentication/Authentication';
+import Post from './Post/Post';
 import Cart from './Cart/Cart';
 //import Header from './Header';
 import color from '../../../../assets/color';
@@ -34,17 +34,19 @@ export default function Shop() {
           name="Trang chủ"
           component={Home}
           options={{
+            // eslint-disable-next-line no-shadow
             tabBarIcon: ({ color, size }) => (
               <Icon name="home" color={color} size={size} />
             ),
           }}
         />
         <Tab.Screen
-          name="Tab Search"
-          component={Products}
+          name="Bài viết"
+          component={Post}
           options={{
+            // eslint-disable-next-line no-shadow
             tabBarIcon: ({ color, size }) => (
-              <Icon name="message" color={color} size={size} />
+              <Icon name="article" color={color} size={size} />
             ),
           }}
         />
@@ -52,6 +54,7 @@ export default function Shop() {
           name="Giỏ hàng"
           component={Cart}
           options={{
+            // eslint-disable-next-line no-shadow
             tabBarIcon: ({ color, size }) => (
               <BadgedIcon name="shopping-cart" color={color} size={size} />
             ),
@@ -59,8 +62,9 @@ export default function Shop() {
         />
         <Tab.Screen
           name="Tài khoản"
-          component={Contact}
+          component={Authentication}
           options={{
+            // eslint-disable-next-line no-shadow
             tabBarIcon: ({ color, size }) => (
               <Icon name="person" color={color} size={size} />
             ),

@@ -2,6 +2,7 @@ import React from 'react';
 import { StyleSheet, View, Text, TouchableOpacity, Image } from 'react-native';
 import { Input } from '@rneui/themed';
 import color from '../../../assets/color';
+import gmail from '../../images/gmail.png';
 import { useTogglePasswordVisibility } from './useTogglePasswordVisibility';
 
 export default function Cart({ navigation }) {
@@ -58,7 +59,7 @@ export default function Cart({ navigation }) {
         </TouchableOpacity>
         <TouchableOpacity style={styles.iconButton}>
           <Image
-            source={{ uri: 'https://i.imgur.com/bTjkx4Y.png' }}
+            source={gmail}
             style={styles.icon}
           />
         </TouchableOpacity>

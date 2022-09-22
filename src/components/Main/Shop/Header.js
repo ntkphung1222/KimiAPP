@@ -8,25 +8,23 @@ const BadgedIcon = withBadge(1)(Icon);
 
 export default function Header() {
   return (
+    <View>
     <Header
-      containerStyle={{ height: 60 }}
-      //style={styles.headerContainer}
+      containerStyle={{ height: 50, paddingHorizontal: 20 }}
       leftComponent={{
         icon: 'menu',
-        color: '#fff',
+        color: color.white,
         size: 30,
       }}
       rightComponent={
         <View>
-          <TouchableOpacity
-            // posititon='absolute'
-            style={{ marginLeft: -20 }}
-          >
-            <BadgedIcon name="shopping-cart" color="white" size={30} />
+          <TouchableOpacity>
+            <BadgedIcon name="notifications" color="white" size={30} />
           </TouchableOpacity>
         </View>
       }
       backgroundColor={color.primary}
     />
+    </View>
   );
 }

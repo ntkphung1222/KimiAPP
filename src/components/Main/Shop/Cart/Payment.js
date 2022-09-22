@@ -5,15 +5,38 @@ import {
   TouchableOpacity,
   StyleSheet,
   Text,
-  Dimensions,
+  //Dimensions,
+  Image,
 } from 'react-native';
 import { RadioButton } from 'react-native-paper';
 import { Icon } from 'react-native-elements';
+import momo from '../../../../images/momo.png';
+import cod from '../../../../images/cod.png';
 import color from '../../../../../assets/color';
 
 export default function Payment({ navigation }) {
   const [value, setValue] = useState('first');
-  const { container, header, wrapper, headerIcon, headerTitle, paymentoptions } = styles;
+  const {
+    label,
+    imageIcon,
+    radioButton,
+    productView,
+    productImage,
+    productTop,
+    productBottom,
+    productRight,
+  } = styles;
+  const {
+    container,
+    header,
+    wrapper,
+    headerIcon,
+    headerTitle,
+    shippingAddressContainer,
+    shippingAddress,
+    paymentmethodContainer,
+    paymentmethod,
+  } = styles;
 
   return (
     <View style={container}>
@@ -24,62 +47,252 @@ export default function Payment({ navigation }) {
             navigation.goBack();
           }}
         >
-          <Icon name="angle-left" type="font-awesome" size={30} color={color.white} />
+          <Icon
+            name="angle-left"
+            type="font-awesome"
+            size={30}
+            color={color.white}
+          />
         </TouchableOpacity>
-        <Text style={headerTitle}>Thanh toán</Text>
+        <Text style={headerTitle}>Kiểm tra</Text>
       </View>
-      <ScrollView style={wrapper}>
+      <View style={{ flex: 0.7 }}>
+        <ScrollView style={wrapper} showsVerticalScrollIndicator={false}>
+          <View style={shippingAddressContainer}>
+            <Text style={label}> Địa chỉ nhận hàng</Text>
+            <TouchableOpacity
+              style={shippingAddress}
+              onPress={() => navigation.navigate('ShippingAddress')}
+            >
+              <Icon name="location-pin" size={35} color={color.red} />
+              <View>
+                <Text>Kim Phung</Text>
+                <Text>0989415460</Text>
+              </View>
+            </TouchableOpacity>
+          </View>
+          <Text style={label}>Danh sách sản phẩm</Text>
+          <View style={productView}>
+            <Image style={productImage} source={momo} />
+            <View style={productRight}>
+              <Text style={productTop}>Tên</Text>
+              <View style={productBottom}>
+                <Text>Giá: </Text>
+                <Text>SL: </Text>
+              </View>
+            </View>
+          </View>
+          <View style={productView}>
+            <Image style={productImage} source={momo} />
+            <View style={productRight}>
+              <Text style={productTop}>Tên</Text>
+              <View style={productBottom}>
+                <Text>Giá: </Text>
+                <Text>SL: </Text>
+              </View>
+            </View>
+          </View>
+          <View style={productView}>
+            <Image style={productImage} source={momo} />
+            <View style={productRight}>
+              <Text style={productTop}>Tên</Text>
+              <View style={productBottom}>
+                <Text>Giá: </Text>
+                <Text>SL: </Text>
+              </View>
+            </View>
+          </View>
+          <View style={productView}>
+            <Image style={productImage} source={momo} />
+            <View style={productRight}>
+              <Text style={productTop}>Tên</Text>
+              <View style={productBottom}>
+                <Text>Giá: </Text>
+                <Text>SL: </Text>
+              </View>
+            </View>
+          </View>
+          <View style={productView}>
+            <Image style={productImage} source={momo} />
+            <View style={productRight}>
+              <Text style={productTop}>Tên</Text>
+              <View style={productBottom}>
+                <Text>Giá: </Text>
+                <Text>SL: </Text>
+              </View>
+            </View>
+          </View>
+          <View style={productView}>
+            <Image style={productImage} source={momo} />
+            <View style={productRight}>
+              <Text style={productTop}>Tên</Text>
+              <View style={productBottom}>
+                <Text>Giá: </Text>
+                <Text>SL: </Text>
+              </View>
+            </View>
+          </View>
+
+          <View style={styles.subtotalView}>
+            <Text style={styles.subtotalText}>Tổng tiền -</Text>
+            <Text style={styles.subtotalPrice}>10000</Text>
+          </View>
+        </ScrollView>
+      </View>
+      <View
+        style={{
+          flex: 0.3,
+          paddingHorizontal: 20,
+          borderColor: color.borderSecond,
+          borderWidth: 1,
+          backgroundColor: color.white,
+        }}
+      >
         <RadioButton.Group
           onValueChange={(newValue) => setValue(newValue)}
           value={value}
         >
-          <View style={paymentoptions}>
-            <RadioButton value="first" />
-            <Text>First</Text>
+          <View style={paymentmethodContainer}>
+            <Text style={label}> Chọn phương thức thanh toán</Text>
+            <TouchableOpacity style={paymentmethod}>
+              <Image source={cod} style={imageIcon} />
+              <Text>Thanh toán khi nhận hàng</Text>
+              <RadioButton value="first" style={radioButton} />
+            </TouchableOpacity>
           </View>
-          <View style={paymentoptions}>
-            <RadioButton value="second" />
-            <Text>Second</Text>
-          </View>
-          <View style={paymentoptions}>
-            <RadioButton value="third" />
-            <Text>Third</Text>
+          <View style={paymentmethodContainer}>
+            <TouchableOpacity style={paymentmethod}>
+              <Image source={momo} style={imageIcon} />
+              <Text>Ví điện tử MoMo</Text>
+              <RadioButton value="second" style={radioButton} />
+            </TouchableOpacity>
           </View>
         </RadioButton.Group>
-      </ScrollView>
+        <TouchableOpacity
+          style={styles.checkoutButton}
+          onPress={() => navigation.navigate('Payment')}
+        >
+          <Text style={styles.checkoutButtonText}>Đặt hàng</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 }
 
-const { width } = Dimensions.get('window');
-const { optionWidth } = width - 80;
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: color.primary,
+    //backgroundColor: color.primary,
   },
   header: {
     flexDirection: 'row',
     height: 50,
     alignItems: 'flex-start',
-    paddingHorizontal: 20,
-    paddingVertical: 10,
+    backgroundColor: color.primary,
   },
   headerIcon: {
-    marginRight: 120,
+    width: 50,
+    height: 50,
+    justifyContent: 'center',
   },
   headerTitle: {
     fontSize: 20,
     color: color.white,
+    paddingVertical: 10,
+    paddingHorizontal: 10,
   },
-  wrapper: { backgroundColor: color.white },
-  paymentoptions: {
-    width: optionWidth,
+  wrapper: {
+    backgroundColor: color.white,
+    paddingHorizontal: 20,
+    paddingBottom: 20,
+  },
+  shippingAddressContainer: {
     height: 100,
-    borderColor: '#333',
+  },
+  label: {
+    fontSize: 16,
+    margin: 5,
+  },
+  shippingAddress: {
+    flexDirection: 'row',
+    borderWidth: 1,
+    borderColor: color.borderSecond,
+    borderRadius: 6,
+    paddingHorizontal: 10,
+    paddingVertical: 10,
+    height: 60,
+  },
+  subtotalView: {
+    display: 'flex',
+    flexDirection: 'row',
+    marginTop: 40,
+    justifyContent: 'space-between',
+    paddingBottom: 10,
+    borderBottomColor: '#333',
+    borderBottomWidth: 1,
+  },
+  subtotalText: {
+    fontSize: 18,
+    fontWeight: '500',
+  },
+  subtotalPrice: {
+    fontSize: 18,
+    fontWeight: '300',
+  },
+  paymentmethodContainer: {},
+  paymentmethod: {
+    borderColor: color.borderSecond,
+    borderRadius: 6,
     borderWidth: 1,
     flexDirection: 'row',
-    marginVertical: 10,
+    marginVertical: 5,
+    paddingHorizontal: 5,
+    paddingVertical: 5,
+    justifyContent: 'space-between',
+    alignContent: 'center',
+  },
+  imageIcon: {
+    width: 35,
+    height: 35,
+    // alignItems: 'flex-end'
+  },
+  productView: {
+    flexDirection: 'row',
+  },
+  productImage: {
+    width: 100,
+    height: 100,
+  },
+  productRight: { paddingLeft: 5 },
+  productTop: {
+    height: 70,
+    paddingVertical: 5,
+  },
+  productBottom: {
+    flexDirection: 'row',
+    width: 200,
+    height: 30,
+    //backgroundColor: color.text,
+    justifyContent: 'space-between',
+    paddingVertical: 5,
+  },
+  paymentViewFooter: {
+    flex: 0.3,
+    backgroundColor: color.white,
+    position: 'absolute',
+    left: 10,
+    right: 10,
+    bottom: 0,
+  },
+  checkoutButton: {
+    backgroundColor: color.primary,
+    paddingVertical: 14,
+    marginTop: 10,
+    alignItems: 'center',
+  },
+  checkoutButtonText: {
+    fontSize: 18,
+    color: '#fff',
+    fontWeight: '700',
   },
 });
