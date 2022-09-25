@@ -8,11 +8,8 @@ import {
   Dimensions,
   Image,
 } from 'react-native';
+// import { useTogglePasswordVisibility } from './useTogglePasswordVisibility';
 import color from '../../../assets/color';
-//import { Icon } from 'react-native-elements';
-//import gmail from '../../images/gmail.png';
-
-//import { LinearGradient } from 'expo-linear-gradient';
 
 export default class Authentication extends React.Component {
   constructor() {
@@ -21,6 +18,7 @@ export default class Authentication extends React.Component {
       isSignIn: true,
     };
   }
+
   signIn() {
     this.setState({ isSignIn: true });
   }
@@ -39,6 +37,8 @@ export default class Authentication extends React.Component {
       signInStyle,
       signUpStyle,
     } = styles;
+    // const { passwordVisibility, show, handlePasswordVisibility } =
+    //   useTogglePasswordVisibility();
     const signInJSX = (
       <View>
         <TextInput
@@ -96,13 +96,23 @@ export default class Authentication extends React.Component {
           //textContentType="none"
         />
         <TextInput
-          placeholder="Mật khẩu"
+          placeholder="Email"
           style={styles.input}
-          secureTextEntry
+          maxLength={10}
           autoCapitalize={false}
-          keyboardType="default"
-          textContentType="password"
+          keyboardType="email-address"
+          //textContentType="none"
         />
+        <View>
+          <TextInput
+            placeholder="Mật khẩu"
+            style={styles.input}
+            secureTextEntry
+            autoCapitalize={false}
+            keyboardType="default"
+            textContentType="password"
+          />
+        </View>
         <TextInput
           placeholder="Nhập lại mật khẩu"
           style={styles.input}

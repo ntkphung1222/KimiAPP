@@ -40,11 +40,6 @@ export default function ShippingAddress({ navigation }) {
         console.error(error);
       });
   }, []);
-  // const options = [
-  //   { value: 'chocolate', label: 'Chocolate' },
-  //   { value: 'strawberry', label: 'Strawberry' },
-  //   { value: 'vanilla', label: 'Vanilla' },
-  // ];
   return (
     <View style={container}>
       <View style={header}>

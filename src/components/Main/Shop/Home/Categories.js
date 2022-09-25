@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   FlatList,
   View,
@@ -9,6 +9,22 @@ import {
 } from 'react-native';
 
 const numColumns = 4;
+
+const [serverData, setServerData] = useState({});
+console.log(serverData);
+
+  useEffect(() => {
+    // eslint-disable-next-line no-undef
+    fetch('http://127.0.0.1:8000/api/category/')
+      .then((response) => response.json())
+      .then((responseJson) => {
+        //Successful response from the API Call
+        setServerData(responseJson.results);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }, []);
 
 const dummyArray = [
   { id: '1', value: 'A', image: 'Image' },
@@ -24,16 +40,17 @@ const dummyArray = [
 ];
 
 const Categories = () => {
-  const [listItems] = useState(dummyArray);
+  const [listItems] = serverData;
   const ItemView = ({ item }) => (
     // Single Comes here which will be repeatative for the FlatListItems
     <View style={styles.item}>
       <Text style={styles.itemText} onPress={() => getItem(item)}>
-        {item.image}
+        {item.dm_ten}
       </Text>
       <Text style={styles.itemText} onPress={() => getItem(item)}>
-        {item.value}
+        {item.dm_hinhanh}
       </Text>
+
     </View>
   );
 
