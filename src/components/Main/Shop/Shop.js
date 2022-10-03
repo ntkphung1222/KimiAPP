@@ -1,16 +1,11 @@
 import React from 'react';
 import { View } from 'react-native';
-
-// npm i @react-navigation/bottom-tabs react-native-elements
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-// import { Icon } from 'react-native-elements';
 import { Icon, withBadge } from '@rneui/themed';
 import Home from './Home/Home';
-//import Authentication from '../../Authentication/Authentication';
 import Post from './Post/Post';
 import Cart from './Cart/Cart';
 import Account from './Account/Account';
-import Test from './Search/Test';
 
 //import Header from './Header';
 import color from '../../../../assets/color';
@@ -65,7 +60,7 @@ export default function Shop() {
         />
         <Tab.Screen
           name="Tài khoản"
-          component={Test}
+          component={Account}
           options={{
             // eslint-disable-next-line no-shadow
             tabBarIcon: ({ color, size }) => (
