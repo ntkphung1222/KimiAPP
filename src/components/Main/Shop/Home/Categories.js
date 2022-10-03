@@ -1,74 +1,110 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import {
   FlatList,
   View,
   Text,
   StyleSheet,
-  Alert,
   Dimensions,
+  Image,
+  TouchableOpacity,
 } from 'react-native';
 
 const numColumns = 4;
-
-const [serverData, setServerData] = useState({});
-console.log(serverData);
-
-  useEffect(() => {
-    // eslint-disable-next-line no-undef
-    fetch('http://127.0.0.1:8000/api/category/')
-      .then((response) => response.json())
-      .then((responseJson) => {
-        //Successful response from the API Call
-        setServerData(responseJson.results);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  }, []);
-
 const dummyArray = [
-  { id: '1', value: 'A', image: 'Image' },
-  { id: '2', value: 'B', image: 'Image' },
-  { id: '3', value: 'C', image: 'Image' },
-  { id: '4', value: 'D', image: 'Image' },
-  { id: '5', value: 'E', image: 'Image' },
-  { id: '6', value: 'F', image: 'Image' },
-  { id: '7', value: 'G', image: 'Image' },
-  { id: '8', value: 'H', image: 'Image' },
-  { id: '9', value: 'I', image: 'Image' },
-  { id: '10', value: 'J', image: 'Image' },
+  {
+    id: '1',
+    value: 'A',
+    image:
+      'https://cdn.pixabay.com/photo/2020/12/09/16/40/pill-5817906_960_720.png',
+  },
+  {
+    id: '2',
+    value: 'B',
+    image:
+      'https://cdn.pixabay.com/photo/2020/12/09/16/40/pill-5817906_960_720.png',
+  },
+  {
+    id: '3',
+    value: 'C',
+    image:
+      'https://cdn.pixabay.com/photo/2020/12/09/16/40/pill-5817906_960_720.png',
+  },
+  {
+    id: '4',
+    value: 'D',
+    image:
+      'https://cdn.pixabay.com/photo/2020/12/09/16/40/pill-5817906_960_720.png',
+  },
+  {
+    id: '5',
+    value: 'E',
+    image:
+      'https://cdn.pixabay.com/photo/2020/12/09/16/40/pill-5817906_960_720.png',
+  },
+  {
+    id: '6',
+    value: 'F',
+    image:
+      'https://cdn.pixabay.com/photo/2020/12/09/16/40/pill-5817906_960_720.png',
+  },
+  {
+    id: '7',
+    value: 'G',
+    image:
+      'https://cdn.pixabay.com/photo/2020/12/09/16/40/pill-5817906_960_720.png',
+  },
+  {
+    id: '8',
+    value: 'H',
+    image:
+      'https://cdn.pixabay.com/photo/2020/12/09/16/40/pill-5817906_960_720.png',
+  },
 ];
 
-const Categories = () => {
-  const [listItems] = serverData;
+const Categories = ({ navigation }) => {
+  // const [serverData, setServerData] = useState({});
+  // // console.log(serverData);
+
+  // useEffect(() => {
+  //   // eslint-disable-next-line no-undef
+  //   fetch('http://192.168.43.83:8000/api/category/')
+  //     .then((response) => response.json())
+  //     .then((responseJson) => {
+  //       //Successful response from the API Call
+  //       setServerData(responseJson.results);
+  //     })
+  //     .catch((error) => {
+  //       console.error(error);
+  //     });
+  // }, []);
+  const [listItems] = useState(dummyArray);
   const ItemView = ({ item }) => (
     // Single Comes here which will be repeatative for the FlatListItems
-    <View style={styles.item}>
-      <Text style={styles.itemText} onPress={() => getItem(item)}>
-        {item.dm_ten}
-      </Text>
-      <Text style={styles.itemText} onPress={() => getItem(item)}>
-        {item.dm_hinhanh}
-      </Text>
-
-    </View>
+    <TouchableOpacity
+      style={styles.item}
+      onPress={() =>
+        navigation.navigate(
+          'Products',
+          { cate: item.id },
+          { name: item.name }
+        )
+      }
+    >
+      <Image
+        style={styles.itemImage}
+        resizeMode="contain"
+        source={{ uri: item.image }}
+      />
+      <Text style={styles.itemText}>{item.value}</Text>
+    </TouchableOpacity>
   );
-
-  // const ItemSeparatorView = () => (
-  //   //Item Separator
-  //   <View style={{ height: 0.5, width: '50%', backgroundColor: '#C8C8C8' }} />
-  // );
-
-  const getItem = (item) => {
-    //Function for click on an item
-    Alert.alert(item.id);
-  };
 
   return (
     <View style={styles.container}>
       <Text style={styles.label}> Tất cả danh mục </Text>
       <FlatList
         data={listItems}
+        style={styles.content}
         //data defined in constructor
         //ItemSeparatorComponent={ItemSeparatorView}
         //Item Separator View
@@ -81,7 +117,7 @@ const Categories = () => {
 };
 
 const { width } = Dimensions.get('window');
-const itemWidth = width / numColumns;
+const itemWidth = (width - 40) / numColumns;
 
 const styles = StyleSheet.create({
   container: {
@@ -91,13 +127,25 @@ const styles = StyleSheet.create({
   label: {
     fontSize: 18,
   },
+  content: {},
   item: {
-    fontSize: 18,
-    height: 44,
-    width: itemWidth,
-    //backgroundColor: '#333',
+    width: itemWidth - 5,
+    marginRight: 6.7,
+    marginBottom: 6.7,
+    borderWidth: 2,
+    borderColor: '#333',
+    borderRadius: 6,
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  itemText: {
+    fontSize: 18,
+    marginHorizontal: 0,
+  },
+  itemImage: {
+    borderRadius: 6,
+    width: itemWidth - 10,
+    height: itemWidth - 10,
   },
 });
 

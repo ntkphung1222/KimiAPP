@@ -11,6 +11,9 @@ import Payment from './src/components/Main/Shop/Cart/Payment';
 import ShippingAddress from './src/components/Main/Shop/Cart/ShippingAddress';
 import Account from './src/components/Main/Shop/Account/Account';
 import Products from './src/components/Main/Shop/Home/Products';
+import ProductDetail from './src/components/Main/Shop/Home/ProductDetail';
+//import NewProducts from './src/components/Main/Shop/Home/NewProducts';
+
 import Categories from './src/components/Main/Shop/Home/Categories';
 import Post from './src/components/Main/Shop/Post/Post';
 
@@ -64,6 +67,16 @@ export default function App() {
         <Stack.Screen
           name="Products"
           component={Products}
+          options={{ headerShown: false }}
+        />
+        {/* <Stack.Screen
+          name="NewProducts"
+          component={NewProducts}
+          options={{ headerShown: false }}
+        /> */}
+        <Stack.Screen
+          name="ProductDetail"
+          component={ProductDetail}
           options={{ headerShown: false }}
         />
         <Stack.Screen

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   FlatList,
   View,
@@ -14,43 +14,29 @@ import color from '../../../../../assets/color';
 
 const numColumns = 3;
 
-const dummyArray = [
-  { id: '1', value: 'A', image: 'A1' },
-  { id: '2', value: 'B', image: 'A1' },
-  { id: '3', value: 'C', image: 'A1' },
-  { id: '4', value: 'D', image: 'A1' },
-  { id: '5', value: 'E', image: 'A1' },
-  { id: '6', value: 'F', image: 'A1' },
-  { id: '7', value: 'G', image: 'A1' },
-  { id: '8', value: 'H', image: 'A1' },
-  { id: '9', value: 'I', image: 'A1' },
-  { id: '10', value: 'J', image: 'A1' },
-];
+export default function Search({ navigation }) {
+  const [serverData, setServerData] = useState([]);
+  //const [listItems] = useState(serverData);
 
-const Search = ({ navigation }) => {
-  const [listItems] = useState(dummyArray);
+  useEffect(() => {
+    // eslint-disable-next-line no-undef
+    fetch('http://kimimylife.site/api/categories')
+      .then((response) => response.json())
+      .then((responseJson) => {
+        //Successful response from the API Call
+        setServerData(responseJson.result);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }, []);
   const ItemView = ({ item }) => (
     // Single Comes here which will be repeatative for the FlatListItems
     <View style={styles.item}>
-      <Text style={styles.itemText} onPress={() => getItem(item)}>
-        {item.image}
-      </Text>
-      <Text style={styles.itemText} onPress={() => getItem(item)}>
-        {item.value}
-      </Text>
+      <Text style={styles.itemText}>{item.cate_id}</Text>
+      <Text style={styles.itemText}>{item.cate_name}</Text>
     </View>
   );
-
-  // const ItemSeparatorView = () => (
-  //   //Item Separator
-  //   <View style={{ height: 0.5, width: '50%', backgroundColor: '#C8C8C8' }} />
-  // );
-
-  const getItem = (item) => {
-    //Function for click on an item
-    Alert.alert(item.id);
-  };
-
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -93,7 +79,7 @@ const Search = ({ navigation }) => {
       </View>
       <Text style={styles.label}> Tất cả danh mục </Text>
       <FlatList
-        data={listItems}
+        data={serverData}
         //data defined in constructor
         //ItemSeparatorComponent={ItemSeparatorView}
         //Item Separator View
@@ -103,7 +89,7 @@ const Search = ({ navigation }) => {
       />
     </View>
   );
-};
+}
 
 const { width } = Dimensions.get('window');
 const itemWidth = width / numColumns;
@@ -158,5 +144,3 @@ const styles = StyleSheet.create({
   },
   wrapper: { backgroundColor: color.white, paddingHorizontal: 20 },
 });
-
-export default Search;

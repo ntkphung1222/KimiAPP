@@ -1,30 +1,52 @@
 //import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { View, TouchableOpacity } from 'react-native';
-import { withBadge, Icon } from '@rneui/base';
+import { Icon } from 'react-native-elements';
+import { StyleSheet, View, Text, TouchableOpacity, Dimensions } from 'react-native';
 import color from '../../../../assets/color';
 
-const BadgedIcon = withBadge(1)(Icon);
 
-export default function Header() {
+export default function Header({ navigation, title }) {
+  //const title = route.params.title;
+  const { header, headerIcon, headerTitle } = styles;
+  
   return (
-    <View>
-    <Header
-      containerStyle={{ height: 50, paddingHorizontal: 20 }}
-      leftComponent={{
-        icon: 'menu',
-        color: color.white,
-        size: 30,
+    <View style={header}>
+    <TouchableOpacity
+      style={headerIcon}
+      onPress={() => {
+        navigation.goBack();
       }}
-      rightComponent={
-        <View>
-          <TouchableOpacity>
-            <BadgedIcon name="notifications" color="white" size={30} />
-          </TouchableOpacity>
-        </View>
-      }
-      backgroundColor={color.primary}
-    />
-    </View>
+    >
+      <Icon
+        name="angle-left"
+        type="font-awesome"
+        size={30}
+        color={color.white}
+      />
+    </TouchableOpacity>
+    <Text style={headerTitle}>{title}</Text>
+  </View>
   );
 }
+const { width } = Dimensions.get('window');
+
+const styles = StyleSheet.create({
+  header: {
+    flexDirection: 'row',
+    height: 50,
+    width,
+    alignItems: 'flex-start',
+    backgroundColor: color.primary,
+  },
+  headerIcon: {
+    width: 50,
+    height: 50,
+    justifyContent: 'center',
+  },
+  headerTitle: {
+    fontSize: 20,
+    color: color.white,
+    paddingVertical: 10,
+    paddingHorizontal: 10,
+  },
+});

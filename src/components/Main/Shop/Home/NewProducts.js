@@ -4,45 +4,103 @@ import {
   View,
   Text,
   StyleSheet,
-  Alert,
+  Image,
+  Dimensions,
+  TouchableOpacity,
 } from 'react-native';
 
 const dummyArray = [
-  { id: '1', value: 'A', image: 'Image' },
-  { id: '2', value: 'B', image: 'Image' },
-  { id: '3', value: 'C', image: 'Image' },
-  { id: '4', value: 'D', image: 'Image' },
-  { id: '5', value: 'E', image: 'Image' },
-  { id: '6', value: 'F', image: 'Image' },
-  { id: '7', value: 'G', image: 'Image' },
-  { id: '8', value: 'H', image: 'Image' },
-  { id: '9', value: 'I', image: 'Image' },
-  { id: '10', value: 'J', image: 'Image' },
+  {
+    id: '1',
+    value: 'A',
+    name: 'abc',
+    image:
+      'https://cdn.pixabay.com/photo/2020/12/09/16/40/pill-5817906_960_720.png',
+  },
+  {
+    id: '2',
+    value: 'B',
+    name: 'abc',
+    image:
+      'https://cdn.pixabay.com/photo/2020/12/09/16/40/pill-5817906_960_720.png',
+  },
+  {
+    id: '3',
+    value: 'C',
+    name: 'abc',
+    image:
+      'https://cdn.pixabay.com/photo/2020/12/09/16/40/pill-5817906_960_720.png',
+  },
+  {
+    id: '4',
+    value: 'D',
+    name: 'abc',
+    image:
+      'https://cdn.pixabay.com/photo/2020/12/09/16/40/pill-5817906_960_720.png',
+  },
+  {
+    id: '5',
+    value: 'E',
+    name: 'abc',
+    image:
+      'https://cdn.pixabay.com/photo/2020/12/09/16/40/pill-5817906_960_720.png',
+  },
+  {
+    id: '6',
+    value: 'F',
+    name: 'abc',
+    image:
+      'https://cdn.pixabay.com/photo/2020/12/09/16/40/pill-5817906_960_720.png',
+  },
+  {
+    id: '7',
+    value: 'G',
+    name: 'abc',
+    image:
+      'https://cdn.pixabay.com/photo/2020/12/09/16/40/pill-5817906_960_720.png',
+  },
+  {
+    id: '8',
+    value: 'H',
+    name: 'abc',
+    image:
+      'https://cdn.pixabay.com/photo/2020/12/09/16/40/pill-5817906_960_720.png',
+  },
+  {
+    id: '9',
+    value: 'I',
+    name: 'abc',
+    image:
+      'https://cdn.pixabay.com/photo/2020/12/09/16/40/pill-5817906_960_720.png',
+  },
+  {
+    id: '10',
+    value: 'J',
+    name: 'abc',
+    image:
+      'https://cdn.pixabay.com/photo/2020/12/09/16/40/pill-5817906_960_720.png',
+  },
 ];
 
-const NewProducts = () => {
+export default function NewProducts({ navigation }) {
   const [listItems] = useState(dummyArray);
   const ItemView = ({ item }) => (
     // Single Comes here which will be repeatative for the FlatListItems
-    <View style={styles.item}>
-      <Text style={styles.itemText} onPress={() => getItem(item)}>
-        {item.image}
-      </Text>
-      <Text style={styles.itemText} onPress={() => getItem(item)}>
-        {item.value}
-      </Text>
-    </View>
+    <TouchableOpacity
+      style={styles.item}
+      onPress={() => navigation.navigate('ProductDetail', { product: item.id })}
+    >
+      <Image
+        style={styles.itemImage}
+        resizeMode="contain"
+        source={{ uri: item.image }}
+      />
+      <View style={styles.itemFooter}>
+        <Text style={styles.itemName}>{item.name}</Text>
+        <Text style={styles.itemText}>{item.id}</Text>
+      </View>
+    </TouchableOpacity>
   );
-
-  // const ItemSeparatorView = () => (
-  //   //Item Separator
-  //   <View style={{ height: 0.5, width: '50%', backgroundColor: '#C8C8C8' }} />
-  // );
-
-  const getItem = (item) => {
-    //Function for click on an item
-    Alert.alert(item.id);
-  };
 
   return (
     <View style={styles.container}>
@@ -59,10 +117,10 @@ const NewProducts = () => {
       />
     </View>
   );
-};
+}
 
-// const { width } = Dimensions.get('window');
-// const itemWidth = width / numColumns;
+const { width } = Dimensions.get('window');
+const itemWidth = (width - 40 - 5) / 2;
 
 const styles = StyleSheet.create({
   container: {
@@ -73,13 +131,33 @@ const styles = StyleSheet.create({
     fontSize: 18,
   },
   item: {
-    fontSize: 18,
-    height: 44,
-    width: 100,
-    //backgroundColor: '#333',
+    width: itemWidth,
+    //paddingHorizontal: 5,
+    //height: itemWidth + 100,
+    borderWidth: 1,
+    borderColor: '#333',
+    marginRight: 5,
+    borderRadius: 6,
     alignItems: 'center',
-    justifyContent: 'center',
+  },
+  itemImage: {
+    width: itemWidth,
+    height: itemWidth,
+    borderRadius: 6,
+  },
+  itemFooter: {
+    padding: 5,
+    width: itemWidth,
+  },
+  itemName: {
+    paddingVertical: 5,
+    height: 50,
+    //backgroundColor: '#333',
+  },
+  itemText: {
+    // fontSize: 16,
+    height: 30,
+    paddingVertical: 5,
+    //backgroundColor: '#FAD',
   },
 });
-
-export default NewProducts;

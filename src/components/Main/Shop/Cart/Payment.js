@@ -137,6 +137,10 @@ export default function Payment({ navigation }) {
             <Text style={styles.subtotalText}>Tổng tiền -</Text>
             <Text style={styles.subtotalPrice}>10000</Text>
           </View>
+          <View style={styles.subtotalView}>
+            <Text style={styles.subtotalText}>Tổng tiền -</Text>
+            <Text style={styles.subtotalPrice}>10000</Text>
+          </View>
         </ScrollView>
       </View>
       <View
@@ -160,13 +164,13 @@ export default function Payment({ navigation }) {
               <RadioButton value="first" style={radioButton} />
             </TouchableOpacity>
           </View>
-          <View style={paymentmethodContainer}>
+          {/* <View style={paymentmethodContainer}> */}
             <TouchableOpacity style={paymentmethod}>
               <Image source={momo} style={imageIcon} />
               <Text>Ví điện tử MoMo</Text>
               <RadioButton value="second" style={radioButton} />
             </TouchableOpacity>
-          </View>
+          {/* </View> */}
         </RadioButton.Group>
         <TouchableOpacity
           style={styles.checkoutButton}
@@ -225,7 +229,7 @@ const styles = StyleSheet.create({
   subtotalView: {
     display: 'flex',
     flexDirection: 'row',
-    marginTop: 40,
+    marginTop: 20,
     justifyContent: 'space-between',
     paddingBottom: 10,
     borderBottomColor: '#333',

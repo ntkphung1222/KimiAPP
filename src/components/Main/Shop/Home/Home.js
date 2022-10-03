@@ -50,8 +50,8 @@ export default function Home({ navigation }) {
       </View>
       <ScrollView showsVerticalScrollIndicator={false} >
         <Banner />
-        <Categories />
-        <NewProducts />
+        <Categories navigation={navigation} />
+        <NewProducts navigation={navigation} />
       </ScrollView>
     </View>
   );

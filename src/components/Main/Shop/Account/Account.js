@@ -1,159 +1,119 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   StyleSheet,
   Text,
   View,
-  TextInput,
+  FlatList,
   Image,
-  Keyboard,
-  TouchableWithoutFeedback,
+  Dimensions,
   TouchableOpacity,
 } from 'react-native';
+import { Icon } from 'react-native-elements';
+
 import color from '../../../../../assets/color';
 
+const optionArray = [
+  {
+    id: '1',
+    value: 'Thông tin cá nhân',
+    iconname: 'user',
+    icontype: 'antdesign',
+    color: color.primary
+  },
+  {
+    id: '2',
+    value: 'Địa chỉ nhận hàng',
+    iconname: 'location',
+    icontype: 'entypo',
+    color: color.red
+  },
+];
 export default function Account({ navigation }) {
-  return (
-    <TouchableWithoutFeedback
-      onPress={() => {
-        Keyboard.dismiss();
-      }}
+  const { container, header, avatar, wrapper } = styles;
+  const [listItems] = useState(optionArray);
+  const ItemView = ({ item }) => (
+    // Single Comes here which will be repeatative for the FlatListItems
+    <TouchableOpacity
+      style={styles.item}
+      onPress={() => navigation.navigate('ProductDetail', { product: item.id })}
     >
-      <View style={styles.container}>
-        <Text style={styles.welcomeText}>Welcome Back!</Text>
-        <Text style={styles.loginText}>Đăng nhập</Text>
-        <TextInput
-          placeholder="Số điện thoại"
-          placeholderTextColor={color.text}
-          style={styles.input}
-          maxLength={10}
-          autoCapitalize={false}
-          keyboardType="default"
-          textContentType="none"
+      <View style={styles.item}>
+        <Icon
+          style={styles.icon}
+          name={item.iconname}
+          type={item.icontype}
+          size={30}
+          color={item.color}
         />
-        <TextInput
-          placeholder="Mật khẩu"
-          placeholderTextColor={color.text}
-          style={styles.input}
-          secureTextEntry
-          textContentType="password"
-        />
-        <TouchableOpacity>
-          <Text style={styles.fpText}>Quên mật khẩu?</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.loginButton}>
-          <Text style={styles.loginButtonText}>Đăng nhập</Text>
-        </TouchableOpacity>
-        <View style={styles.loginWithBar}>
-          {/* <TouchableOpacity style={styles.iconButton}>
-            <Icon
-              name='facebook'
-              type='font-awesome'
-              color='#fff'
-            />
-          
-          </TouchableOpacity> */}
-          <TouchableOpacity style={styles.iconButton}>
-            <Image
-              source={{ uri: 'https://i.imgur.com/2SToj3t.png' }}
-              style={styles.icon}
-            />
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.iconButton}>
-            <Image
-              source={{ uri: 'https://i.imgur.com/bTjkx4Y.png' }}
-              style={styles.icon}
-            />
-          </TouchableOpacity>
-        </View>
-        <View style={styles.signUpTextView}>
-          <Text style={styles.signUpText}>Chưa có tài khoản? </Text>
-          <TouchableOpacity onPress={() => navigation.navigate('Cart')}>
-            <Text style={[styles.signUpText, { color: '#3DBCAF' }]}>
-              {' Đăng ký '}
-            </Text>
-          </TouchableOpacity>
-        </View>
-        {/* </LinearGradient> */}
+        <Text style={styles.itemText}>{item.value}</Text>
       </View>
-    </TouchableWithoutFeedback>
+    </TouchableOpacity>
+  );
+  const ItemSeparatorView = () => (
+    //Item Separator
+    <View
+      style={{ height: 0.5, width: '100%', backgroundColor: '#C8C8C8' }}
+    />
+);
+  return (
+    <View style={container}>
+      <View style={header}>
+        <Image
+          style={avatar}
+          resizeMode="contain"
+          source={{
+            uri: 'https://cdn.pixabay.com/photo/2020/12/09/16/40/pill-5817906_960_720.png',
+          }}
+        />
+        <Text> Kim Phụng </Text>
+      </View>
+      <View style={wrapper}>
+        <FlatList
+          data={listItems}
+          style={wrapper}
+          //data defined in constructor
+          ItemSeparatorComponent={ItemSeparatorView}
+          //Item Separator View
+          renderItem={ItemView}
+          showsVerticalScrollIndicator={false}
+          keyExtractor={(item, index) => index.toString()}
+          numColumns={1}
+          //ListHeaderComponent={getHeader}
+        />
+      </View>
+    </View>
   );
 }
-
+const { width, height } = Dimensions.get('window');
+const headerheight = height / 3;
+const avatarsize = 120;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: 50,
-    paddingHorizontal: 20,
   },
-  welcomeText: {
-    fontSize: 30,
-    fontWeight: '900',
-    color: color.primary,
-    alignSelf: 'center',
-  },
-  loginText: {
-    color: color.primary,
-    fontSize: 28,
-    fontWeight: 'bold',
-    marginTop: 20,
-    marginBottom: 10,
-  },
-  input: {
-    width: '100%',
-    height: 50,
-    backgroundColor: '#C0C0C0',
-    borderRadius: 6,
-    marginTop: 10,
-    paddingHorizontal: 10,
-    fontSize: 16,
-    color: color.text,
-  },
-  fpText: {
-    alignSelf: 'flex-end',
-    color: color.primary,
-    fontSize: 18,
-    fontWeight: '600',
-    marginTop: 10,
-  },
-  loginButton: {
+  header: {
     backgroundColor: color.primary,
-    paddingVertical: 12,
-    borderRadius: 6,
-    marginTop: 20,
-  },
-  loginButtonText: {
-    fontSize: 20,
-    fontWeight: '500',
-    color: '#fafafa',
-    alignSelf: 'center',
-  },
-  loginWithBar: {
-    display: 'flex',
-    flexDirection: 'row',
+    width,
+    height: headerheight,
+    alignItems: 'center',
     justifyContent: 'center',
-    marginTop: 50,
   },
-  iconButton: {
-    // backgroundColor: '#3b5998',
-    // padding: 14,
-    // marginHorizontal: 10,
-    // borderRadius: 100,
-    margin: 5,
+  avatar: {
+    width: avatarsize,
+    height: avatarsize,
+    borderRadius: avatarsize,
+    backgroundColor: '#333',
+  },
+  wrapper: {
+    //paddingHorizontal: 20,
+  },
+  item: {
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+    padding: 5,
   },
   icon: {
-    width: 35,
-    height: 35,
-  },
-  signUpTextView: {
-    marginTop: 40,
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'center',
-  },
-  signUpText: {
-    color: color.text,
-    fontSize: 20,
-    //fontfamily: 'Poppin-Medium',
-    fontWeight: '500',
-  },
+    marginRight: 5
+  }
 });

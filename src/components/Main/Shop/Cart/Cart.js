@@ -204,7 +204,7 @@ const styles = StyleSheet.create({
   cartContainer: {
     flex: 1,
     backgroundColor: color.white,
-    marginTop: 10,
+    //marginTop: 10,
     // borderTopLeftRadius: 40,
     // borderTopRightRadius: 40,
     paddingHorizontal: 16,
@@ -235,8 +235,8 @@ const styles = StyleSheet.create({
     marginTop: 14,
   },
   productImage: {
-    width: 60,
-    height: 60,
+    width: 100,
+    height: 100,
     alignSelf: 'center',
   },
   productMiddleView: {
@@ -366,6 +366,7 @@ const styles = StyleSheet.create({
     paddingVertical: 14,
     marginTop: 30,
     alignItems: 'center',
+    
   },
   checkoutButtonText: {
     fontSize: 18,
