@@ -4,7 +4,6 @@ import {
   View,
   Text,
   StyleSheet,
-  Alert,
   Dimensions,
   TextInput,
   TouchableOpacity,
@@ -12,10 +11,12 @@ import {
 import { Icon } from 'react-native-elements';
 import color from '../../../../../assets/color';
 
-const numColumns = 3;
+const numColumns = 2;
 
 export default function Search({ navigation }) {
+  const [search, setSearch] = useState('');
   const [serverData, setServerData] = useState([]);
+  const [masterDataSource, setMasterDataSource] = useState([]);
   //const [listItems] = useState(serverData);
 
   useEffect(() => {
@@ -25,11 +26,36 @@ export default function Search({ navigation }) {
       .then((responseJson) => {
         //Successful response from the API Call
         setServerData(responseJson.result);
+        setMasterDataSource(responseJson.result);
       })
       .catch((error) => {
         console.error(error);
       });
   }, []);
+
+  const searchFilterFunction = (text) => {
+    // Check if searched text is not blank
+    if (text) {
+      // Inserted text is not blank
+      // Filter the masterDataSource and update FilteredDataSource
+      const newData = masterDataSource.filter((item) => {
+        // Applying filter for the inserted text in search bar
+        const itemData = item.cate_name
+          ? item.cate_name.toUpperCase()
+          : ''.toUpperCase();
+        const textData = text.toUpperCase();
+        return itemData.indexOf(textData) > -1;
+      });
+      setServerData(newData);
+      setSearch(text);
+    } else {
+      // Inserted text is blank
+      // Update FilteredDataSource with masterDataSource
+      setServerData(masterDataSource);
+      setSearch(text);
+    }
+  };
+
   const ItemView = ({ item }) => (
     // Single Comes here which will be repeatative for the FlatListItems
     <View style={styles.item}>
@@ -56,6 +82,8 @@ export default function Search({ navigation }) {
         </TouchableOpacity>
         <TextInput
           placeholder="Tìm kiếm ở đây"
+          onChangeText={(text) => searchFilterFunction(text)}
+          value={search}
           placeholderTextColor={color.text}
           style={styles.inputSearch}
           maxLength={10}

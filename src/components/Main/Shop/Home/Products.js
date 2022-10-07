@@ -109,7 +109,7 @@ export default function Products({ navigation, route }) {
         <Text style={styles.itemText}>{item.value}</Text>
         <TouchableOpacity
           style={styles.addToCartButton}
-          onPress={() => navigation.navigate('Payment')}
+          onPress={() => navigation.navigate('Cart')}
         >
           <Text style={styles.addToCartButtonText}>Thêm vào giỏ hàng</Text>
         </TouchableOpacity>
@@ -129,6 +129,7 @@ export default function Products({ navigation, route }) {
         //ItemSeparatorComponent={ItemSeparatorView}
         //Item Separator View
         renderItem={ItemView}
+        maxToRenderPerBatch={4}
         showsVerticalScrollIndicator={false}
         keyExtractor={(item, index) => index.toString()}
         numColumns={numColumns}
@@ -158,7 +159,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   itemImage: {
-    backgroundColor: '#333',
+    backgroundColor: color.white,
     width: itemWidth - 10,
     height: itemWidth,
   },

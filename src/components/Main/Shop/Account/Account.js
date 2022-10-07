@@ -18,31 +18,51 @@ const optionArray = [
     value: 'Thông tin cá nhân',
     iconname: 'user',
     icontype: 'antdesign',
-    color: color.primary
+    color: color.primary,
+
   },
   {
     id: '2',
     value: 'Địa chỉ nhận hàng',
     iconname: 'location',
     icontype: 'entypo',
-    color: color.red
+    color: color.red,
+
+  },
+  {
+    id: '3',
+    value: 'Đổi mật khẩu',
+    iconname: 'lock',
+    icontype: 'simplelineicons',
+    color: color.blue,
+
+  },
+  {
+    id: '4',
+    value: 'Đăng xuất',
+    iconname: 'logout',
+    icontype: 'materialicons',
+    color: color.yellow,
+
   },
 ];
 export default function Account({ navigation }) {
   const { container, header, avatar, wrapper } = styles;
   const [listItems] = useState(optionArray);
+  const gotoScreen = ($id) => {
+    if ($id === '1') navigation.navigate('ChangeInfo');
+    if ($id === '2') navigation.navigate('ShippingAddress');
+    if ($id === '3') navigation.navigate('ChangePassword');
+  };
   const ItemView = ({ item }) => (
     // Single Comes here which will be repeatative for the FlatListItems
-    <TouchableOpacity
-      style={styles.item}
-      onPress={() => navigation.navigate('ProductDetail', { product: item.id })}
-    >
+    <TouchableOpacity style={styles.item} onPress={() => gotoScreen(item.id)}>
       <View style={styles.item}>
         <Icon
           style={styles.icon}
           name={item.iconname}
           type={item.icontype}
-          size={30}
+          size={25}
           color={item.color}
         />
         <Text style={styles.itemText}>{item.value}</Text>
@@ -51,10 +71,8 @@ export default function Account({ navigation }) {
   );
   const ItemSeparatorView = () => (
     //Item Separator
-    <View
-      style={{ height: 0.5, width: '100%', backgroundColor: '#C8C8C8' }}
-    />
-);
+    <View style={{ height: 0.5, width: '100%', backgroundColor: '#C8C8C8' }} />
+  );
   return (
     <View style={container}>
       <View style={header}>
@@ -114,6 +132,6 @@ const styles = StyleSheet.create({
     padding: 5,
   },
   icon: {
-    marginRight: 5
-  }
+    marginRight: 5,
+  },
 });

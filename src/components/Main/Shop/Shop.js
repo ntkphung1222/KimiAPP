@@ -3,9 +3,15 @@ import { View } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Icon, withBadge } from '@rneui/themed';
 import Home from './Home/Home';
-import Post from './Post/Post';
+//import Post from './Post/Post';
 import Cart from './Cart/Cart';
 import Account from './Account/Account';
+import Authentication from '../../Authentication/Authentication';
+import ForgotPassword from '../../Authentication/ForgotPassword';
+import DateChoose from '../Shop/Account/DateChoose';
+
+
+//import SignUp from '../../Authentication/Signup';
 
 //import Header from './Header';
 import color from '../../../../assets/color';
@@ -40,7 +46,7 @@ export default function Shop() {
         />
         <Tab.Screen
           name="Bài viết"
-          component={Post}
+          component={ForgotPassword}
           options={{
             // eslint-disable-next-line no-shadow
             tabBarIcon: ({ color, size }) => (
@@ -60,7 +66,7 @@ export default function Shop() {
         />
         <Tab.Screen
           name="Tài khoản"
-          component={Account}
+          component={DateChoose}
           options={{
             // eslint-disable-next-line no-shadow
             tabBarIcon: ({ color, size }) => (

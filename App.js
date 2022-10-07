@@ -1,15 +1,18 @@
-import * as React from 'react';
+import React from 'react';
+import { useFonts } from 'expo-font';
 import { NavigationContainer } from '@react-navigation/native';
 import { StatusBar } from 'expo-status-bar';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Authentication from './src/components/Authentication/Authentication';
-import ChangeInfo from './src/components/ChangeInfo/ChangeInfo';
+import ChangeInfo from './src/components/Main/Shop/Account/ChangeInfo';
 import Main from './src/components/Main/Main';
-import OrderHistory from './src/components/OrderHistory/OrderHistory';
+//import OrderHistory from './src/components/OrderHistory/OrderHistory';
 import Cart from './src/components/Main/Shop/Cart/Cart';
 import Payment from './src/components/Main/Shop/Cart/Payment';
 import ShippingAddress from './src/components/Main/Shop/Cart/ShippingAddress';
 import Account from './src/components/Main/Shop/Account/Account';
+import ChangePassword from './src/components/Main/Shop/ChangePassword/ChangePassword';
+
 import Products from './src/components/Main/Shop/Home/Products';
 import ProductDetail from './src/components/Main/Shop/Home/ProductDetail';
 //import NewProducts from './src/components/Main/Shop/Home/NewProducts';
@@ -21,8 +24,23 @@ import Search from './src/components/Main/Shop/Search/Search';
 
 const Stack = createNativeStackNavigator();
 
+
 export default function App() {
-  // 'PoppinsBold' : require('./assets/fonts/Poppins-Bold.ttf')
+  const [fontsLoaded] = useFonts({
+    // eslint-disable-next-line global-require
+    // SFProDisPlayRegular: require('./assets/fonts/SF-Pro-Display-Regular.otf'),
+    // eslint-disable-next-line global-require
+    SFProDisplaySemiBold: require('./assets/fonts/SF-Pro-Display-Semibold.otf'),
+  });
+
+  const [fontsLoaded1] = useFonts({
+    // eslint-disable-next-line global-require
+     SFProDisPlayRegular: require('./assets/fonts/SF-Pro-Display-Regular.otf'),  
+  });
+  
+  if (!fontsLoaded || !fontsLoaded1) {
+    return null;
+  }
 
   // eslint-disable-next-line no-unused-expressions
   <StatusBar hidden />;
@@ -89,14 +107,19 @@ export default function App() {
           component={Categories}
           options={{ headerShown: false }}
         />
-        <Stack.Screen
+        {/* <Stack.Screen
           name="OrderHistory"
           component={OrderHistory}
           options={{ headerShown: false }}
-        />
+        /> */}
         <Stack.Screen
           name="Authentication"
           component={Authentication}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="ChangePassword"
+          component={ChangePassword}
           options={{ headerShown: false }}
         />
       </Stack.Navigator>

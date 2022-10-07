@@ -8,6 +8,7 @@ import {
   Dimensions,
   TouchableOpacity,
 } from 'react-native';
+import color from '../../../../../assets/color';
 
 const dummyArray = [
   {
@@ -132,18 +133,18 @@ const styles = StyleSheet.create({
   },
   item: {
     width: itemWidth,
-    //paddingHorizontal: 5,
-    //height: itemWidth + 100,
+    padding: 5,
     borderWidth: 1,
     borderColor: '#333',
-    marginRight: 5,
     borderRadius: 6,
+    marginRight: 5,
+    marginBottom: 5,
     alignItems: 'center',
   },
   itemImage: {
-    width: itemWidth,
+    backgroundColor: color.white,
+    width: itemWidth - 10,
     height: itemWidth,
-    borderRadius: 6,
   },
   itemFooter: {
     padding: 5,
