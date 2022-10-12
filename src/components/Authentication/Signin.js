@@ -1,154 +1,229 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   StyleSheet,
-  Text,
   View,
-  TextInput,
-  Image,
-  Keyboard,
-  TouchableWithoutFeedback,
+  Text,
+  Dimensions,
   TouchableOpacity,
+  Image
 } from 'react-native';
+import { Icon } from 'react-native-elements';
+import { Form, InputText } from 'validate-form-in-expo-style';
+import { FontAwesome } from '@expo/vector-icons';
 import color from '../../../assets/color';
-import gmail from '../../images/gmail.png';
+import font from '../../../assets/font';
+import fb from '../../images/fb.png';
+import google from '../../images/google.png';
+//import global from '../global';
 
-export default function Contact({ navigation }) {
+const Signin = ({ navigation }) => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  // const [userCurrent, setUserCurrent] = useState();
+
+  const handleSubmit = () => {
+    //this.refs.form.submit();
+    //eslint-disable-next-line no-undef
+    fetch('http://kimimylife.site/api/auth/login', {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        email,
+        password,
+      })
+        
+    });
+  };
+
   return (
-    <TouchableWithoutFeedback
-      onPress={() => {
-        Keyboard.dismiss();
-      }}
-    >
-      <View style={styles.container}>
-        <Text style={styles.welcomeText}>Welcome Back!</Text>
-        <Text style={styles.loginText}>Đăng nhập</Text>
-        <TextInput
-          placeholder="Số điện thoại"
-          placeholderTextColor={color.text}
-          style={styles.input}
-          maxLength={10}
-          autoCapitalize={false}
-          keyboardType="default"
-          textContentType="none"
-        />
-        <TextInput
-          placeholder="Mật khẩu"
-          placeholderTextColor={color.text}
-          style={styles.input}
-          secureTextEntry
-          autoCapitalize={false}
-          keyboardType="default"
-          textContentType="password"
-        />
-        <TouchableOpacity>
-          <Text style={styles.fpText}>Quên mật khẩu?</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.loginButton}>
-          <Text style={styles.loginButtonText}>Đăng nhập</Text>
-        </TouchableOpacity>
-        <View style={styles.loginWithBar}>
-          <TouchableOpacity style={styles.iconButton}>
-            <Image
-              source={{ uri: 'https://i.imgur.com/2SToj3t.png' }}
-              style={styles.icon}
-            />
+    <View style={styles.container}>
+      <View style={styles.wrapper}>
+        <Text style={font.textTitle}>Đăng nhập</Text>
+        <Form>
+          <InputText
+            name="email"
+            // label="email"
+            validateNames={['required']}
+            errorMessages={['Vui lòng nhập đầy đủ thông tin']}
+            placeholder="Email/ Số điện thoại"
+            type="text"
+            keyboardType="email-address"
+            value={email}
+            onChangeText={(text) => setEmail(text)}
+            leftIcon={<FontAwesome name="user-o" color="#0A3055" size={20} />}
+            invalidIcon={
+              <Icon
+                type="feather"
+                name="alert-circle"
+                color={color.red}
+                size={20}
+              />
+            }
+            validIcon={
+              <Icon
+                type="feather"
+                name="check-circle"
+                color={color.primary}
+                size={20}
+              />
+            }
+            style={styles.inputStyle}
+            containerStyle={styles.input}
+          />
+          <InputText
+            name="password"
+            secureTextEntry
+            passwordHideIcon={
+              <Icon
+                name="eye-off"
+                color={color.text}
+                size={20}
+                type="feather"
+              />
+            }
+            passwordShowIcon={
+              <Icon name="eye" color={color.text} size={20} type="feather" />
+            }
+            validateNames={['required']}
+            errorMessages={[
+              'Vui lòng nhập mật khẩu',
+              // eslint-disable-next-line max-len
+              // 'Tối thiểu 8 kí tự, trong đó có ít nhất 1 kí tự viết hoa, 1 kí tự viết thường và 1 chữ số',
+            ]}
+            type="text"
+            value={password}
+            placeholder="Mật khẩu"
+            leftIcon={<FontAwesome name="lock" color="#0A3055" size={20} />}
+            onChangeText={(text) => setPassword(text)}
+            labelStyle={styles.labelStyle}
+            style={styles.inputStyle}
+            containerStyle={styles.input}
+            floatingTopValue={5}
+            floatingFontSize={5}
+          />
+        <Text style={font.labelQMK}>Quên mật khẩu?</Text>
+          <TouchableOpacity
+            activeOpacity={0.8}
+            onPress={handleSubmit}
+            style={styles.button}
+          >
+            <Text style={styles.textButton}>Gửi</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.iconButton}>
-            <Image
-              source={gmail}
-              style={styles.icon}
-            />
-          </TouchableOpacity>
-        </View>
-        <View style={styles.signUpTextView}>
-          <Text style={styles.signUpText}>Chưa có tài khoản? </Text>
-          <TouchableOpacity onPress={() => navigation.navigate('Cart')}>
-            <Text style={[styles.signUpText, { color: '#3DBCAF' }]}>
-              {' Đăng ký '}
-            </Text>
-          </TouchableOpacity>
-        </View>
-        {/* </LinearGradient> */}
+        </Form>
       </View>
-    </TouchableWithoutFeedback>
+      <View style={styles.signUpBar}>
+      <Image source={fb} style={styles.imageStyle} />
+      <Image source={google} style={styles.imageStyle} />
+      </View>
+      <View style={{ flexDirection: 'row' }}>
+      <Text style={font.label}> Đã có tài khoản?</Text>
+      <Text style={font.label} onPress={() => navigation.navigate('Signup')}> Đăng ký</Text>
+      </View>
+    </View>
   );
-}
+};
+
+export default Signin;
+const { width } = Dimensions.get('window');
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: 50,
-    paddingHorizontal: 20,
+    backgroundColor: color.primary,
+    alignItems: 'center',
+    justifyContent: 'center',
+    //paddingHorizontal: 10
   },
-  welcomeText: {
-    fontSize: 30,
-    fontWeight: '900',
-    color: color.primary,
-    alignSelf: 'center',
+  wrapper: {
+    width,
+    //height: 400,
+    borderRadius: 40,
+    padding: 20,
+    backgroundColor: color.white,
   },
-  loginText: {
-    color: color.primary,
-    fontSize: 28,
+  textBody: {
+    fontFamily: 'SFProDisPlayRegular',
+    fontSize: 16,
+    color: color.darkblue,
+    marginHorizontal: 20,
+    textAlign: 'center',
+  },
+  button: {
+    elevation: 8,
+    backgroundColor: color.primary,
+    borderRadius: 10,
+    paddingVertical: 10,
+    paddingHorizontal: 12,
+    marginTop: 10,
+    marginBottom: 25,
+  },
+  textButton: {
+    fontSize: 18,
+    color: color.white,
     fontWeight: 'bold',
-    marginTop: 20,
-    marginBottom: 10,
+    alignSelf: 'center',
+    textTransform: 'uppercase',
+  },
+  inputStyle: {
+    color: color.text,
+    paddingTop: 0,
+    fontSize: 16,
   },
   input: {
-    width: '100%',
-    height: 50,
-    backgroundColor: '#C0C0C0',
-    borderRadius: 6,
-    marginTop: 10,
     paddingHorizontal: 10,
-    fontSize: 16,
-    color: color.text,
+    borderWidth: 2,
+    borderBottomWidth: 2,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderColor: color.primary,
+    borderBottomColor: color.primary,
+    borderRadius: 15,
+    height: 50,
   },
-  fpText: {
-    alignSelf: 'flex-end',
-    color: color.primary,
-    fontSize: 18,
-    fontWeight: '600',
+  appButtonContainer: {
+    elevation: 8,
+    backgroundColor: color.primary,
+    borderRadius: 10,
+    paddingVertical: 10,
+    paddingHorizontal: 12,
     marginTop: 10,
   },
-  loginButton: {
-    backgroundColor: color.primary,
-    paddingVertical: 12,
-    borderRadius: 6,
-    marginTop: 20,
-  },
-  loginButtonText: {
-    fontSize: 20,
-    fontWeight: '500',
-    color: '#fafafa',
+  appButtonText: {
+    fontSize: 18,
+    color: color.white,
+    fontWeight: 'bold',
     alignSelf: 'center',
+    textTransform: 'uppercase',
   },
-  loginWithBar: {
-    display: 'flex',
+  inputContainerStyle: {
+    paddingBottom: 10,
+    paddingTop: 13,
+    borderWidth: 2,
+    borderBottomWidth: 2,
+    // borderColor: "#333333",
+    // borderBottomColor: "#333333",
+    borderColor: color.primary,
+    borderBottomColor: color.primary,
+    borderRadius: 15,
+  },
+  inputIconStyle: {
+    marginHorizontal: 10,
+    fontSize: 2.4,
+    backgroundColor: '#333333',
+    borderRadius: 5,
+    alignSelf: 'center',
+    paddingHorizontal: 2,
+    paddingVertical: 1,
+  },
+  signUpBar: {
     flexDirection: 'row',
-    justifyContent: 'center',
-    marginTop: 50,
   },
-  iconButton: {
-    // backgroundColor: '#3b5998',
-    // padding: 14,
-    // marginHorizontal: 10,
-    // borderRadius: 100,
-    margin: 5,
-  },
-  icon: {
-    width: 35,
-    height: 35,
-  },
-  signUpTextView: {
-    marginTop: 40,
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'center',
-  },
-  signUpText: {
-    color: color.text,
-    fontSize: 20,
-    //fontfamily: 'Poppin-Medium',
-    fontWeight: '500',
-  },
+  imageStyle: {
+    width: 30,
+    height: 30,
+    margin: 10
+  }
 });

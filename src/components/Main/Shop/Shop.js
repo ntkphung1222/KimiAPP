@@ -6,26 +6,23 @@ import Home from './Home/Home';
 //import Post from './Post/Post';
 import Cart from './Cart/Cart';
 import Account from './Account/Account';
-import Authentication from '../../Authentication/Authentication';
-import ForgotPassword from '../../Authentication/ForgotPassword';
-import DateChoose from '../Shop/Account/DateChoose';
-
-
-//import SignUp from '../../Authentication/Signup';
-
-//import Header from './Header';
+//import Signin from '../../Authentication/Signin';
+import Signup from '../../Authentication/Signup';
 import color from '../../../../assets/color';
+//import global from '../../global';
 
 const Tab = createBottomTabNavigator();
 const BadgedIcon = withBadge(1)(Icon);
 
+
 export default function Shop() {
+  // const [user, setUser] = useState({});
+  // const onSignIn = (user) => {
+  //   setUser(user);
+  //  };
+  //  global.onSignIn = onSignIn();
   return (
     <View style={{ flex: 1 }}>
-      {/* <View>
-      <Header />
-    </View> */}
-
       <Tab.Navigator
         screenOptions={{
           headerShown: false,
@@ -46,7 +43,7 @@ export default function Shop() {
         />
         <Tab.Screen
           name="Bài viết"
-          component={ForgotPassword}
+          component={Signup}
           options={{
             // eslint-disable-next-line no-shadow
             tabBarIcon: ({ color, size }) => (
@@ -66,7 +63,7 @@ export default function Shop() {
         />
         <Tab.Screen
           name="Tài khoản"
-          component={DateChoose}
+          component={Account}
           options={{
             // eslint-disable-next-line no-shadow
             tabBarIcon: ({ color, size }) => (

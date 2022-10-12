@@ -15,18 +15,18 @@ const numColumns = 2;
 
 export default function Search({ navigation }) {
   const [search, setSearch] = useState('');
+  const [isHighlighted, setIsHighlighted] = useState(false);
   const [serverData, setServerData] = useState([]);
   const [masterDataSource, setMasterDataSource] = useState([]);
-  //const [listItems] = useState(serverData);
 
   useEffect(() => {
     // eslint-disable-next-line no-undef
-    fetch('http://kimimylife.site/api/categories')
+    fetch('http://kimimylife.site/api/category')
       .then((response) => response.json())
       .then((responseJson) => {
         //Successful response from the API Call
-        setServerData(responseJson.result);
-        setMasterDataSource(responseJson.result);
+        setServerData(responseJson.results);
+        setMasterDataSource(responseJson.results);
       })
       .catch((error) => {
         console.error(error);
@@ -40,8 +40,8 @@ export default function Search({ navigation }) {
       // Filter the masterDataSource and update FilteredDataSource
       const newData = masterDataSource.filter((item) => {
         // Applying filter for the inserted text in search bar
-        const itemData = item.cate_name
-          ? item.cate_name.toUpperCase()
+        const itemData = item.dm_ten
+          ? item.dm_ten.toUpperCase()
           : ''.toUpperCase();
         const textData = text.toUpperCase();
         return itemData.indexOf(textData) > -1;
@@ -59,8 +59,8 @@ export default function Search({ navigation }) {
   const ItemView = ({ item }) => (
     // Single Comes here which will be repeatative for the FlatListItems
     <View style={styles.item}>
-      <Text style={styles.itemText}>{item.cate_id}</Text>
-      <Text style={styles.itemText}>{item.cate_name}</Text>
+      <Text style={styles.itemText}>{item.dm_ma}</Text>
+      <Text style={styles.itemText}>{item.dm_ten}</Text>
     </View>
   );
   return (
@@ -84,8 +84,12 @@ export default function Search({ navigation }) {
           placeholder="Tìm kiếm ở đây"
           onChangeText={(text) => searchFilterFunction(text)}
           value={search}
+          onFocus={() => {
+            setIsHighlighted(true);
+          }}
+          onBlur={() => setIsHighlighted(false)}
           placeholderTextColor={color.text}
-          style={styles.inputSearch}
+          style={[styles.inputSearch, isHighlighted && styles.isHighlighted]}
           maxLength={10}
           autoCapitalize={false}
           keyboardType="default"
@@ -94,7 +98,7 @@ export default function Search({ navigation }) {
         <TouchableOpacity
           style={styles.touchIconQR}
           onPress={() => {
-            navigation.goBack();
+            // navigation.goBack();
           }}
         >
           <Icon
@@ -130,7 +134,6 @@ const styles = StyleSheet.create({
     fontSize: 18,
   },
   item: {
-    fontSize: 18,
     height: 44,
     width: itemWidth,
     //backgroundColor: '#333',
@@ -169,6 +172,10 @@ const styles = StyleSheet.create({
     marginVertical: 7.5,
     fontSize: 16,
     color: color.text,
+  },
+  isHighlighted: {
+    borderColor: 'green',
+    borderWidth: 1,
   },
   wrapper: { backgroundColor: color.white, paddingHorizontal: 20 },
 });

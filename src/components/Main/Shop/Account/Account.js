@@ -9,7 +9,7 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import { Icon } from 'react-native-elements';
-
+import font from '../../../../../assets/font';
 import color from '../../../../../assets/color';
 
 const optionArray = [
@@ -48,11 +48,13 @@ const optionArray = [
 ];
 export default function Account({ navigation }) {
   const { container, header, avatar, wrapper } = styles;
+  const label = font.label;
   const [listItems] = useState(optionArray);
   const gotoScreen = ($id) => {
-    if ($id === '1') navigation.navigate('ChangeInfo');
+    if ($id === '1') navigation.navigate('Info');
     if ($id === '2') navigation.navigate('ShippingAddress');
     if ($id === '3') navigation.navigate('ChangePassword');
+    if ($id === '4') navigation.navigate('Signin');
   };
   const ItemView = ({ item }) => (
     // Single Comes here which will be repeatative for the FlatListItems
@@ -65,7 +67,7 @@ export default function Account({ navigation }) {
           size={25}
           color={item.color}
         />
-        <Text style={styles.itemText}>{item.value}</Text>
+        <Text style={label}>{item.value}</Text>
       </View>
     </TouchableOpacity>
   );

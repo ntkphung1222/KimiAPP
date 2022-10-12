@@ -10,8 +10,8 @@ import {
 import { Header, Icon, withBadge } from '@rneui/themed';
 import color from '../../../../../assets/color';
 import Banner from './Banner';
-import Categories from './Categories';
-import NewProducts from './NewProducts';
+import Category from './Category';
+import NewProduct from './NewProduct';
 
 
 const BadgedIcon = withBadge(1)(Icon);
@@ -50,8 +50,8 @@ export default function Home({ navigation }) {
       </View>
       <ScrollView showsVerticalScrollIndicator={false} >
         <Banner />
-        <Categories navigation={navigation} />
-        <NewProducts navigation={navigation} />
+        <Category navigation={navigation} />
+        <NewProduct navigation={navigation} />
       </ScrollView>
     </View>
   );

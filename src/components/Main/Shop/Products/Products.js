@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import {
   FlatList,
@@ -13,100 +13,41 @@ import color from '../../../../../assets/color';
 import Header from '../Header';
 
 const numColumns = 2;
-const title = 'Sản phẩm';
-
-const dummyArray = [
-  {
-    id: '1',
-    value: 'A',
-    name: 'abc',
-    image:
-      'https://cdn.pixabay.com/photo/2020/12/09/16/40/pill-5817906_960_720.png',
-  },
-  {
-    id: '2',
-    value: 'B',
-    name: 'abc',
-    image:
-      'https://cdn.pixabay.com/photo/2020/12/09/16/40/pill-5817906_960_720.png',
-  },
-  {
-    id: '3',
-    value: 'C',
-    name: 'abc',
-    image:
-      'https://cdn.pixabay.com/photo/2020/12/09/16/40/pill-5817906_960_720.png',
-  },
-  {
-    id: '4',
-    value: 'D',
-    name: 'abc',
-    image:
-      'https://cdn.pixabay.com/photo/2020/12/09/16/40/pill-5817906_960_720.png',
-  },
-  {
-    id: '5',
-    value: 'E',
-    name: 'abc',
-    image:
-      'https://cdn.pixabay.com/photo/2020/12/09/16/40/pill-5817906_960_720.png',
-  },
-  {
-    id: '6',
-    value: 'F',
-    name: 'abc',
-    image:
-      'https://cdn.pixabay.com/photo/2020/12/09/16/40/pill-5817906_960_720.png',
-  },
-  {
-    id: '7',
-    value: 'G',
-    name: 'abc',
-    image:
-      'https://cdn.pixabay.com/photo/2020/12/09/16/40/pill-5817906_960_720.png',
-  },
-  {
-    id: '8',
-    value: 'H',
-    name: 'abc',
-    image:
-      'https://cdn.pixabay.com/photo/2020/12/09/16/40/pill-5817906_960_720.png',
-  },
-  {
-    id: '9',
-    value: 'I',
-    name: 'abc',
-    image:
-      'https://cdn.pixabay.com/photo/2020/12/09/16/40/pill-5817906_960_720.png',
-  },
-  {
-    id: '10',
-    value: 'J',
-    name: 'abc',
-    image:
-      'https://cdn.pixabay.com/photo/2020/12/09/16/40/pill-5817906_960_720.png',
-  },
-];
+//const title = 'Sản phẩm';
 
 export default function Products({ navigation, route }) {
   const cate = route.params.cate;
-  const name = route.params.name;
+  const titleCate = route.params.titleCate;
   const { container, wrapper } = styles;
-  const [listItems] = useState(dummyArray);
+  const [serverData, setServerData] = useState([]);
+
+  useEffect(() => {
+    // eslint-disable-next-line no-undef
+    fetch(`http://kimimylife.site/api/product?category=${cate}`)
+      .then((response) => response.json())
+      .then((responseJson) => {
+        //Successful response from the API Call
+        setServerData(responseJson.results);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }, []);
+  //const [listItems] = useState(dummyArray);
   const ItemView = ({ item }) => (
     // Single Comes here which will be repeatative for the FlatListItems
     <TouchableOpacity
       style={styles.item}
-      onPress={() => navigation.navigate('ProductDetail', { product: item.id })}
+      onPress={() => navigation.navigate('ProductDetail', { product: item.sp_ma })}
     >
       <Image
         style={styles.itemImage}
         resizeMode="contain"
-        source={{ uri: item.image }}
+        source={{ uri: item.sp_hinhanh }}
       />
       <View style={styles.itemFooter}>
-        <Text style={styles.itemName}>{item.name}</Text>
-        <Text style={styles.itemText}>{item.value}</Text>
+        <Text style={styles.itemName}>{item.sp_ten}</Text>
+        <Text style={styles.itemText}>{item.sp_ten}</Text>
         <TouchableOpacity
           style={styles.addToCartButton}
           onPress={() => navigation.navigate('Cart')}
@@ -119,11 +60,9 @@ export default function Products({ navigation, route }) {
 
   return (
     <View style={container}>
-      <Header navigation={navigation} title={title} />
-      <Text>{cate}</Text>
-      <Text>{name}</Text>
+      <Header navigation={navigation} title={titleCate} />
       <FlatList
-        data={listItems}
+        data={serverData}
         style={wrapper}
         //data defined in constructor
         //ItemSeparatorComponent={ItemSeparatorView}
@@ -151,8 +90,7 @@ const styles = StyleSheet.create({
   item: {
     width: itemWidth,
     padding: 5,
-    borderWidth: 1,
-    borderColor: '#333',
+    elevation: 1,
     borderRadius: 6,
     marginRight: 5,
     marginBottom: 5,
@@ -183,7 +121,7 @@ const styles = StyleSheet.create({
   },
   addToCartButtonText: {
     //fontSize: 18,
-    color: '#fff',
+    color: color.white,
     //fontWeight: '700',
   },
 });

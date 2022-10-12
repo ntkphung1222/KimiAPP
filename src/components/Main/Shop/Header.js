@@ -25,6 +25,7 @@ export default function Header({ navigation, title }) {
       />
     </TouchableOpacity>
     <Text style={headerTitle}>{title}</Text>
+    
   </View>
   );
 }

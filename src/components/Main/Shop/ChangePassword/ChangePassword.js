@@ -1,137 +1,250 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import {
-  View,
-  //ScrollView,
-  TouchableOpacity,
   StyleSheet,
+  View,
   Text,
+  Dimensions,
+  TouchableOpacity,
   Alert,
-  //Dimensions,
 } from 'react-native';
-
-import { TextInput } from 'react-native-paper';
-import { Input } from '@rneui/themed';
-import Header from '../Header';
+import { Icon } from 'react-native-elements';
+import { Form, InputText } from 'validate-form-in-expo-style';
+import { FontAwesome } from '@expo/vector-icons';
+import font from '../../../../../assets/font';
 import color from '../../../../../assets/color';
-import { useTogglePasswordVisibility } from '../../../Authentication/useTogglePasswordVisibility';
+import Header from '../Header';
 
-export default function ChangePassword({ navigation }) {
-  const title = 'Đổi mật khẩu';
-  const [passwordVisible, setPasswordVisible] = useState(true);
-  const { container, wrapper, label, changePassButton, changePassText } =
-    styles;
-  const { passwordVisibility, show, handlePasswordVisibility } =
-    useTogglePasswordVisibility();
-  const [serverData, setServerData] = useState([]);
+class ChangeInfo extends React.Component {
+  state = {
+    user: { password: '', repeatPassword: '' },
+  };
+  
+  componentDidMount() {
+    //You can add your own rules
+    Form.addValidationRule('isValidPassword', (value) => {
+      const passwordReg = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/;
+      if (passwordReg.test(value) === false) {
+        return false;
+      }
+      return true;
+    });
+    Form.addValidationRule('isPasswordMatch', (value) => {
+      if (value !== this.state.user.password) {
+        return false;
+      }
+      return true;
+    });
+  }
+  componentWillUnmount() {
+    // Remove own rules
+    Form.removeValidationRule('isPasswordMatch');
+    Form.removeValidationRule('isValidPassword');
+  }
 
-  useEffect(() => {
-    // eslint-disable-next-line no-undef
-    fetch('https://aboutreact.herokuapp.com/demosearchables.php')
-      .then((response) => response.json())
-      .then((responseJson) => {
-        //Successful response from the API Call
-        setServerData(responseJson.results);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  }, []);
-  return (
-    <View style={container}>
-      <Header navigation={navigation} title={title} />
-      <View style={wrapper}>
-        <View>
-          <Text style={label}>Thông tin người nhận</Text>
-          <Input
-            //       containerStyle={{
-            //       width: '100%',
-            //       height: 50,
-            //       backgroundColor: '#C0C0C0',
-            //       borderRadius: 6,
-            //       marginTop: 10,
-            //       paddingHorizontal: 10,
-            //       fontSize: 16,
-            //       color: color.text,
-            // }}
-            placeholder="Mật khẩu cũ"
-            rightIcon={<Text onPress={handlePasswordVisibility}>{show}</Text>}
-            secureTextEntry={passwordVisibility}
-            autoCapitalize="none"
-            autoCorrect={false}
-          />
-          <Input
-            placeholder="Mật khẩu mới"
-            rightIcon={<Text onPress={handlePasswordVisibility}>{show}</Text>}
-            secureTextEntry={passwordVisibility}
-            autoCapitalize="none"
-            autoCorrect={false}
-          />
-          <TextInput
-            label="Mật khẩu cũ"
-            name="aaa"
-            secureTextEntry={passwordVisible}
-            right={
-              <TextInput.Icon
-                icon={passwordVisible ? 'eye' : 'eye-off'}
-                onPress={() => setPasswordVisible(!passwordVisible)}
-              />
-            }
-          />
-          <TextInput
-            label="Mật khẩu mới"
-            name="aabbbbP"
-            secureTextEntry={passwordVisible}
-            right={
-              <TextInput.Icon
-                icon={passwordVisible ? 'eye' : 'eye-off'}
-                onPress={() => setPasswordVisible(!passwordVisible)}
-              />
-            }
-          />
-          <TouchableOpacity
-            style={changePassButton}
-            onPress={() => Alert.alert('Đổi mật khẩu thành công.')}
-          >
-            <Text style={changePassText}>{title}</Text>
-          </TouchableOpacity>
+  handlePassword = (event) => {
+    const { user } = this.state;
+    user.password = event.nativeEvent.text;
+    this.setState({ user });
+  };
+
+  handleRepeatPassword = (event) => {
+    const { user } = this.state;
+    user.repeatPassword = event.nativeEvent.text;
+    this.setState({ user });
+  };
+
+  handleChange = (email) => {
+    this.setState({ email });
+  };
+
+  handleFirstName = (firstName) => {
+    this.setState({ firstName });
+  };
+  handleNumber = (number) => {
+    this.setState({ number });
+  };
+  submit = () => {
+    Alert.alert('form submit, thank you.');
+  };
+  handleSubmit = () => {
+    this.refs.form.submit();
+  };
+  render() {
+    const { user } = this.state;
+    const textPlaceHolder = font.label;
+    return (
+      <View style={styles.container}>
+        <Header title="Đổi mật khẩu" navigation={this.props.navigation} />
+        <View style={styles.wrapper}>
+          <Form ref="form" onSubmit={this.submit}>
+            <InputText
+              name="password"
+              secureTextEntry
+              passwordHideIcon={
+                <Icon
+                  name="eye-off"
+                  color={color.text}
+                  size={20}
+                  type="feather"
+                />
+              }
+              passwordShowIcon={
+                <Icon name="eye" color={color.text} size={20} type="feather" />
+              }
+              validateNames={['isValidPassword', 'required']}
+              errorMessages={[
+                // eslint-disable-next-line max-len
+                'Minimum eight characters, at least one uppercase constter, one lowercase constter and one number',
+                'This field is required',
+              ]}
+              type="text"
+              value={user.password}
+              placeholder="Nhập mật khẩu"
+              leftIcon={<FontAwesome name="lock" color="#0A3055" size={20} />}
+              onChange={this.handlePassword}
+              labelStyle={styles.labelStyle}
+              style={textPlaceHolder}
+              containerStyle={styles.input}
+              floatingTopValue={5}
+              floatingFontSize={5}
+            />
+            <InputText
+              name="repeatPassword"
+              secureTextEntry
+              validateNames={['isPasswordMatch', 'required']}
+              errorMessages={[
+                'Mật khẩu nhập lại không khớp',
+                'Vui lòng nhập lại mật khẩu',
+              ]}
+              type="text"
+              value={user.repeatPassword}
+              placeholder="Nhập lại mật khẩu"
+              onChange={this.handleRepeatPassword}
+              // invalidIcon={
+              //   <Feather name="alert-circle" color="red" size={20} />
+              // }
+              passwordHideIcon={
+                <Icon
+                  name="eye-off"
+                  color={color.text}
+                  size={20}
+                  type="feather"
+                />
+              }
+              passwordShowIcon={
+                <Icon name="eye" color={color.text} size={20} type="feather" />
+              }
+              leftIcon={<FontAwesome name="lock" color="#0A3055" size={20} />}
+              labelStyle={styles.labelStyle}
+              style={textPlaceHolder}
+              containerStyle={styles.input}
+              floatingTopValue={5}
+              floatingFontSize={5}
+            />
+            <TouchableOpacity
+              activeOpacity={0.8}
+              onPress={this.handleSubmit}
+              style={styles.button}
+            >
+              <Text style={styles.textButton}>Gửi</Text>
+            </TouchableOpacity>
+          </Form>
         </View>
       </View>
-    </View>
-  );
+    );
+  }
 }
+
+export default ChangeInfo;
+const { width } = Dimensions.get('window');
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: color.white,
+    // backgroundColor: color.primary,
+    // alignItems: 'center',
+    // justifyContent: 'center',
+    //paddingHorizontal: 10
   },
   wrapper: {
+    width,
+    //height: 400,
+    borderRadius: 40,
+    padding: 20,
     //backgroundColor: color.white,
-    paddingHorizontal: 20,
-    paddingBottom: 20,
   },
-  label: {
+  textBody: {
+    fontFamily: 'SFProDisPlayRegular',
     fontSize: 16,
-    paddingVertical: 10,
+    color: color.darkblue,
+    marginHorizontal: 20,
+    textAlign: 'center',
   },
-  //   inputStyle: {
-  //     height: 50,
-  //     borderWidth: 1,
-  //     borderRadius: 6,
-  //     borderColor: color.borderSecond,
-  //     marginBottom: 5,
-  //     paddingHorizontal: 10,
-  //   },
-  changePassButton: {
+  button: {
+    elevation: 8,
     backgroundColor: color.primary,
-    paddingVertical: 14,
+    borderRadius: 10,
+    paddingVertical: 10,
+    paddingHorizontal: 12,
     marginTop: 10,
-    alignItems: 'center',
-    borderRadius: 6,
+    marginBottom: 25,
   },
-  changePassText: {
+  textButton: {
     fontSize: 18,
-    color: '#fff',
-    fontWeight: '700',
+    color: color.white,
+    fontWeight: 'bold',
+    alignSelf: 'center',
+    textTransform: 'uppercase',
+  },
+  inputStyle: {
+    color: color.text,
+    paddingTop: 0,
+    fontSize: 16,
+  },
+  input: {
+    paddingHorizontal: 10,
+    borderWidth: 2,
+    borderBottomWidth: 2,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderColor: color.primary,
+    borderBottomColor: color.primary,
+    borderRadius: 15,
+    height: 50,
+  },
+  appButtonContainer: {
+    elevation: 8,
+    backgroundColor: color.primary,
+    borderRadius: 10,
+    paddingVertical: 10,
+    paddingHorizontal: 12,
+    marginTop: 10,
+  },
+  appButtonText: {
+    fontSize: 18,
+    color: color.white,
+    fontWeight: 'bold',
+    alignSelf: 'center',
+    textTransform: 'uppercase',
+  },
+  inputContainerStyle: {
+    paddingBottom: 10,
+    paddingTop: 13,
+    borderWidth: 2,
+    borderBottomWidth: 2,
+    // borderColor: "#333333",
+    // borderBottomColor: "#333333",
+    borderColor: color.primary,
+    borderBottomColor: color.primary,
+    borderRadius: 15,
+  },
+  inputIconStyle: {
+    marginHorizontal: 10,
+    fontSize: 2.4,
+    backgroundColor: '#333333',
+    borderRadius: 5,
+    alignSelf: 'center',
+    paddingHorizontal: 2,
+    paddingVertical: 1,
   },
 });

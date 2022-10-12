@@ -4,6 +4,10 @@ import { NavigationContainer } from '@react-navigation/native';
 import { StatusBar } from 'expo-status-bar';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Authentication from './src/components/Authentication/Authentication';
+import Signin from './src/components/Authentication/Signin';
+import Signup from './src/components/Authentication/Signup';
+
+
 import ChangeInfo from './src/components/Main/Shop/Account/ChangeInfo';
 import Main from './src/components/Main/Main';
 //import OrderHistory from './src/components/OrderHistory/OrderHistory';
@@ -13,14 +17,15 @@ import ShippingAddress from './src/components/Main/Shop/Cart/ShippingAddress';
 import Account from './src/components/Main/Shop/Account/Account';
 import ChangePassword from './src/components/Main/Shop/ChangePassword/ChangePassword';
 
-import Products from './src/components/Main/Shop/Home/Products';
+import Products from './src/components/Main/Shop/Products/Products';
 import ProductDetail from './src/components/Main/Shop/Home/ProductDetail';
 //import NewProducts from './src/components/Main/Shop/Home/NewProducts';
 
-import Categories from './src/components/Main/Shop/Home/Categories';
+import Category from './src/components/Main/Shop/Home/Category';
 import Post from './src/components/Main/Shop/Post/Post';
 
 import Search from './src/components/Main/Shop/Search/Search';
+import Info from './src/components/Main/Shop/Info/Info';
 
 const Stack = createNativeStackNavigator();
 
@@ -32,13 +37,17 @@ export default function App() {
     // eslint-disable-next-line global-require
     SFProDisplaySemiBold: require('./assets/fonts/SF-Pro-Display-Semibold.otf'),
   });
+  const [fontsLoaded2] = useFonts({
+    // eslint-disable-next-line global-require
+    SFProDisplaySemiBoldItalic: require('./assets/fonts/SF-Pro-Display-SemiboldItalic.otf'),
+  });
 
   const [fontsLoaded1] = useFonts({
     // eslint-disable-next-line global-require
      SFProDisPlayRegular: require('./assets/fonts/SF-Pro-Display-Regular.otf'),  
   });
   
-  if (!fontsLoaded || !fontsLoaded1) {
+  if (!fontsLoaded || !fontsLoaded1 || fontsLoaded2) {
     return null;
   }
 
@@ -103,8 +112,8 @@ export default function App() {
           options={{ headerShown: false }}
         />
         <Stack.Screen
-          name="Categories"
-          component={Categories}
+          name="Category"
+          component={Category}
           options={{ headerShown: false }}
         />
         {/* <Stack.Screen
@@ -122,6 +131,22 @@ export default function App() {
           component={ChangePassword}
           options={{ headerShown: false }}
         />
+        <Stack.Screen
+          name="Info"
+          component={Info}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="Signup"
+          component={Signup}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="Signin"
+          component={Signin}
+          options={{ headerShown: false }}
+        />
+
       </Stack.Navigator>
     </NavigationContainer>
   );
