@@ -6,8 +6,8 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Authentication from './src/components/Authentication/Authentication';
 import Signin from './src/components/Authentication/Signin';
 import Signup from './src/components/Authentication/Signup';
-
-
+import ForgotPassword from './src/components/Authentication/ForgotPassword';
+import Order from './src/components/Main/Shop/Order/Order';
 import ChangeInfo from './src/components/Main/Shop/Account/ChangeInfo';
 import Main from './src/components/Main/Main';
 //import OrderHistory from './src/components/OrderHistory/OrderHistory';
@@ -25,7 +25,7 @@ import Category from './src/components/Main/Shop/Home/Category';
 import Post from './src/components/Main/Shop/Post/Post';
 
 import Search from './src/components/Main/Shop/Search/Search';
-import Info from './src/components/Main/Shop/Info/Info';
+import Info from './src/components/Main/Shop/Account/Info';
 
 const Stack = createNativeStackNavigator();
 
@@ -37,22 +37,22 @@ export default function App() {
     // eslint-disable-next-line global-require
     SFProDisplaySemiBold: require('./assets/fonts/SF-Pro-Display-Semibold.otf'),
   });
-  const [fontsLoaded2] = useFonts({
-    // eslint-disable-next-line global-require
-    SFProDisplaySemiBoldItalic: require('./assets/fonts/SF-Pro-Display-SemiboldItalic.otf'),
-  });
+  // const [fontsLoaded2] = useFonts({
+  //   // eslint-disable-next-line global-require
+  //   SFProDisplaySemiBoldItalic: require('./assets/fonts/SF-Pro-Display-SemiboldItalic.otf'),
+  // });
 
   const [fontsLoaded1] = useFonts({
     // eslint-disable-next-line global-require
      SFProDisPlayRegular: require('./assets/fonts/SF-Pro-Display-Regular.otf'),  
   });
   
-  if (!fontsLoaded || !fontsLoaded1 || fontsLoaded2) {
+  if (!fontsLoaded || !fontsLoaded1) {
     return null;
   }
 
   // eslint-disable-next-line no-unused-expressions
-  <StatusBar hidden />;
+  <StatusBar />;
   return (
     <NavigationContainer>
       <Stack.Navigator>
@@ -146,7 +146,16 @@ export default function App() {
           component={Signin}
           options={{ headerShown: false }}
         />
-
+        <Stack.Screen
+          name="ForgotPassword"
+          component={ForgotPassword}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="Order"
+          component={Order}
+          options={{ headerShown: false }}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );

@@ -126,7 +126,7 @@ const Signup = ({ navigation }) => {
             value={firstName}
             onChangeText={(text) => setFirstName(text)}
             type="text"
-            leftIcon={<FontAwesome name="user-o" color="#0A3055" size={20} />}
+            leftIcon={<FontAwesome name="user-o" color={color.darkblue} size={20} />}
             invalidIcon={<Feather name="alert-circle" color="red" size={20} />}
             validIcon={
               <Feather name="check-circle" color={color.primary} size={20} />
@@ -155,7 +155,7 @@ const Signup = ({ navigation }) => {
             value={number}
             onChangeText={(text) => setNumber(text)}
             type="text"
-            leftIcon={<FontAwesome name="phone" color="#0A3055" size={20} />}
+            leftIcon={<FontAwesome name="phone" color={color.darkblue} size={20} />}
             invalidIcon={<Feather name="alert-circle" color="red" size={20} />}
             validIcon={
               <Feather name="check-circle" color={color.primary} size={20} />
@@ -177,7 +177,7 @@ const Signup = ({ navigation }) => {
             value={email}
             onChangeText={(text) => setEmail(text)}
             leftIcon={
-              <Icon type="feather" name="mail" color={color.black} size={20} />
+              <Icon type="feather" name="mail" color={color.darkblue} size={20} />
             }
             invalidIcon={
               <Icon
@@ -206,13 +206,13 @@ const Signup = ({ navigation }) => {
             passwordHideIcon={
               <Icon
                 name="eye-off"
-                color={color.text}
+                color={color.darkblue}
                 size={20}
                 type="feather"
               />
             }
             passwordShowIcon={
-              <Icon name="eye" color={color.text} size={20} type="feather" />
+              <Icon name="eye" color={color.darkblue} size={20} type="feather" />
             }
             validateNames={['isValidPassword', 'required']}
             errorMessages={[
@@ -223,7 +223,7 @@ const Signup = ({ navigation }) => {
             type="text"
             value={user.password}
             placeholder="Nhập mật khẩu"
-            leftIcon={<FontAwesome name="lock" color="#0A3055" size={20} />}
+            leftIcon={<FontAwesome name="lock" color={color.darkblue} size={20} />}
             onChange={handlePassword}
             labelStyle={styles.labelStyle}
             style={styles.inputStyle}
@@ -236,7 +236,7 @@ const Signup = ({ navigation }) => {
             onPress={handleSubmit}
             style={styles.button}
           >
-            <Text style={styles.textButton}>Gửi</Text>
+            <Text style={styles.textButton}>Đăng ký</Text>
           </TouchableOpacity>
         </Form>
       </View>
@@ -245,8 +245,10 @@ const Signup = ({ navigation }) => {
       <Image source={google} style={styles.imageStyle} />
       </View>
       <View style={{ flexDirection: 'row' }}>
-      <Text style={font.label}> Đã có tài khoản?</Text>
-      <Text style={font.label} onPress={() => navigation.navigate('Signin')}> Đăng nhập</Text>
+      <Text style={font.label}> Đã có tài khoản? </Text>
+      <Text style={font.labelBold} onPress={() => navigation.navigate('Signin')}>
+        Đăng nhập
+        </Text>
       </View>
     </View>
   );

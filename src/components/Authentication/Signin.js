@@ -5,7 +5,7 @@ import {
   Text,
   Dimensions,
   TouchableOpacity,
-  Image
+  Image,
 } from 'react-native';
 import { Icon } from 'react-native-elements';
 import { Form, InputText } from 'validate-form-in-expo-style';
@@ -33,8 +33,7 @@ const Signin = ({ navigation }) => {
       body: JSON.stringify({
         email,
         password,
-      })
-        
+      }),
     });
   };
 
@@ -53,7 +52,9 @@ const Signin = ({ navigation }) => {
             keyboardType="email-address"
             value={email}
             onChangeText={(text) => setEmail(text)}
-            leftIcon={<FontAwesome name="user-o" color="#0A3055" size={20} />}
+            leftIcon={
+              <FontAwesome name="user-o" color={color.darkblue} size={20} />
+            }
             invalidIcon={
               <Icon
                 type="feather"
@@ -79,13 +80,18 @@ const Signin = ({ navigation }) => {
             passwordHideIcon={
               <Icon
                 name="eye-off"
-                color={color.text}
+                color={color.darkblue}
                 size={20}
                 type="feather"
               />
             }
             passwordShowIcon={
-              <Icon name="eye" color={color.text} size={20} type="feather" />
+              <Icon
+                name="eye"
+                color={color.darkblue}
+                size={20}
+                type="feather"
+              />
             }
             validateNames={['required']}
             errorMessages={[
@@ -96,7 +102,9 @@ const Signin = ({ navigation }) => {
             type="text"
             value={password}
             placeholder="Mật khẩu"
-            leftIcon={<FontAwesome name="lock" color="#0A3055" size={20} />}
+            leftIcon={
+              <FontAwesome name="lock" color={color.darkblue} size={20} />
+            }
             onChangeText={(text) => setPassword(text)}
             labelStyle={styles.labelStyle}
             style={styles.inputStyle}
@@ -104,23 +112,35 @@ const Signin = ({ navigation }) => {
             floatingTopValue={5}
             floatingFontSize={5}
           />
-        <Text style={font.labelQMK}>Quên mật khẩu?</Text>
+          <View style={styles.forgotPasswordView}>
+            <Text
+              style={font.label}
+              onPress={() => navigation.navigate('ForgotPassword')}
+            >
+              Quên mật khẩu?
+            </Text>
+          </View>
+
           <TouchableOpacity
             activeOpacity={0.8}
             onPress={handleSubmit}
             style={styles.button}
           >
-            <Text style={styles.textButton}>Gửi</Text>
+            <Text style={styles.textButton}>Đăng nhập</Text>
           </TouchableOpacity>
         </Form>
       </View>
       <View style={styles.signUpBar}>
-      <Image source={fb} style={styles.imageStyle} />
-      <Image source={google} style={styles.imageStyle} />
+        <Image source={fb} style={styles.imageStyle} />
+        <Image source={google} style={styles.imageStyle} />
       </View>
       <View style={{ flexDirection: 'row' }}>
-      <Text style={font.label}> Đã có tài khoản?</Text>
-      <Text style={font.label} onPress={() => navigation.navigate('Signup')}> Đăng ký</Text>
+        <Text style={font.label}> Chưa có tài khoản?</Text>
+        <Text
+          style={font.labelBold}
+          onPress={() => navigation.navigate('Signup')}
+        > Đăng ký
+        </Text>
       </View>
     </View>
   );
@@ -224,6 +244,11 @@ const styles = StyleSheet.create({
   imageStyle: {
     width: 30,
     height: 30,
-    margin: 10
-  }
+    margin: 10,
+  },
+  forgotPasswordView: {
+    marginVertical: 2,
+    alignContent: 'flex-end',
+    justifyContent: 'flex-end',
+  },
 });

@@ -18,7 +18,7 @@ const optionArray = [
     value: 'Thông tin cá nhân',
     iconname: 'user',
     icontype: 'antdesign',
-    color: color.primary,
+    color: color.darkblue,
 
   },
   {
@@ -26,7 +26,7 @@ const optionArray = [
     value: 'Địa chỉ nhận hàng',
     iconname: 'location',
     icontype: 'entypo',
-    color: color.red,
+    color: color.darkblue,
 
   },
   {
@@ -34,7 +34,7 @@ const optionArray = [
     value: 'Đổi mật khẩu',
     iconname: 'lock',
     icontype: 'simplelineicons',
-    color: color.blue,
+    color: color.darkblue,
 
   },
   {
@@ -42,8 +42,7 @@ const optionArray = [
     value: 'Đăng xuất',
     iconname: 'logout',
     icontype: 'materialicons',
-    color: color.yellow,
-
+    color: color.darkblue,
   },
 ];
 export default function Account({ navigation }) {
@@ -58,26 +57,24 @@ export default function Account({ navigation }) {
   };
   const ItemView = ({ item }) => (
     // Single Comes here which will be repeatative for the FlatListItems
-    <TouchableOpacity style={styles.item} onPress={() => gotoScreen(item.id)}>
-      <View style={styles.item}>
+    <TouchableOpacity style={styles.itemStyle} onPress={() => gotoScreen(item.id)}>
         <Icon
           style={styles.icon}
           name={item.iconname}
           type={item.icontype}
-          size={25}
+          size={20}
           color={item.color}
         />
         <Text style={label}>{item.value}</Text>
-      </View>
     </TouchableOpacity>
   );
   const ItemSeparatorView = () => (
     //Item Separator
-    <View style={{ height: 0.5, width: '100%', backgroundColor: '#C8C8C8' }} />
+    <View style={{ height: 0.5, width: '100%', backgroundColor: color.line }} />
   );
   return (
     <View style={container}>
-      <View style={header}>
+      <TouchableOpacity style={header} onPress={() => navigation.navigate('Info')}>
         <Image
           style={avatar}
           resizeMode="contain"
@@ -85,12 +82,19 @@ export default function Account({ navigation }) {
             uri: 'https://cdn.pixabay.com/photo/2020/12/09/16/40/pill-5817906_960_720.png',
           }}
         />
+        <View>
         <Text> Kim Phụng </Text>
-      </View>
+        <Text> Thông tin cá nhân </Text>
+        </View>
+        
+      </TouchableOpacity>
+      <View
+            style={{ height: 20, width: '100%' }}
+      />
       <View style={wrapper}>
         <FlatList
           data={listItems}
-          style={wrapper}
+          //style={wrapper}
           //data defined in constructor
           ItemSeparatorComponent={ItemSeparatorView}
           //Item Separator View
@@ -104,30 +108,30 @@ export default function Account({ navigation }) {
     </View>
   );
 }
-const { width, height } = Dimensions.get('window');
-const headerheight = height / 3;
-const avatarsize = 120;
+const { width } = Dimensions.get('window');
+const headerheight = 100;
+const avatarsize = 80;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
   header: {
-    backgroundColor: color.primary,
+    backgroundColor: color.white,
+    flexDirection: 'row',
     width,
     height: headerheight,
+    paddingHorizontal: 20,
     alignItems: 'center',
-    justifyContent: 'center',
   },
   avatar: {
     width: avatarsize,
     height: avatarsize,
     borderRadius: avatarsize,
-    backgroundColor: '#333',
   },
   wrapper: {
-    //paddingHorizontal: 20,
+    backgroundColor: color.white
   },
-  item: {
+  itemStyle: {
     flexDirection: 'row',
     justifyContent: 'flex-start',
     alignItems: 'center',

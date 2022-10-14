@@ -8,7 +8,9 @@ import {
   Dimensions,
   TouchableOpacity,
 } from 'react-native';
+import { Icon } from 'react-native-elements';
 import color from '../../../../../assets/color';
+import font from '../../../../../assets/font';
 import getNewProduct from '../../../../api/getNewProduct';
 
 export default function NewProduct({ navigation }) {
@@ -28,23 +30,31 @@ export default function NewProduct({ navigation }) {
     // Single Comes here which will be repeatative for the FlatListItems
     <TouchableOpacity
       style={styles.item}
-      onPress={() => navigation.navigate('ProductDetail', { product: item.sp_ma })}
+      onPress={() => navigation.navigate('ProductDetail', { product: item })}
     >
-      <Image
-        style={styles.itemImage}
-        resizeMode="contain"
-        source={{ uri: item.sp_hinhanh }}
-      />
+      <View style={styles.itemImageView}>
+        {/* <TouchableOpacity
+          style={{ position: 'absolute', right: 10, top: 10 }}
+        >
+          <Icon name="heart" type="antdesign" size={15} color={color.red} />
+        </TouchableOpacity> */}
+        <Image
+          style={styles.itemImage}
+          resizeMode="contain"
+          source={{ uri: item.sp_hinhanh }}
+        />
+      </View>
+
       <View style={styles.itemFooter}>
-        <Text style={styles.itemName}>{item.sp_ten}</Text>
-        <Text style={styles.itemText}>{item.sp_ten}</Text>
+        <Text style={font.textName}>{item.sp_ten}</Text>
+        <Text style={font.textPrice}>{item.sp_ten}</Text>
       </View>
     </TouchableOpacity>
   );
 
   return (
     <View style={styles.container}>
-      <Text style={styles.label}> Sản phẩm mới nhất </Text>
+      <Text style={font.textTitle1}> Sản phẩm mới nhất </Text>
       <FlatList
         data={serverData}
         //data defined in constructor
@@ -66,6 +76,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingHorizontal: 20,
+    //backgroundColor: color.white
   },
   label: {
     fontSize: 18,
@@ -81,8 +92,11 @@ const styles = StyleSheet.create({
     marginBottom: 5,
     alignItems: 'center',
   },
+  itemImageView: {
+    width: itemWidth,
+    paddingHorizontal: 7
+  },
   itemImage: {
-    backgroundColor: color.white,
     width: itemWidth - 14,
     height: itemWidth,
   },

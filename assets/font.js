@@ -24,7 +24,27 @@ export default {
     fontSize: 16,
     color: color.darkblue,
     marginHorizontal: 20,
+    //textAlign: 'center',
+  },
+  textPriceRed: {
+    fontFamily: 'SFProDisplaySemiBold',
+    fontSize: 16,
+    color: color.red,
+    marginHorizontal: 2,
     textAlign: 'center',
+  },
+  textPrice: {
+    fontFamily: 'SFProDisplaySemiBold',
+    fontSize: 16,
+    color: color.darkblue,
+    marginHorizontal: 2,
+  },
+  textName: {
+    fontFamily: 'SFProDisplaySemiBold',
+    fontSize: 16,
+    color: color.darkblue,
+    marginHorizontal: 2,
+    //textAlign: 'center',
   },
   label: {
     fontFamily: 'SFProDisPlayRegular',
@@ -32,9 +52,20 @@ export default {
     color: color.darkblue,
     //marginHorizontal: 20,
   },
-  labelQMK: {
-    fontFamily: 'SFProDisplaySemiBoldItalic',
+  labelBold: {
+    fontFamily: 'SFProDisplaySemiBold',
     fontSize: 16,
     color: color.darkblue,
+  },
+  labelSmall: {
+    fontFamily: 'SFProDisplaySemiBold',
+    fontSize: 10,
+    color: color.darkblue,
+  },
+  textBodySmall: {
+    fontFamily: 'SFProDisPlayRegular',
+    fontSize: 14,
+    color: color.darkblue,
+    textAlign: 'center'
   }
 };

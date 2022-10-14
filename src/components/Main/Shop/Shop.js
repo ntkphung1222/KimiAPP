@@ -3,11 +3,12 @@ import { View } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Icon, withBadge } from '@rneui/themed';
 import Home from './Home/Home';
-//import Post from './Post/Post';
+import Search from './Search/Search';
 import Cart from './Cart/Cart';
 import Account from './Account/Account';
+import Order from './Order/Order';
 //import Signin from '../../Authentication/Signin';
-import Signup from '../../Authentication/Signup';
+//import Signup from '../../Authentication/Signup';
 import color from '../../../../assets/color';
 //import global from '../../global';
 
@@ -42,12 +43,22 @@ export default function Shop() {
           }}
         />
         <Tab.Screen
-          name="Bài viết"
-          component={Signup}
+          name="Tìm kiếm"
+          component={Search}
           options={{
             // eslint-disable-next-line no-shadow
             tabBarIcon: ({ color, size }) => (
-              <Icon name="article" color={color} size={size} />
+              <Icon name="search" color={color} size={size} />
+            ),
+          }}
+        />
+        <Tab.Screen
+          name="Đơn hàng"
+          component={Order}
+          options={{
+            // eslint-disable-next-line no-shadow
+            tabBarIcon: ({ color, size }) => (
+              <Icon name="receipt-long" color={color} size={size} />
             ),
           }}
         />

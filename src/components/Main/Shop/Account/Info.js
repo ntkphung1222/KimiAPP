@@ -25,6 +25,7 @@ export default function ChangeInfo({ navigation }) {
     textChangeInfo,
     iconChange,
     rowView,
+    labelView,
     textView,
   } = styles;
 
@@ -40,45 +41,63 @@ export default function ChangeInfo({ navigation }) {
               uri: 'https://png.pngtree.com/element_our/20200702/ourlarge/pngtree-yellow-character-avatar-icon-image_2292190.jpg',
             }}
           />
-          <TouchableOpacity
-            style={textChangeInfo}
-            onPress={() => navigation.navigate('ChangeInfo')}
-          >
-            <Text style={font.textTitle2}>Cập nhật thông tin</Text>
-            <Icon style={iconChange} type="feather" name="edit" size={20} />
-          </TouchableOpacity>
+          <Text style={label}>Kim Phụng</Text>
         </View>
         <View style={infoView}>
+          <Text style={font.labelBold}>Thông tin cá nhân</Text>
+         
           <View style={rowView}>
-            <Text style={label}>Họ tên</Text>
-            <View style={textView}>
-              <Text style={label}>Kim Phụng</Text>
+            <View style={labelView}>
+              <Text style={label}>Giới tính</Text>
             </View>
-          </View>
-          <View style={rowView}>
-            <Text style={label}>Giới tính</Text>
             <View style={textView}>
               <Text style={label}>Nữ</Text>
             </View>
           </View>
+          <View
+            style={{ height: 0.5, width: '100%', backgroundColor: color.line }}
+          />
+
           <View style={rowView}>
-            <Text style={label}>Ngày sinh</Text>
+            <View style={labelView}>
+              <Text style={label}>Ngày sinh</Text>
+            </View>
             <View style={textView}>
               <Text style={label}>27-06-2000</Text>
             </View>
           </View>
+          <View
+            style={{ height: 0.5, width: '100%', backgroundColor: color.line }}
+          />
+
           <View style={rowView}>
-            <Text style={label}>Số điện thoại</Text>
+            <View style={labelView}>
+              <Text style={label}>Số điện thoại</Text>
+            </View>
             <View style={textView}>
               <Text style={label}>0989415460</Text>
             </View>
           </View>
+          <View
+            style={{ height: 0.5, width: '100%', backgroundColor: color.line }}
+          />
+
           <View style={rowView}>
-            <Text style={label}>Email</Text>
+            <View style={labelView}>
+              <Text style={label}>Email</Text>
+            </View>
             <View style={textView}>
               <Text style={label}>ntkphung1222@gmail.com</Text>
             </View>
           </View>
+          <TouchableOpacity
+            style={textChangeInfo}
+            onPress={() => navigation.navigate('ChangeInfo')}
+          >
+             <Icon style={iconChange} type="antdesign" name="edit" size={20} />
+            <Text style={font.textTitle2}>Chỉnh sửa</Text>
+           
+          </TouchableOpacity>
         </View>
       </View>
     </View>
@@ -110,27 +129,32 @@ const styles = StyleSheet.create({
   },
   infoView: {
     paddingHorizontal: 20,
+    paddingVertical: 15,
+    backgroundColor: color.white
   },
   rowView: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: 10,
+    height: 40,
+    //backgroundColor: color.primary,
+    //paddingVertical: 5,
+    //marginBottom: 10,
+  },
+  labelView: {
+    width: width * 0.3,
   },
   textView: {
-    width: 250,
-    height: 50,
-    backgroundColor: color.borderSecond,
-    borderRadius: 10,
-    justifyContent: 'center',
-    alignItems: 'center',
+    width: width * 0.7,
   },
   textChangeInfo: {
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
+    backgroundColor: color.greylight,
+    borderRadius: 20,
+    marginTop: 10
   },
-  iconChange: {
-    marginLeft: 2,
+  iconChange: {   
+    marginRight: 2,
   },
 });

@@ -179,3 +179,4 @@ const styles = StyleSheet.create({
   },
   wrapper: { backgroundColor: color.white, paddingHorizontal: 20 },
 });
+

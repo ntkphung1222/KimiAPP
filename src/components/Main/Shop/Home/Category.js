@@ -8,10 +8,11 @@ import {
   Image,
   TouchableOpacity,
 } from 'react-native';
-//import color from '../../../../../assets/color';
+import color from '../../../../../assets/color';
+import font from '../../../../../assets/font';
 import getCategory from '../../../../api/getCategory';
 
-const numColumns = 4;
+const numColumns = 3;
 
 const Category = ({ navigation }) => {
   const [serverData, setServerData] = useState([]);
@@ -36,15 +37,17 @@ const Category = ({ navigation }) => {
       onPress={() =>
         navigation.navigate(
           'Products',
-          { cate: item.dm_ma, titleCate: item.dm_ten }
+          { cate: item }
         )
       }
     >
+      <View style={styles.itemImageView}>
       <Image
         style={styles.itemImage}
         resizeMode="contain"
         source={{ uri: item.dm_hinhanh }}
       />
+      </View>
       <View style={styles.textView}>
       <Text style={styles.itemText}>{item.dm_ten}</Text>
       </View>
@@ -54,7 +57,7 @@ const Category = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.label}> Tất cả danh mục </Text>
+      <Text style={font.textTitle1}> Tất cả danh mục </Text>
       <FlatList
         data={serverData}
         style={styles.content}
@@ -76,6 +79,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingHorizontal: 20,
+    //backgroundColor: color.white
   },
   label: {
     fontSize: 18,
@@ -85,19 +89,27 @@ const styles = StyleSheet.create({
     width: itemWidth - 5,
     marginRight: 6.7,
     marginBottom: 6.7,
-    elevation: 1,
+    //elevation: 1,
     padding: 5,
     //backgroundColor: '#333',
     //borderWidth: 2,
     //borderColor: '#333',
-    borderRadius: 6,
+    //borderRadius: 6,
     alignItems: 'center',
     justifyContent: 'center',
   },
+  itemImageView: {
+    borderRadius: 50,
+    height: itemWidth - 40,
+    width: itemWidth - 40,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: color.primary,
+  },
   itemImage: {
-    width: itemWidth - 20,
-    height: itemWidth - 20,
-    marginBottom: 5,
+    width: 40,
+    height: 40,
+    backgroundColor: color.white
   },
   itemText: {
     fontSize: 8,
