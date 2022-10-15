@@ -1,8 +1,8 @@
 exports = {
-    // addProductToCart: null,
+    addProductToCart: [],
     // incrQuantity: null,
     // decrQuantity: null,
     // removeProduct: null,
     onSignIn: null,
-    userCurrent: null
+    userCurrent: {}
 };

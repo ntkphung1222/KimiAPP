@@ -61,6 +61,7 @@ const Category = ({ navigation }) => {
       <FlatList
         data={serverData}
         style={styles.content}
+        showsVerticalScrollIndicator={false}
         //data defined in constructor
         //ItemSeparatorComponent={ItemSeparatorView}
         //Item Separator View

@@ -11,29 +11,30 @@ export default function Banner() {
   return (
     <View style={banner}>
       <Swiper autoplay>
-        <Image source={littleIcon} style={imageStyle} />
+        <Image source={littleIcon} style={imageStyle} resizeMode='contain' />
         <Image source={partyIcon} style={imageStyle} />
         <Image source={maxiIcon} style={imageStyle} />
       </Swiper>
     </View>
   );
 }
-const { width, height } = Dimensions.get('window');
-const imageWidth = width - 20;
-const imageHeight = (imageWidth / 933) * 465;
+const { width } = Dimensions.get('window');
+const imageWidth = width - 40;
+//const imageHeight = (imageWidth / 933) * 465;
 
 const styles = StyleSheet.create({
   banner: {
-    height: height * 0.28,
+    height: width / 2,
     width,
     margin: 0,
     backgroundColor: color.white,
     shadowColor: '#2E272B',
-    padding: 10,
+    paddingHorizontal: 20,
   },
   imageStyle: {
-    height: imageHeight,
+    height: width / 2,
     width: imageWidth,
+    borderRadius: 20,
   },
 
 });

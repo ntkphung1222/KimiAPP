@@ -6,10 +6,12 @@ import {
   StyleSheet,
   Image,
   Dimensions,
+  Alert,
   TouchableOpacity,
 } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 // import { Icon } from 'react-native-elements';
-// import color from '../../../../../assets/color';
+import color from '../../../../../assets/color';
 import font from '../../../../../assets/font';
 import getNewProduct from '../../../../api/getNewProduct';
 
@@ -49,9 +51,43 @@ export default function NewProduct({ navigation }) {
         <Text style={font.textName}>{item.sp_ten}</Text>
         <Text style={font.textPrice}>{item.sp_ten}</Text>
       </View>
+      <TouchableOpacity
+        style={styles.addToCartButton}
+        onPress={() => onClickAddCart(item)}
+      >
+        <Text>Thêm vào giỏ</Text>
+      </TouchableOpacity>
     </TouchableOpacity>
   );
+  const onClickAddCart = (data) => {
+    const itemcart = {
+      product: data,
+      quantity: 1,
+      price: 10,
+    };
 
+    AsyncStorage.getItem('cart')
+      .then((datacart) => {
+        if (datacart != null) {
+          const cart = JSON.parse(datacart);
+          // const item = cart.find((c) => c.product.sp_ma === data.product.sp_ma);
+          // if (item) {
+          //   item.quantity += 1;
+          // } else {
+            cart.push(itemcart);
+         // }
+          AsyncStorage.setItem('cart', JSON.stringify(cart));
+        } else {
+          const cart = [];
+          cart.push(itemcart);
+          AsyncStorage.setItem('cart', JSON.stringify(cart));
+        }
+        Alert.alert('Add thành công');
+      })
+      .catch((error) => {
+        Alert.alert(error);
+      });
+  };
   return (
     <View style={styles.container}>
       <Text style={font.textTitle1}> Sản phẩm mới nhất </Text>
@@ -60,10 +96,10 @@ export default function NewProduct({ navigation }) {
         //data defined in constructor
         //ItemSeparatorComponent={ItemSeparatorView}
         //Item Separator View
-        showsHorizontalScrollIndicator={false}
+        showsVerticalScrollIndicator={false}
         renderItem={ItemView}
         keyExtractor={(item, index) => index.toString()}
-        horizontal
+        numColumns={2}
       />
     </View>
   );
@@ -74,7 +110,7 @@ const itemWidth = (width - 40 - 5) / 2;
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    flex: 0.5,
     paddingHorizontal: 20,
     //backgroundColor: color.white
   },
@@ -94,7 +130,7 @@ const styles = StyleSheet.create({
   },
   itemImageView: {
     width: itemWidth,
-    paddingHorizontal: 7
+    paddingHorizontal: 7,
   },
   itemImage: {
     width: itemWidth - 14,
@@ -114,5 +150,10 @@ const styles = StyleSheet.create({
     height: 30,
     paddingVertical: 5,
     //backgroundColor: '#FAD',
+  },
+  addToCartButton: {
+    backgroundColor: color.primary,
+    paddingHorizontal: 20,
+    paddingVertical: 10,
   },
 });

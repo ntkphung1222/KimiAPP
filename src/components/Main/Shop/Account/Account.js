@@ -9,15 +9,16 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import { Icon } from 'react-native-elements';
+import global from '../../../global';
 import font from '../../../../../assets/font';
 import color from '../../../../../assets/color';
 
 const optionArray = [
   {
     id: '1',
-    value: 'Thông tin cá nhân',
-    iconname: 'user',
-    icontype: 'antdesign',
+    value: 'Đơn hàng của tôi',
+    iconname: 'receipt',
+    icontype: 'material',
     color: color.darkblue,
 
   },
@@ -45,12 +46,16 @@ const optionArray = [
     color: color.darkblue,
   },
 ];
-export default function Account({ navigation }) {
+export default function Account({ navigation, route }) {
+  //const user = global.userCurrent;
+  //const userID = route.params.userID;
+
+  //const { id, name, email, email_verified_at, created_at, updated_at } = route.params.user;
   const { container, header, avatar, wrapper } = styles;
   const label = font.label;
   const [listItems] = useState(optionArray);
   const gotoScreen = ($id) => {
-    if ($id === '1') navigation.navigate('Info');
+    if ($id === '1') navigation.navigate('Order');
     if ($id === '2') navigation.navigate('ShippingAddress');
     if ($id === '3') navigation.navigate('ChangePassword');
     if ($id === '4') navigation.navigate('Signin');
@@ -83,8 +88,8 @@ export default function Account({ navigation }) {
           }}
         />
         <View>
-        <Text> Kim Phụng </Text>
-        <Text> Thông tin cá nhân </Text>
+        <Text>Kim Phụng</Text>
+        <Text>Thông tin cá nhân</Text>
         </View>
         
       </TouchableOpacity>

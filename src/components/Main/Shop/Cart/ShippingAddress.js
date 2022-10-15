@@ -59,14 +59,14 @@ export default function ShippingAddress({ navigation }) {
         <Text style={headerTitle}>Địa chỉ nhận hàng</Text>
       </View>
       <View style={wrapper}>
-        <View>
+        {/* <View>
           <Text style={label}>Thông tin người nhận</Text>
           <TextInput style={inputStyle} placeholder="Tên người nhận" />
           <TextInput
             style={inputStyle}
             placeholder="Số điện thoại người nhận"
           />
-        </View>
+        </View> */}
         <View>
           <Text style={label}>Địa chỉ nhận hàng</Text>
           <SearchableDropdown

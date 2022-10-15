@@ -11,10 +11,9 @@ const register = (email, name, password) => (
         email,
         password,
         name,
-        password_confirmation: password
       })  
     })
-    .then(res => res.text())
+    .then(res => res.json())
     );
 
   export default register;

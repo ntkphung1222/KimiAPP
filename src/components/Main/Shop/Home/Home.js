@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import {
+  LogBox,
   ScrollView,
   StyleSheet,
   View,
@@ -20,6 +21,8 @@ const BadgedIcon = withBadge(1)(Icon);
 export default function Home({ navigation }) {
   useEffect(() => {
     StatusBar.setHidden(true);
+      // eslint-disable-next-line no-undef
+      LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
   }, []);
   const { container, textSearch } = styles;
   return (
@@ -45,9 +48,9 @@ export default function Home({ navigation }) {
           <Text style={textSearch}>Tìm kiếm ở đây...</Text>
         </TouchableOpacity>
       </View>
-      <ScrollView showsVerticalScrollIndicator={false} >
+      <ScrollView showsVerticalScrollIndicator={false}>
         <Banner />
-        <Category navigation={navigation} />
+        <Category navigation={navigation} /> 
         <NewProduct navigation={navigation} />
       </ScrollView>
     </View>
@@ -57,7 +60,7 @@ export default function Home({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: color.white
+    backgroundColor: color.white,
   },
   searchContainer: {
     backgroundColor: color.primary,

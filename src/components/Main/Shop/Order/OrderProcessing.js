@@ -81,7 +81,7 @@ export default function OrderProcessing() {
         //Item Separator View
         renderItem={ItemView}
         showsVerticalScrollIndicator={false}
-        keyExtractor={(id) => id.toString()}
+        keyExtractor={(item) => item.id}
         numColumns={1}
         //ListHeaderComponent={getHeader}
       />

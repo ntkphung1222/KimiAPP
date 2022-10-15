@@ -27,7 +27,7 @@ const Signup = ({ navigation }) => {
   const onSuccess = () => {
     Alert.alert(
       'Thông báo',
-      'Đăng ký thành công.',
+      'Thành công',
       [
         {
           text: 'OK',
@@ -42,7 +42,7 @@ const Signup = ({ navigation }) => {
   const onFail = () => {
     Alert.alert(
       'Thông báo',
-      'Email này đã tồn tại',
+      'Thất bại',
       [
         {
           text: 'OK',
@@ -57,8 +57,11 @@ const Signup = ({ navigation }) => {
   const handleSubmit = () => {
     register(email, firstName, password)
       .then((res) => {
-        if (res === 'SUCCESS') onSuccess();
-        if (res !== 'SUCCESS') onFail();
+        if (res.success) {
+          onSuccess();
+        } else {
+          onFail();
+        }
       })
       .catch(() => onFail());
   };

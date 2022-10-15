@@ -20,7 +20,7 @@ import global from '../global';
 const Signin = ({ navigation }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  // const [user, setUser] = useState(null);
+  const [user, setUser] = useState({});
   // global.onSignIn = onSignIn;
   // const onSignIn = (user) => setUser(user);
 
@@ -34,14 +34,18 @@ const Signin = ({ navigation }) => {
   const handleSubmit = () => {
     //this.ref.form.submit();
     signIn(email, password)
-    .then(res => navigation.navigate('Account'))
+    .then(res => {
+      setUser(res.user);
+      global.userCurrent = user;
+      //navigation.navigate('Account', { user: res.user });
+    })
     .catch(error => console.log(error));
   };
   return (
     <View style={styles.container}>
       <View style={styles.wrapper}>
         <Text style={font.textTitle}>Đăng nhập</Text>
-        <Form onError={false}>
+        <Form onSubmit={handleSubmit}>
           <InputText
             name="email"
             // label="email"
