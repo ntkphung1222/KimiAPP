@@ -15,13 +15,7 @@ import color from '../../../../assets/color';
 const Tab = createBottomTabNavigator();
 const BadgedIcon = withBadge(1)(Icon);
 
-
 export default function Shop() {
-  // const [user, setUser] = useState({});
-  // const onSignIn = (user) => {
-  //   setUser(user);
-  //  };
-  //  global.onSignIn = onSignIn();
   return (
     <View style={{ flex: 1 }}>
       <Tab.Navigator
@@ -58,7 +52,7 @@ export default function Shop() {
           options={{
             // eslint-disable-next-line no-shadow
             tabBarIcon: ({ color, size }) => (
-              <Icon name="receipt-long" color={color} size={size} />
+              <Icon name="receipt" color={color} size={size} />
             ),
           }}
         />

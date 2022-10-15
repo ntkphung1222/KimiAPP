@@ -29,7 +29,7 @@ export default function ProductDetail({ navigation, route }) {
           <TouchableOpacity
             style={{ position: 'absolute', right: 10, top: 10 }}
             onPress={() => {
-             
+              
             }}
           >
             {/* <Icon name="heart" type="antdesign" size={20} color={color.red} /> */}

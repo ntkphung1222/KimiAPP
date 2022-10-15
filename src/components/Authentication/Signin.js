@@ -14,34 +14,34 @@ import color from '../../../assets/color';
 import font from '../../../assets/font';
 import fb from '../../images/fb.png';
 import google from '../../images/google.png';
-//import global from '../global';
+import signIn from '../../api/signIn';
+import global from '../global';
 
 const Signin = ({ navigation }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  // const [userCurrent, setUserCurrent] = useState();
+  // const [user, setUser] = useState(null);
+  // global.onSignIn = onSignIn;
+  // const onSignIn = (user) => setUser(user);
 
+  // eslint-disable-next-line no-shadow
+  
+  // const ref = useRef('');
+  //   // const [userCurrent, setUserCurrent] = useState();
+  // const submit = () => {
+  //   Alert.alert('form submit, thank you.');
+  // };
   const handleSubmit = () => {
-    //this.refs.form.submit();
-    //eslint-disable-next-line no-undef
-    fetch('http://kimimylife.site/api/auth/login', {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        email,
-        password,
-      }),
-    });
+    //this.ref.form.submit();
+    signIn(email, password)
+    .then(res => navigation.navigate('Account'))
+    .catch(error => console.log(error));
   };
-
   return (
     <View style={styles.container}>
       <View style={styles.wrapper}>
         <Text style={font.textTitle}>Đăng nhập</Text>
-        <Form>
+        <Form onError={false}>
           <InputText
             name="email"
             // label="email"

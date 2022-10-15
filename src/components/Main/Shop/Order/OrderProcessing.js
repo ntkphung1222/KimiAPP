@@ -62,7 +62,6 @@ export default function OrderProcessing() {
       <View style={styles.orderInfo}>
         <Text>{item.date}</Text>
         <Text>{item.name}</Text>
-        <Text>{item.numProduct}</Text>
        <View style={{ flexDirection: 'row', justifyContent: 'flex-end' }}>
           <Text style={font.textBodySmall}>
             Tổng cộng ({item.numProduct} sản phẩm):

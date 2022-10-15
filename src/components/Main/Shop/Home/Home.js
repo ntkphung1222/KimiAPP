@@ -12,10 +12,11 @@ import color from '../../../../../assets/color';
 import Banner from './Banner';
 import Category from './Category';
 import NewProduct from './NewProduct';
-
+//import global from '../../../global';
 
 const BadgedIcon = withBadge(1)(Icon);
 
+//const user = global.onSignIn;
 export default function Home({ navigation }) {
   useEffect(() => {
     StatusBar.setHidden(true);
@@ -25,11 +26,7 @@ export default function Home({ navigation }) {
     <View style={container}>
       <Header
         containerStyle={{ height: 50, paddingHorizontal: 20 }}
-        leftComponent={{
-          icon: 'menu',
-          color: color.white,
-          size: 30,
-        }}
+        leftComponent={<Text>hi</Text>}
         rightComponent={
           <View>
             <TouchableOpacity>

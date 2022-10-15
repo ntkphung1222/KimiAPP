@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import {
   StyleSheet,
   View,
@@ -6,7 +6,7 @@ import {
   Dimensions,
   TouchableOpacity,
   Alert,
-  Image
+  Image,
 } from 'react-native';
 import { Icon } from 'react-native-elements';
 import { Form, InputText } from 'validate-form-in-expo-style';
@@ -16,77 +16,22 @@ import font from '../../../assets/font';
 import fb from '../../images/fb.png';
 import google from '../../images/google.png';
 
-import global from '../global';
 import register from '../../api/signUp';
 
 const Signup = ({ navigation }) => {
   const [firstName, setFirstName] = useState('');
   const [number, setNumber] = useState('');
   const [email, setEmail] = useState('');
-  const [user, setUser] = useState({ password: '' }, { repeatPassword: '' });
-
-  const handlePassword = (event) => {
-    //const { user } = this.state;
-    user.password = event.nativeEvent.text;
-    setUser((prevState) => ({
-      ...prevState,
-      password: user.password,
-    }));
-  };
-
-  const handleRepeatPassword = (event) => {
-    //const { user } = this.state;
-    user.repeatPassword = event.nativeEvent.text;
-    setUser((prevState) => ({
-      ...prevState,
-      repeatPassword: user.repeatPassword,
-    }));
-  };
-
-  useEffect(() => {
-    //You can add your own rules
-    Form.addValidationRule('isValidPassword', (value) => {
-      const passwordReg = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/;
-      if (passwordReg.test(value) === false) {
-        return false;
-      }
-      return true;
-    });
-  }, []);
-  useEffect(() => {
-    Form.addValidationRule('isPasswordMatch', (value) => {
-      // eslint-disable-next-line no-undef
-      if (value !== user.password) {
-        return false;
-      }
-      return true;
-    });
-  }, []);
-  useEffect(
-    () => () => {
-      // Remove own rules
-      Form.removeValidationRule('isPasswordMatch');
-      Form.removeValidationRule('isValidPassword');
-    },
-    []
-  );
-
-  const handleSubmit = () => {
-    register(email, firstName, user.password)
-    .then((res) => {
-      // if (res !== '') return onSuccess();
-      // onFail();
-    });
-  };
+  const [password, setPassword] = useState('');
 
   const onSuccess = () => {
     Alert.alert(
       'Thông báo',
+      'Đăng ký thành công.',
       [
         {
           text: 'OK',
-          onPress: () => Alert.alert('OK ne'),
-          style: 'cancel',
+          onPress: () => navigation.navigate('Signin'),
         },
       ],
       {
@@ -97,17 +42,25 @@ const Signup = ({ navigation }) => {
   const onFail = () => {
     Alert.alert(
       'Thông báo',
+      'Email này đã tồn tại',
       [
         {
-          text: 'Đăng nhập thất bại',
-          onPress: () => Alert.alert('Fail'),
-          style: 'cancel',
+          text: 'OK',
+          onPress: () => setEmail(''),
         },
       ],
       {
         cancelable: false,
       }
     );
+  };
+  const handleSubmit = () => {
+    register(email, firstName, password)
+      .then((res) => {
+        if (res === 'SUCCESS') onSuccess();
+        if (res !== 'SUCCESS') onFail();
+      })
+      .catch(() => onFail());
   };
   return (
     <View style={styles.container}>
@@ -126,7 +79,9 @@ const Signup = ({ navigation }) => {
             value={firstName}
             onChangeText={(text) => setFirstName(text)}
             type="text"
-            leftIcon={<FontAwesome name="user-o" color={color.darkblue} size={20} />}
+            leftIcon={
+              <FontAwesome name="user-o" color={color.darkblue} size={20} />
+            }
             invalidIcon={<Feather name="alert-circle" color="red" size={20} />}
             validIcon={
               <Feather name="check-circle" color={color.primary} size={20} />
@@ -155,7 +110,9 @@ const Signup = ({ navigation }) => {
             value={number}
             onChangeText={(text) => setNumber(text)}
             type="text"
-            leftIcon={<FontAwesome name="phone" color={color.darkblue} size={20} />}
+            leftIcon={
+              <FontAwesome name="phone" color={color.darkblue} size={20} />
+            }
             invalidIcon={<Feather name="alert-circle" color="red" size={20} />}
             validIcon={
               <Feather name="check-circle" color={color.primary} size={20} />
@@ -177,7 +134,12 @@ const Signup = ({ navigation }) => {
             value={email}
             onChangeText={(text) => setEmail(text)}
             leftIcon={
-              <Icon type="feather" name="mail" color={color.darkblue} size={20} />
+              <Icon
+                type="feather"
+                name="mail"
+                color={color.darkblue}
+                size={20}
+              />
             }
             invalidIcon={
               <Icon
@@ -212,19 +174,26 @@ const Signup = ({ navigation }) => {
               />
             }
             passwordShowIcon={
-              <Icon name="eye" color={color.darkblue} size={20} type="feather" />
+              <Icon
+                name="eye"
+                color={color.darkblue}
+                size={20}
+                type="feather"
+              />
             }
-            validateNames={['isValidPassword', 'required']}
+            validateNames={['minStringLength:6', 'required']}
             errorMessages={[
               // eslint-disable-next-line max-len
-              'Tối thiểu 8 kí tự, trong đó có ít nhất 1 kí tự viết hoa, 1 kí tự viết thường và 1 chữ số',
+              'Tối thiểu 6 kí tự',
               'Vui lòng nhập mật khẩu',
             ]}
             type="text"
-            value={user.password}
+            value={password}
             placeholder="Nhập mật khẩu"
-            leftIcon={<FontAwesome name="lock" color={color.darkblue} size={20} />}
-            onChange={handlePassword}
+            leftIcon={
+              <FontAwesome name="lock" color={color.darkblue} size={20} />
+            }
+            onChangeText={(text) => setPassword(text)}
             labelStyle={styles.labelStyle}
             style={styles.inputStyle}
             containerStyle={styles.input}
@@ -241,13 +210,16 @@ const Signup = ({ navigation }) => {
         </Form>
       </View>
       <View style={styles.signUpBar}>
-      <Image source={fb} style={styles.imageStyle} />
-      <Image source={google} style={styles.imageStyle} />
+        <Image source={fb} style={styles.imageStyle} />
+        <Image source={google} style={styles.imageStyle} />
       </View>
       <View style={{ flexDirection: 'row' }}>
-      <Text style={font.label}> Đã có tài khoản? </Text>
-      <Text style={font.labelBold} onPress={() => navigation.navigate('Signin')}>
-        Đăng nhập
+        <Text style={font.label}> Đã có tài khoản? </Text>
+        <Text
+          style={font.labelBold}
+          onPress={() => navigation.navigate('Signin')}
+        >
+          Đăng nhập
         </Text>
       </View>
     </View>
@@ -352,7 +324,6 @@ const styles = StyleSheet.create({
   imageStyle: {
     width: 30,
     height: 30,
-    margin: 10
-  }
+    margin: 10,
+  },
 });
-

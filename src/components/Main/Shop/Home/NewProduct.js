@@ -8,8 +8,8 @@ import {
   Dimensions,
   TouchableOpacity,
 } from 'react-native';
-import { Icon } from 'react-native-elements';
-import color from '../../../../../assets/color';
+// import { Icon } from 'react-native-elements';
+// import color from '../../../../../assets/color';
 import font from '../../../../../assets/font';
 import getNewProduct from '../../../../api/getNewProduct';
 
