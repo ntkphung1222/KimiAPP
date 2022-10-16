@@ -14,7 +14,8 @@ import momo from '../../../../images/momo.png';
 import cod from '../../../../images/cod.png';
 import color from '../../../../../assets/color';
 
-export default function Payment({ navigation }) {
+export default function Payment({ navigation, route }) {
+  const { dataCart } = route.params;
   const [value, setValue] = useState('first');
   const {
     label,
@@ -37,7 +38,14 @@ export default function Payment({ navigation }) {
     paymentmethodContainer,
     paymentmethod,
   } = styles;
-
+  const onLoadToTal = () => {
+    let total = 0;
+    const cart = dataCart;
+    for (let i = 0; i < cart.length; i++) {
+      total += (cart[i].price * cart[i].quantity);
+    }
+    return total;
+  };
   return (
     <View style={container}>
       <View style={header}>
@@ -72,74 +80,24 @@ export default function Payment({ navigation }) {
             </TouchableOpacity>
           </View>
           <Text style={label}>Danh sách sản phẩm</Text>
-          <View style={productView}>
-            <Image style={productImage} source={momo} />
-            <View style={productRight}>
-              <Text style={productTop}>Tên</Text>
-              <View style={productBottom}>
-                <Text>Giá: </Text>
-                <Text>SL: </Text>
+          {dataCart.map((item) => (
+            <View key={item.product.sp_ma} style={productView}>
+              <Image style={productImage} source={{ uri: item.product.sp_hinhanh }} />
+              <View style={productRight}>
+                <Text style={productTop}>{item.product.sp_ten}</Text>
+                <View style={productBottom}>
+                  <Text>Giá: {item.price}</Text>
+                  <Text>SL: {item.quantity}</Text>
+                </View>
               </View>
             </View>
-          </View>
-          <View style={productView}>
-            <Image style={productImage} source={momo} />
-            <View style={productRight}>
-              <Text style={productTop}>Tên</Text>
-              <View style={productBottom}>
-                <Text>Giá: </Text>
-                <Text>SL: </Text>
-              </View>
-            </View>
-          </View>
-          <View style={productView}>
-            <Image style={productImage} source={momo} />
-            <View style={productRight}>
-              <Text style={productTop}>Tên</Text>
-              <View style={productBottom}>
-                <Text>Giá: </Text>
-                <Text>SL: </Text>
-              </View>
-            </View>
-          </View>
-          <View style={productView}>
-            <Image style={productImage} source={momo} />
-            <View style={productRight}>
-              <Text style={productTop}>Tên</Text>
-              <View style={productBottom}>
-                <Text>Giá: </Text>
-                <Text>SL: </Text>
-              </View>
-            </View>
-          </View>
-          <View style={productView}>
-            <Image style={productImage} source={momo} />
-            <View style={productRight}>
-              <Text style={productTop}>Tên</Text>
-              <View style={productBottom}>
-                <Text>Giá: </Text>
-                <Text>SL: </Text>
-              </View>
-            </View>
-          </View>
-          <View style={productView}>
-            <Image style={productImage} source={momo} />
-            <View style={productRight}>
-              <Text style={productTop}>Tên</Text>
-              <View style={productBottom}>
-                <Text>Giá: </Text>
-                <Text>SL: </Text>
-              </View>
-            </View>
-          </View>
+          ))}
 
           <View style={styles.subtotalView}>
             <Text style={styles.subtotalText}>Tổng tiền -</Text>
-            <Text style={styles.subtotalPrice}>10000</Text>
-          </View>
-          <View style={styles.subtotalView}>
-            <Text style={styles.subtotalText}>Tổng tiền -</Text>
-            <Text style={styles.subtotalPrice}>10000</Text>
+            <Text style={styles.subtotalPrice}>
+              {onLoadToTal()}
+            </Text>
           </View>
         </ScrollView>
       </View>
@@ -165,11 +123,11 @@ export default function Payment({ navigation }) {
             </TouchableOpacity>
           </View>
           {/* <View style={paymentmethodContainer}> */}
-            <TouchableOpacity style={paymentmethod}>
-              <Image source={momo} style={imageIcon} />
-              <Text>Ví điện tử MoMo</Text>
-              <RadioButton value="second" style={radioButton} />
-            </TouchableOpacity>
+          <TouchableOpacity style={paymentmethod}>
+            <Image source={momo} style={imageIcon} />
+            <Text style={{ justifyContent: 'center' }}>Ví điện tử MoMo</Text>
+            <RadioButton value="second" style={radioButton} />
+          </TouchableOpacity>
           {/* </View> */}
         </RadioButton.Group>
         <TouchableOpacity
@@ -253,7 +211,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 5,
     paddingVertical: 5,
     justifyContent: 'space-between',
-    alignContent: 'center',
+    //alignContent: 'center',
   },
   imageIcon: {
     width: 35,
@@ -296,7 +254,7 @@ const styles = StyleSheet.create({
   },
   checkoutButtonText: {
     fontSize: 18,
-    color: '#fff',
+    color: color.white,
     fontWeight: '700',
   },
 });

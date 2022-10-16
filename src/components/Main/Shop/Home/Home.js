@@ -15,15 +15,13 @@ import Category from './Category';
 import NewProduct from './NewProduct';
 //import global from '../../../global';
 
-const BadgedIcon = withBadge(1)(Icon);
-
-//const user = global.onSignIn;
 export default function Home({ navigation }) {
   useEffect(() => {
     StatusBar.setHidden(true);
-      // eslint-disable-next-line no-undef
-      LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
+    // eslint-disable-next-line no-undef
+    LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
   }, []);
+  const BadgedIcon = withBadge(1)(Icon);
   const { container, textSearch } = styles;
   return (
     <View style={container}>
@@ -50,7 +48,7 @@ export default function Home({ navigation }) {
       </View>
       <ScrollView showsVerticalScrollIndicator={false}>
         <Banner />
-        <Category navigation={navigation} /> 
+        <Category navigation={navigation} />
         <NewProduct navigation={navigation} />
       </ScrollView>
     </View>

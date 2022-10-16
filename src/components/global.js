@@ -4,5 +4,5 @@ exports = {
     // decrQuantity: null,
     // removeProduct: null,
     onSignIn: null,
-    userCurrent: {}
+    //userCurrent: {}
 };

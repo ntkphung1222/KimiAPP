@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   StyleSheet,
   Text,
@@ -9,7 +9,9 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import { Icon } from 'react-native-elements';
-import global from '../../../global';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import Header from '../Header';
+//import global from '../../../global';
 import font from '../../../../../assets/font';
 import color from '../../../../../assets/color';
 
@@ -20,7 +22,6 @@ const optionArray = [
     iconname: 'receipt',
     icontype: 'material',
     color: color.darkblue,
-
   },
   {
     id: '2',
@@ -28,7 +29,6 @@ const optionArray = [
     iconname: 'location',
     icontype: 'entypo',
     color: color.darkblue,
-
   },
   {
     id: '3',
@@ -36,7 +36,6 @@ const optionArray = [
     iconname: 'lock',
     icontype: 'simplelineicons',
     color: color.darkblue,
-
   },
   {
     id: '4',
@@ -46,7 +45,15 @@ const optionArray = [
     color: color.darkblue,
   },
 ];
-export default function Account({ navigation, route }) {
+export default function Account({ navigation }) {
+  const [user, setUser] = useState([]);
+  useEffect(() => {
+    AsyncStorage.getItem('user');
+    if (user !== null) {
+      const userCurrent = JSON.parse(user);
+      setUser(userCurrent);
+    }
+  }, []);
   //const user = global.userCurrent;
   //const userID = route.params.userID;
 
@@ -62,15 +69,18 @@ export default function Account({ navigation, route }) {
   };
   const ItemView = ({ item }) => (
     // Single Comes here which will be repeatative for the FlatListItems
-    <TouchableOpacity style={styles.itemStyle} onPress={() => gotoScreen(item.id)}>
-        <Icon
-          style={styles.icon}
-          name={item.iconname}
-          type={item.icontype}
-          size={20}
-          color={item.color}
-        />
-        <Text style={label}>{item.value}</Text>
+    <TouchableOpacity
+      style={styles.itemStyle}
+      onPress={() => gotoScreen(item.id)}
+    >
+      <Icon
+        style={styles.icon}
+        name={item.iconname}
+        type={item.icontype}
+        size={20}
+        color={item.color}
+      />
+      <Text style={label}>{item.value}</Text>
     </TouchableOpacity>
   );
   const ItemSeparatorView = () => (
@@ -79,7 +89,11 @@ export default function Account({ navigation, route }) {
   );
   return (
     <View style={container}>
-      <TouchableOpacity style={header} onPress={() => navigation.navigate('Info')}>
+      <Header title={'Tài khoản'} navigation={navigation} />
+      <TouchableOpacity
+        style={header}
+        onPress={() => navigation.navigate('Info')}
+      >
         <Image
           style={avatar}
           resizeMode="contain"
@@ -88,14 +102,11 @@ export default function Account({ navigation, route }) {
           }}
         />
         <View>
-        <Text>Kim Phụng</Text>
-        <Text>Thông tin cá nhân</Text>
+          <Text>{JSON.stringify(user)}</Text>
+          <Text>Thông tin cá nhân</Text>
         </View>
-        
       </TouchableOpacity>
-      <View
-            style={{ height: 20, width: '100%' }}
-      />
+      <View style={{ height: 20, width: '100%' }} />
       <View style={wrapper}>
         <FlatList
           data={listItems}
@@ -134,7 +145,7 @@ const styles = StyleSheet.create({
     borderRadius: avatarsize,
   },
   wrapper: {
-    backgroundColor: color.white
+    backgroundColor: color.white,
   },
   itemStyle: {
     flexDirection: 'row',

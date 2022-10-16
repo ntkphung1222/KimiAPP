@@ -16,8 +16,6 @@ const numColumns = 3;
 
 const Category = ({ navigation }) => {
   const [serverData, setServerData] = useState([]);
-  // // console.log(serverData);
-
   useEffect(() => {
     // eslint-disable-next-line no-undef
     getCategory()
@@ -29,9 +27,7 @@ const Category = ({ navigation }) => {
         console.error(error);
       });
   }, []);
-  //const [listItems] = useState(dummyArray);
   const ItemView = ({ item }) => (
-    // Single Comes here which will be repeatative for the FlatListItems
     <TouchableOpacity
       style={styles.item}
       onPress={() =>
@@ -62,9 +58,6 @@ const Category = ({ navigation }) => {
         data={serverData}
         style={styles.content}
         showsVerticalScrollIndicator={false}
-        //data defined in constructor
-        //ItemSeparatorComponent={ItemSeparatorView}
-        //Item Separator View
         renderItem={ItemView}
         keyExtractor={(item, index) => index.toString()}
         numColumns={numColumns}

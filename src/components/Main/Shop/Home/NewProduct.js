@@ -73,9 +73,10 @@ export default function NewProduct({ navigation }) {
           // const item = cart.find((c) => c.product.sp_ma === data.product.sp_ma);
           // if (item) {
           //   item.quantity += 1;
-          // } else {
+          // } 
+          //else {
             cart.push(itemcart);
-         // }
+          //}
           AsyncStorage.setItem('cart', JSON.stringify(cart));
         } else {
           const cart = [];
@@ -110,7 +111,7 @@ const itemWidth = (width - 40 - 5) / 2;
 
 const styles = StyleSheet.create({
   container: {
-    flex: 0.5,
+    flex: 1,
     paddingHorizontal: 20,
     //backgroundColor: color.white
   },

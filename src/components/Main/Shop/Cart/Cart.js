@@ -29,95 +29,114 @@ const Cart = ({ navigation }) => {
     <View style={styles.container}>
       <View style={styles.header}>
         <Text style={styles.headerTitle}>Giỏ hàng</Text>
+        <TouchableOpacity
+          onPress={() => {
+            AsyncStorage.removeItem('cart');
+          }}
+        >
+          <Icon type="entypo" name="trash" size={20} color={color.white} />
+        </TouchableOpacity>
       </View>
       <View style={styles.cartContainer}>
         <ScrollView showsVerticalScrollIndicator={false}>
-          {dataCart.map((item) => (
-            <View key={item.product.sp_ma} style={styles.itemView}>
-              <Image
-                style={styles.imageView}
-                resizeMode="contain"
-                source={{
-                  uri: 'https://cdn.pixabay.com/photo/2020/12/09/16/40/pill-5817906_960_720.png',
-                }}
-              />
-              <View style={styles.rightItemView}>
-                <Text>{item.product.sp_ten}</Text>
-                {/* <Text>{JSON.stringify(item)}</Text> */}
-                <View style={styles.bottomView}>
-                  <Text>{item.product.sp_soluong}</Text>
+          {dataCart.length > 0 ? (
+            <View>
+              {dataCart
+                .sort((a, b) => a.product.sp_ten > b.product.sp_ten)
+                .map((item) => (
+                  <View key={item.product.sp_ma} style={styles.itemView}>
+                    <Image
+                      style={styles.imageView}
+                      resizeMode="contain"
+                      source={{
+                        uri: 'https://cdn.pixabay.com/photo/2020/12/09/16/40/pill-5817906_960_720.png',
+                      }}
+                    />
+                    <View style={styles.rightItemView}>
+                      <Text>{item.product.sp_ten}</Text>
+                      {/* <Text>{JSON.stringify(dataCart)}</Text> */}
+                      <View style={styles.bottomView}>
+                        <Text>{item.price}</Text>
 
-                  <View style={styles.quantityView}>
-                    <TouchableOpacity
-                      onPress={() => {
-                        const newProd = {
-                          ...item,
-                          quantity: item.quantity + 1,
-                          price: item.price + item.perPrice,
-                        };
-                        const restProds = dataCart.filter(
-                          (p) => p.product.sp_ma !== item.product.sp_ma
-                        );
-                        setDataCart([...restProds, newProd]);
-                      }}
-                    >
-                      <Icon
-                        style={styles.toggleCounterButton}
-                        name="plus-circle"
-                        type="font-awesome"
-                      />
-                    </TouchableOpacity>
-                    <Text>{item.quantity}</Text>
-                    <TouchableOpacity
-                      onPress={() => {
-                        if (item.quantity === 1) {
-                          return Alert.alert(
-                            `Remove ${item.product.sp_ten}?`,
-                            '',
-                            [
-                              { text: 'Cancel' },
-                              {
-                                text: 'Remove',
-                                onPress: () => {
-                                  const newCart = dataCart.filter(
-                                    (p) =>
-                                      p.product.sp_ma !== item.product.sp_ma
-                                  );
-                                  setDataCart(newCart);
-                                },
-                              },
-                            ]
-                          );
-                        }
-                        const newProd = {
-                          ...item,
-                          quantity: item.quantity - 1,
-                          //price: product.price - product.perPrice,
-                        };
-                        const restProds = dataCart.filter(
-                          (p) => p.product.sp_ma !== item.product.sp_ma
-                        );
-                        setDataCart([...restProds, newProd]);
-                      }}
-                    >
-                      <Icon
-                        style={styles.toggleCounterButton}
-                        name="minus-circle"
-                        type="font-awesome"
-                      />
-                    </TouchableOpacity>
+                        <View style={styles.quantityView}>
+                          <TouchableOpacity
+                            onPress={() => {
+                              if (item.quantity === 1) {
+                                return Alert.alert(
+                                  `Xóa ${item.product.sp_ten} khỏi giỏ hàng?`,
+                                  '',
+                                  [
+                                    { text: 'Trở về' },
+                                    {
+                                      text: 'Xóa',
+                                      onPress: () => {
+                                        const newCart = dataCart.filter(
+                                          (p) =>
+                                            p.product.sp_ma !==
+                                            item.product.sp_ma
+                                        );
+                                        setDataCart(newCart);
+                                      },
+                                    },
+                                  ]
+                                );
+                              }
+                              const newProd = {
+                                ...item,
+                                quantity: item.quantity - 1,
+                                //price: product.price - product.perPrice,
+                              };
+                              const restProds = dataCart.filter(
+                                (p) => p.product.sp_ma !== item.product.sp_ma
+                              );
+                              setDataCart([...restProds, newProd]);
+                            }}
+                          >
+                            <Icon
+                              style={styles.toggleCounterButton}
+                              name="minus-circle"
+                              type="font-awesome"
+                            />
+                          </TouchableOpacity>
+                          <Text>{item.quantity}</Text>
+                          <TouchableOpacity
+                            onPress={() => {
+                              const newProd = {
+                                ...item,
+                                quantity: item.quantity + 1,
+                                //price: item.price + item.perPrice,
+                              };
+                              const restProds = dataCart.filter(
+                                (p) => p.product.sp_ma !== item.product.sp_ma
+                              );
+                              setDataCart([...restProds, newProd]);
+                            }}
+                          >
+                            <Icon
+                              style={styles.toggleCounterButton}
+                              name="plus-circle"
+                              type="font-awesome"
+                            />
+                          </TouchableOpacity>
+                        </View>
+                      </View>
+                    </View>
                   </View>
-                </View>
-              </View>
+                ))}
+
+              <TouchableOpacity
+                activeOpacity={0.8}
+                style={styles.button}
+                onPress={() => navigation.navigate('Payment', { dataCart })}
+              >
+                <Text style={styles.textButton}>THANH TOÁN</Text>
+              </TouchableOpacity>
             </View>
-          ))}
-          <TouchableOpacity
-            onPress={() => {
-              AsyncStorage.removeItem('cart');
-            }}
-          >
-            <Text>Thanh Toán</Text>
-          </TouchableOpacity>
+          ) : (
+            <View style={styles.emptyCartView}>
+              <Text style={styles.emptyCartViewText}>Giỏ hàng trống.</Text>
+            </View>
+          )}
         </ScrollView>
       </View>
     </View>
@@ -135,6 +154,7 @@ const styles = StyleSheet.create({
     height: 50,
     backgroundColor: color.primary,
     alignItems: 'flex-start',
+    justifyContent: 'space-between',
     paddingHorizontal: 20,
     paddingVertical: 10,
   },
@@ -179,9 +199,28 @@ const styles = StyleSheet.create({
   quantityView: {
     flexDirection: 'row',
   },
+  emptyCartView: {
+    flex: 1,
+    marginTop: 140,
+  },
   emptyCartViewText: {
     fontSize: 20,
     fontWeight: '300',
+    alignSelf: 'center',
+  },
+  button: {
+    elevation: 8,
+    backgroundColor: color.primary,
+    borderRadius: 10,
+    paddingVertical: 10,
+    paddingHorizontal: 12,
+    marginTop: 10,
+    marginBottom: 25,
+  },
+  textButton: {
+    fontSize: 18,
+    color: color.white,
+    fontWeight: 'bold',
     alignSelf: 'center',
   },
 });

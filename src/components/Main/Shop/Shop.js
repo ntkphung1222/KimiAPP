@@ -10,6 +10,7 @@ import Account from './Account/Account';
 //import Signin from '../../Authentication/Signin';
 //import Signup from '../../Authentication/Signup';
 import color from '../../../../assets/color';
+import Signin from '../../Authentication/Signin';
 //import global from '../../global';
 
 const Tab = createBottomTabNavigator();
@@ -63,7 +64,7 @@ export default function Shop() {
         />
         <Tab.Screen
           name="Tài khoản"
-          component={Account}
+          component={Signin}
           options={{
             // eslint-disable-next-line no-shadow
             tabBarIcon: ({ color, size }) => (

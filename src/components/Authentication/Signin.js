@@ -10,17 +10,17 @@ import {
 import { Icon } from 'react-native-elements';
 import { Form, InputText } from 'validate-form-in-expo-style';
 import { FontAwesome } from '@expo/vector-icons';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import color from '../../../assets/color';
 import font from '../../../assets/font';
 import fb from '../../images/fb.png';
 import google from '../../images/google.png';
 import signIn from '../../api/signIn';
-import global from '../global';
 
 const Signin = ({ navigation }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [user, setUser] = useState({});
+  //const [user, setUser] = useState({});
   // global.onSignIn = onSignIn;
   // const onSignIn = (user) => setUser(user);
 
@@ -35,9 +35,12 @@ const Signin = ({ navigation }) => {
     //this.ref.form.submit();
     signIn(email, password)
     .then(res => {
-      setUser(res.user);
-      global.userCurrent = user;
-      //navigation.navigate('Account', { user: res.user });
+      // eslint-disable-next-line no-const-assign
+      //setUserCurrent = res.user;
+      AsyncStorage.setItem('user', JSON.stringify(res.user));
+      //console.log(AsyncStorage.getItem('user'));
+      // global.userCurrent = user;
+      navigation.navigate('Account');
     })
     .catch(error => console.log(error));
   };
