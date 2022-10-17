@@ -7,11 +7,12 @@ import {
   Dimensions,
   TextInput,
   TouchableOpacity,
+  Image
 } from 'react-native';
 import { Icon } from 'react-native-elements';
 import color from '../../../../../assets/color';
 
-const numColumns = 2;
+const numColumns = 3;
 
 export default function Search({ navigation }) {
   const [search, setSearch] = useState('');
@@ -59,7 +60,11 @@ export default function Search({ navigation }) {
   const ItemView = ({ item }) => (
     // Single Comes here which will be repeatative for the FlatListItems
     <View style={styles.item}>
-      <Text style={styles.itemText}>{item.dm_ma}</Text>
+      <Image
+        style={styles.itemImage}
+        resizeMode="contain"
+        source={{ uri: item.dm_hinhanh }}
+      />
       <Text style={styles.itemText}>{item.dm_ten}</Text>
     </View>
   );
@@ -134,11 +139,16 @@ const styles = StyleSheet.create({
     fontSize: 18,
   },
   item: {
-    height: 44,
+    //height: 44,
     width: itemWidth,
     //backgroundColor: '#333',
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  itemImage: {
+    width: 40,
+    height: 40,
+    backgroundColor: color.white
   },
   header: {
     flexDirection: 'row',

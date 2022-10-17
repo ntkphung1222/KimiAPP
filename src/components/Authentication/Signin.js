@@ -25,27 +25,32 @@ const Signin = ({ navigation }) => {
   // const onSignIn = (user) => setUser(user);
 
   // eslint-disable-next-line no-shadow
-  
+
   // const ref = useRef('');
   //   // const [userCurrent, setUserCurrent] = useState();
   // const submit = () => {
   //   Alert.alert('form submit, thank you.');
   // };
-  const handleSubmit = () => {
+  function handleSubmit() {
     //this.ref.form.submit();
     signIn(email, password)
-    .then(res => {
-      // eslint-disable-next-line no-const-assign
-      //setUserCurrent = res.user;
-      AsyncStorage.setItem('user', JSON.stringify(res.user));
-      //console.log(AsyncStorage.getItem('user'));
-      // global.userCurrent = user;
-      navigation.navigate('Account');
-    })
-    .catch(error => console.log(error));
-  };
+      .then((res) => {
+        // eslint-disable-next-line no-const-assign
+        //setUserCurrent = res.user;
+        AsyncStorage.setItem('user', JSON.stringify(res.user)).then(() =>
+          navigation.navigate('Account')
+        );
+        //const data = await AsyncStorage.getItem('user');
+        //console.log(data);
+        // global.userCurrent = user;
+      })
+      .catch((error) => console.log(error));
+  }
   return (
     <View style={styles.container}>
+      {/* <TouchableOpacity onPress={navigation.navigate('Home')}>
+        <Text>Home</Text>
+      </TouchableOpacity> */}
       <View style={styles.wrapper}>
         <Text style={font.textTitle}>Đăng nhập</Text>
         <Form onSubmit={handleSubmit}>
@@ -146,7 +151,9 @@ const Signin = ({ navigation }) => {
         <Text
           style={font.labelBold}
           onPress={() => navigation.navigate('Signup')}
-        > Đăng ký
+        >
+          {' '}
+          Đăng ký
         </Text>
       </View>
     </View>

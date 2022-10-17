@@ -70,18 +70,22 @@ export default function NewProduct({ navigation }) {
       .then((datacart) => {
         if (datacart != null) {
           const cart = JSON.parse(datacart);
-          // const item = cart.find((c) => c.product.sp_ma === data.product.sp_ma);
-          // if (item) {
-          //   item.quantity += 1;
-          // } 
-          //else {
+          const item = cart.find((c) => c.product.sp_ma === data.sp_ma);
+          //console.log(item);
+          if (item) {
+            item.quantity += 1;
+          } else {
             cart.push(itemcart);
-          //}
-          AsyncStorage.setItem('cart', JSON.stringify(cart));
+          }
+          AsyncStorage.setItem('cart', JSON.stringify(cart)).then(() =>
+            console.log(cart)
+          );
         } else {
           const cart = [];
           cart.push(itemcart);
-          AsyncStorage.setItem('cart', JSON.stringify(cart));
+          AsyncStorage.setItem('cart', JSON.stringify(cart)).then(() =>
+            console.log(cart)
+          );
         }
         Alert.alert('Add thành công');
       })

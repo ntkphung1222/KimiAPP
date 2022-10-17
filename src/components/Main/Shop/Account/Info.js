@@ -13,9 +13,10 @@ import font from '../../../../../assets/font';
 import color from '../../../../../assets/color';
 //import color from '../../../../../assets/color';
 
-export default function ChangeInfo({ navigation }) {
+export default function ChangeInfo({ navigation, route }) {
   const title = 'Thông tin cá nhân';
   const label = font.label;
+  const { user } = route.params;
   const {
     container,
     wrapper,
@@ -41,7 +42,7 @@ export default function ChangeInfo({ navigation }) {
               uri: 'https://png.pngtree.com/element_our/20200702/ourlarge/pngtree-yellow-character-avatar-icon-image_2292190.jpg',
             }}
           />
-          <Text style={label}>Kim Phụng</Text>
+          <Text style={label}>{user.name}</Text>
         </View>
         <View style={infoView}>
           <Text style={font.labelBold}>Thông tin cá nhân</Text>

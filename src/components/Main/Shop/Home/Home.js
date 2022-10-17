@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   LogBox,
   ScrollView,
@@ -8,6 +8,7 @@ import {
   StatusBar,
   TouchableOpacity,
 } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Header, Icon, withBadge } from '@rneui/themed';
 import color from '../../../../../assets/color';
 import Banner from './Banner';
@@ -16,10 +17,19 @@ import NewProduct from './NewProduct';
 //import global from '../../../global';
 
 export default function Home({ navigation }) {
+  const [user, setUser] = useState([]);
+
   useEffect(() => {
     StatusBar.setHidden(true);
     // eslint-disable-next-line no-undef
     LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
+      AsyncStorage.getItem('user').then((userR) => {
+        //console.log(userR);
+        if (userR !== null) {
+          const userCurrent = JSON.parse(userR);
+          setUser(userCurrent);
+        }
+      });
   }, []);
   const BadgedIcon = withBadge(1)(Icon);
   const { container, textSearch } = styles;
@@ -27,7 +37,7 @@ export default function Home({ navigation }) {
     <View style={container}>
       <Header
         containerStyle={{ height: 50, paddingHorizontal: 20 }}
-        leftComponent={<Text>hi</Text>}
+        leftComponent={<Text>Xin chào, {user.name}</Text>}
         rightComponent={
           <View>
             <TouchableOpacity>

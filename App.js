@@ -20,15 +20,15 @@ import ChangePassword from './src/components/Main/Shop/ChangePassword/ChangePass
 import Products from './src/components/Main/Shop/Products/Products';
 import ProductDetail from './src/components/Main/Shop/Home/ProductDetail';
 //import NewProducts from './src/components/Main/Shop/Home/NewProducts';
-
+//import Home from './src/components/Main/Shop/Home/Home';
 import Category from './src/components/Main/Shop/Home/Category';
 import Post from './src/components/Main/Shop/Post/Post';
 
 import Search from './src/components/Main/Shop/Search/Search';
 import Info from './src/components/Main/Shop/Account/Info';
+import Shop from './src/components/Main/Shop/Shop';
 
 const Stack = createNativeStackNavigator();
-
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -44,9 +44,9 @@ export default function App() {
 
   const [fontsLoaded1] = useFonts({
     // eslint-disable-next-line global-require
-     SFProDisPlayRegular: require('./assets/fonts/SF-Pro-Display-Regular.otf'),  
+    SFProDisPlayRegular: require('./assets/fonts/SF-Pro-Display-Regular.otf'),
   });
-  
+
   if (!fontsLoaded || !fontsLoaded1) {
     return null;
   }
@@ -59,6 +59,11 @@ export default function App() {
         <Stack.Screen
           name="Main"
           component={Main}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="Shop"
+          component={Shop}
           options={{ headerShown: false }}
         />
         <Stack.Screen

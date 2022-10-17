@@ -48,11 +48,15 @@ const optionArray = [
 export default function Account({ navigation }) {
   const [user, setUser] = useState([]);
   useEffect(() => {
-    AsyncStorage.getItem('user');
-    if (user !== null) {
-      const userCurrent = JSON.parse(user);
-      setUser(userCurrent);
-    }
+    AsyncStorage.getItem('user').then((userR) => {
+      //console.log(userR);
+      if (userR !== null) {
+        const userCurrent = JSON.parse(userR);
+        setUser(userCurrent);
+      } else {
+        navigation.navigate('Signin');
+      }
+    });
   }, []);
   //const user = global.userCurrent;
   //const userID = route.params.userID;
@@ -61,12 +65,18 @@ export default function Account({ navigation }) {
   const { container, header, avatar, wrapper } = styles;
   const label = font.label;
   const [listItems] = useState(optionArray);
+  const logout = () => {
+    AsyncStorage.removeItem('user');
+    //setUser([]);
+    //navigation.navigate('Main');
+  };
   const gotoScreen = ($id) => {
     if ($id === '1') navigation.navigate('Order');
     if ($id === '2') navigation.navigate('ShippingAddress');
     if ($id === '3') navigation.navigate('ChangePassword');
-    if ($id === '4') navigation.navigate('Signin');
+    if ($id === '4') logout();
   };
+  
   const ItemView = ({ item }) => (
     // Single Comes here which will be repeatative for the FlatListItems
     <TouchableOpacity
@@ -92,7 +102,7 @@ export default function Account({ navigation }) {
       <Header title={'Tài khoản'} navigation={navigation} />
       <TouchableOpacity
         style={header}
-        onPress={() => navigation.navigate('Info')}
+        onPress={() => navigation.navigate('Info', { user })}
       >
         <Image
           style={avatar}
@@ -102,7 +112,7 @@ export default function Account({ navigation }) {
           }}
         />
         <View>
-          <Text>{JSON.stringify(user)}</Text>
+          <Text>{user.name}</Text>
           <Text>Thông tin cá nhân</Text>
         </View>
       </TouchableOpacity>

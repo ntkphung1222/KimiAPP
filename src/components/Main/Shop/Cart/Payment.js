@@ -132,7 +132,7 @@ export default function Payment({ navigation, route }) {
         </RadioButton.Group>
         <TouchableOpacity
           style={styles.checkoutButton}
-          onPress={() => navigation.navigate('Payment')}
+          //onPress={() => navigation.navigate('Payment')}
         >
           <Text style={styles.checkoutButtonText}>Đặt hàng</Text>
         </TouchableOpacity>

@@ -14,17 +14,18 @@ import { Icon } from 'react-native-elements';
 import * as ImagePicker from 'expo-image-picker';
 // eslint-disable-next-line import/no-named-as-default
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
+//import SegmentedPicker from 'react-native-segmented-picker';
 import { Input } from '@rneui/themed';
 import Header from '../Header';
 import color from '../../../../../assets/color';
 
 export default function ChangeInfo({ navigation }) {
   //const product = route.params.product;
-  const [value, setValue] = useState('first');
+  const [value, setValue] = useState('male');
   const title = 'Cập nhật thông tin cá nhân';
   const [selectedDate, setSelectedDate] = useState();
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
-
+  //const segmentedPicker = React.createRef();
   // Datetime Picker
   const showDatePicker = () => {
     setDatePickerVisibility(true);
@@ -51,7 +52,9 @@ export default function ChangeInfo({ navigation }) {
     radioGroup,
   } = styles;
   // The path of the picked image
-  const [pickedImagePath, setPickedImagePath] = useState('https://png.pngtree.com/element_our/20200702/ourlarge/pngtree-yellow-character-avatar-icon-image_2292190.jpg');
+  const [pickedImagePath, setPickedImagePath] = useState(
+    'https://png.pngtree.com/element_our/20200702/ourlarge/pngtree-yellow-character-avatar-icon-image_2292190.jpg'
+  );
 
   // This function is triggered when the "Select an image" button pressed
   const showImagePicker = async () => {
@@ -89,7 +92,11 @@ export default function ChangeInfo({ navigation }) {
           /> */}
           <View>
             {pickedImagePath !== '' && (
-              <Image source={{ uri: pickedImagePath }} resizeMode="contain" style={avatar} />
+              <Image
+                source={{ uri: pickedImagePath }}
+                resizeMode="contain"
+                style={avatar}
+              />
             )}
             <TouchableOpacity style={iconCamera} onPress={showImagePicker}>
               <Icon type="feather" name="camera" size={20} color={color.gray} />
@@ -97,7 +104,7 @@ export default function ChangeInfo({ navigation }) {
           </View>
         </View>
         <View style={infoView}>
-          <Text style={label}>Họ tên khách hàng</Text>
+          <Text style={label}>Họ tên</Text>
           <Input style={input} />
           <Text style={label}>Giới tính</Text>
 
@@ -107,16 +114,12 @@ export default function ChangeInfo({ navigation }) {
           >
             <View style={radioGroup}>
               <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                <RadioButton value="first" />
+                <RadioButton value="male" />
                 <Text> Nam</Text>
               </View>
               <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                <RadioButton value="second" />
+                <RadioButton value="female" />
                 <Text> Nữ</Text>
-              </View>
-              <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                <RadioButton value="third" />
-                <Text> Khác</Text>
               </View>
             </View>
           </RadioButton.Group>
@@ -201,3 +204,72 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
 });
+
+// import React from 'react';
+// import SegmentedPicker from 'react-native-segmented-picker';
+ 
+// class ChangeInfo extends React.Component {
+//   constructor(props) {
+//     super(props);
+//     this.segmentedPicker = React.createRef();
+//   }
+ 
+//   componentDidMount() {
+//     // Can alternatively be shown with the `visible` prop for redux etc.
+//     this.segmentedPicker.current.show();
+//   }
+ 
+//   onConfirm = (selections) => {
+//     console.info(selections);
+//     // => { col_1: "option_1", col_2: "option_3" }
+//   }
+ 
+//   render() {
+//     return (
+//       <SegmentedPicker
+//         ref={this.segmentedPicker}
+//         onConfirm={this.onConfirm}
+//         options={[
+//           {
+//             key: 'day',
+//             items: [
+//               { label: 1, value: 'option_1' },
+//               { label: 2, value: 'option_2' },
+//             ],
+//           },
+//           {
+//             key: 'month',
+//             items: [
+//               { label: '1', value: 'jan' },
+//               { label: '2', value: 'feb' },
+//               { label: '3', value: 'mar' },
+//               { label: '4', value: 'apr' },
+//               { label: '5', value: 'may' },
+//               { label: '6', value: 'jun' },
+//               { label: '7', value: 'jul' },
+//               { label: '8', value: 'aug' },
+//               { label: '9', value: 'sep' },
+//               { label: '10', value: 'oct' },
+//               { label: '11', value: 'nov' },
+//               { label: '12', value: 'dec' },
+//             ],
+//           },
+//           {
+//             key: 'year',
+//             items: [
+//               { label: '1900', value: '1900' },
+//               { label: '1901', value: '1901' },
+//               { label: '1902', value: '1902' },
+//               { label: '1903', value: '1903' },
+//               { label: '1904', value: '1904' },
+//               { label: '1905', value: '1905' },
+//               { label: '1906', value: '1906' },
+//             ],
+//           },
+//         ]}
+//       />
+//     );
+//   }
+// }
+
+// export default ChangeInfo;

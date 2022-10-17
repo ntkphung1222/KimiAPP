@@ -13,6 +13,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 //import { useHeaderHeight } from '@react-navigation/elements';
 import { Icon } from 'react-native-elements';
 import color from '../../../../../assets/color';
+import font from '../../../../../assets/font';
 
 const Cart = ({ navigation }) => {
   const [dataCart, setDataCart] = useState([]);
@@ -32,6 +33,7 @@ const Cart = ({ navigation }) => {
         <TouchableOpacity
           onPress={() => {
             AsyncStorage.removeItem('cart');
+            setDataCart([]);
           }}
         >
           <Icon type="entypo" name="trash" size={20} color={color.white} />
@@ -49,7 +51,7 @@ const Cart = ({ navigation }) => {
                       style={styles.imageView}
                       resizeMode="contain"
                       source={{
-                        uri: 'https://cdn.pixabay.com/photo/2020/12/09/16/40/pill-5817906_960_720.png',
+                        uri: item.product.sp_hinhanh,
                       }}
                     />
                     <View style={styles.rightItemView}>
@@ -134,7 +136,7 @@ const Cart = ({ navigation }) => {
             </View>
           ) : (
             <View style={styles.emptyCartView}>
-              <Text style={styles.emptyCartViewText}>Giỏ hàng trống.</Text>
+              <Text style={font.textTitle1}>Giỏ hàng trống.</Text>
             </View>
           )}
         </ScrollView>
@@ -179,17 +181,20 @@ const styles = StyleSheet.create({
     elevation: 6,
   },
   itemView: {
-    backgroundColor: color.blue,
+    width: width - 40,
+    //backgroundColor: color.blue,
     flexDirection: 'row',
     marginBottom: 10,
   },
   imageView: {
     width: (width - 40) * 0.3,
     height: (width - 40) * 0.3,
+    borderRadius: 8
   },
   rightItemView: {
     width: (width - 40) * 0.7,
     justifyContent: 'space-between',
+    padding: 5
   },
   bottomView: {
     flexDirection: 'row',

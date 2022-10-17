@@ -69,7 +69,7 @@ const Signup = ({ navigation }) => {
     <View style={styles.container}>
       <View style={styles.wrapper}>
         <Text style={font.textTitle}> Đăng ký</Text>
-        <Form>
+        <Form onSubmit=''>
           <InputText
             name="firstName"
             placeholder="Nhập họ tên"
