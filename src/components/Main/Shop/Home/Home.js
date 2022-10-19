@@ -5,11 +5,9 @@ import {
   StyleSheet,
   View,
   Text,
-  StatusBar,
-  TouchableOpacity,
+  //StatusBar,
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { Header, Icon, withBadge } from '@rneui/themed';
 import color from '../../../../../assets/color';
 import Banner from './Banner';
 import Category from './Category';
@@ -20,22 +18,22 @@ export default function Home({ navigation }) {
   const [user, setUser] = useState([]);
 
   useEffect(() => {
-    StatusBar.setHidden(true);
+    //StatusBar.setHidden(true);
     // eslint-disable-next-line no-undef
     LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
-      AsyncStorage.getItem('user').then((userR) => {
-        //console.log(userR);
-        if (userR !== null) {
-          const userCurrent = JSON.parse(userR);
-          setUser(userCurrent);
-        }
-      });
+    AsyncStorage.getItem('user').then((userR) => {
+      //console.log(userR);
+      if (userR !== null) {
+        const userCurrent = JSON.parse(userR);
+        setUser(userCurrent);
+      }
+    });
   }, []);
-  const BadgedIcon = withBadge(1)(Icon);
-  const { container, textSearch } = styles;
+  //const BadgedIcon = withBadge(1)(Icon);
+  const { container } = styles;
   return (
     <View style={container}>
-      <Header
+      {/* <Header
         containerStyle={{ height: 50, paddingHorizontal: 20 }}
         leftComponent={<Text>Xin chào, {user.name}</Text>}
         rightComponent={
@@ -46,15 +44,17 @@ export default function Home({ navigation }) {
           </View>
         }
         backgroundColor={color.primary}
-      />
-      <View style={styles.searchContainer}>
-        <TouchableOpacity
-          style={styles.search}
-          onPress={() => navigation.navigate('Search')}
-        >
-          <Icon name="search" size={30} color={color.text} />
-          <Text style={textSearch}>Tìm kiếm ở đây...</Text>
-        </TouchableOpacity>
+      /> */}
+      <View
+        style={{
+          height: 50,
+          paddingHorizontal: 20,
+          justifyContent: 'center',
+          marginTop: 22,
+          //backgroundColor: color.primary,
+        }}
+      >
+        <Text>Xin chào, {user.name} </Text>
       </View>
       <ScrollView showsVerticalScrollIndicator={false}>
         <Banner />
@@ -68,10 +68,11 @@ export default function Home({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: color.white,
+    
+    backgroundColor: color.backgroundColor,
   },
   searchContainer: {
-    backgroundColor: color.primary,
+    //backgroundColor: color.primary,
     paddingHorizontal: 20,
     paddingVertical: 5,
     height: 50,

@@ -124,6 +124,7 @@ export default function MyComponent() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: color.backgroundColor,
   },
   header: {
     height: 50,

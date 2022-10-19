@@ -52,7 +52,13 @@ export default function Products({ navigation, route }) {
         <Text style={font.textName}>{item.sp_ten}</Text>
         <Text style={font.textPrice}>{item.sp_ten}</Text>
         <View style={styles.likeView}>
-          <Icon type="antdesign" name="like1" color={color.blue} size={15} marginRight={2} />
+          <Icon
+            type="antdesign"
+            name="like1"
+            color={color.blue}
+            size={15}
+            marginRight={2}
+          />
           <Text>12</Text>
         </View>
       </View>
@@ -101,7 +107,7 @@ const itemFilter = (width - 40 - 15) / 4;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: color.white
+    backgroundColor: color.backgroundColor,
   },
   wrapper: {
     paddingHorizontal: 20,
@@ -147,6 +153,6 @@ const styles = StyleSheet.create({
   likeView: {
     flexDirection: 'row',
     justifyContent: 'flex-end',
-    paddingVertical: 1
-  }
+    paddingVertical: 1,
+  },
 });

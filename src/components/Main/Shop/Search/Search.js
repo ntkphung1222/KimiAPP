@@ -134,6 +134,7 @@ const itemWidth = width / numColumns;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: color.backgroundColor,
   },
   label: {
     fontSize: 18,
@@ -153,6 +154,7 @@ const styles = StyleSheet.create({
   header: {
     flexDirection: 'row',
     height: 50,
+    marginTop: 22,
     alignItems: 'flex-start',
     justifyContent: 'space-between',
     backgroundColor: color.primary,

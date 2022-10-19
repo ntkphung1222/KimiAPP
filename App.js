@@ -1,7 +1,7 @@
 import React from 'react';
 import { useFonts } from 'expo-font';
 import { NavigationContainer } from '@react-navigation/native';
-import { StatusBar } from 'expo-status-bar';
+
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Authentication from './src/components/Authentication/Authentication';
 import Signin from './src/components/Authentication/Signin';
@@ -13,17 +13,18 @@ import Main from './src/components/Main/Main';
 //import OrderHistory from './src/components/OrderHistory/OrderHistory';
 import Cart from './src/components/Main/Shop/Cart/Cart';
 import Payment from './src/components/Main/Shop/Cart/Payment';
+import Success from './src/components/Main/Shop/Cart/Success';
 import ShippingAddress from './src/components/Main/Shop/Cart/ShippingAddress';
 import Account from './src/components/Main/Shop/Account/Account';
 import ChangePassword from './src/components/Main/Shop/ChangePassword/ChangePassword';
 
 import Products from './src/components/Main/Shop/Products/Products';
-import ProductDetail from './src/components/Main/Shop/Home/ProductDetail';
+import ProductDetail from './src/components/Main/Shop/ProductDetail/ProductDetail';
 //import NewProducts from './src/components/Main/Shop/Home/NewProducts';
 //import Home from './src/components/Main/Shop/Home/Home';
 import Category from './src/components/Main/Shop/Home/Category';
 import Post from './src/components/Main/Shop/Post/Post';
-
+import RatingProduct from './src/components/Main/Shop/RatingProduct/RatingProduct';
 import Search from './src/components/Main/Shop/Search/Search';
 import Info from './src/components/Main/Shop/Account/Info';
 import Shop from './src/components/Main/Shop/Shop';
@@ -52,7 +53,7 @@ export default function App() {
   }
 
   // eslint-disable-next-line no-unused-expressions
-  <StatusBar />;
+
   return (
     <NavigationContainer>
       <Stack.Navigator>
@@ -159,6 +160,16 @@ export default function App() {
         <Stack.Screen
           name="Order"
           component={Order}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="Success"
+          component={Success}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="RatingProduct"
+          component={RatingProduct}
           options={{ headerShown: false }}
         />
       </Stack.Navigator>

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import {
-  FlatList,
+  ScrollView,
   View,
   Text,
   StyleSheet,
@@ -12,7 +12,7 @@ import color from '../../../../../assets/color';
 import font from '../../../../../assets/font';
 import getCategory from '../../../../api/getCategory';
 
-const numColumns = 3;
+const numColumns = 4;
 
 const Category = ({ navigation }) => {
   const [serverData, setServerData] = useState([]);
@@ -27,41 +27,39 @@ const Category = ({ navigation }) => {
         console.error(error);
       });
   }, []);
-  const ItemView = ({ item }) => (
-    <TouchableOpacity
-      style={styles.item}
-      onPress={() =>
-        navigation.navigate(
-          'Products',
-          { cate: item }
-        )
-      }
-    >
-      <View style={styles.itemImageView}>
-      <Image
-        style={styles.itemImage}
-        resizeMode="contain"
-        source={{ uri: item.dm_hinhanh }}
-      />
-      </View>
-      <View style={styles.textView}>
-      <Text style={styles.itemText}>{item.dm_ten}</Text>
-      </View>
-      
-    </TouchableOpacity>
-  );
-
   return (
     <View style={styles.container}>
       <Text style={font.textTitle1}> Tất cả danh mục </Text>
-      <FlatList
+      {/* <FlatList
         data={serverData}
         style={styles.content}
         showsVerticalScrollIndicator={false}
         renderItem={ItemView}
         keyExtractor={(item, index) => index.toString()}
         numColumns={numColumns}
-      />
+      /> */}
+      <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+        <View style={{ flex: 1, flexDirection: 'row', paddingVertical: 10 }}>
+          {serverData.map((item) => (
+            <TouchableOpacity
+              key={item.dm_ma}
+              style={styles.item}
+              onPress={() => navigation.navigate('Products', { cate: item })}
+            >
+              <View style={styles.itemImageView}>
+                <Image
+                  style={styles.itemImage}
+                  resizeMode="contain"
+                  source={{ uri: item.dm_hinhanh }}
+                />
+              </View>
+              <View style={styles.textView}>
+                <Text style={styles.itemText}>{item.dm_ten}</Text>
+              </View>
+            </TouchableOpacity>
+          ))}
+        </View>
+      </ScrollView>
     </View>
   );
 };
@@ -73,29 +71,22 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingHorizontal: 20,
-    //backgroundColor: color.white
+    backgroundColor: color.backgroundColor,
   },
   label: {
     fontSize: 18,
   },
   content: {},
   item: {
-    width: itemWidth - 5,
-    marginRight: 6.7,
-    marginBottom: 6.7,
-    //elevation: 1,
-    padding: 5,
-    //backgroundColor: '#333',
-    //borderWidth: 2,
-    //borderColor: '#333',
-    //borderRadius: 6,
+    width: itemWidth - 10,
+    marginRight: 20,
     alignItems: 'center',
     justifyContent: 'center',
   },
   itemImageView: {
-    borderRadius: 50,
-    height: itemWidth - 40,
-    width: itemWidth - 40,
+    borderRadius: 10,
+    height: itemWidth - 10,
+    width: itemWidth - 10,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: color.primary,
@@ -103,19 +94,19 @@ const styles = StyleSheet.create({
   itemImage: {
     width: 40,
     height: 40,
-    backgroundColor: color.white
+    backgroundColor: color.white,
   },
   itemText: {
     fontSize: 8,
     marginHorizontal: 0,
-    textAlign: 'center'
+    textAlign: 'center',
   },
   textView: {
     height: 20,
     width: itemWidth - 15,
     //backgroundColor: color.white,
-    justifyContent: 'center'
-  }
+    justifyContent: 'center',
+  },
 });
 
 export default Category;

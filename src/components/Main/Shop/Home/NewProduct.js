@@ -1,22 +1,24 @@
 import React, { useState, useEffect } from 'react';
 import {
-  FlatList,
+  ScrollView,
   View,
   Text,
   StyleSheet,
   Image,
-  Dimensions,
-  Alert,
   TouchableOpacity,
 } from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { FontAwesome as FAIcon } from '@expo/vector-icons';
+//import AsyncStorage from '@react-native-async-storage/async-storage';
 // import { Icon } from 'react-native-elements';
-import color from '../../../../../assets/color';
+//import color from '../../../../../assets/color';
 import font from '../../../../../assets/font';
 import getNewProduct from '../../../../api/getNewProduct';
+//import color from '../../../../../assets/color';
 
 export default function NewProduct({ navigation }) {
   const [serverData, setServerData] = useState([]);
+  const [isFavourite, setFavourite] = useState(false);
+
   useEffect(() => {
     // eslint-disable-next-line no-undef
     getNewProduct()
@@ -28,90 +30,93 @@ export default function NewProduct({ navigation }) {
         console.error(error);
       });
   }, []);
-  const ItemView = ({ item }) => (
-    // Single Comes here which will be repeatative for the FlatListItems
-    <TouchableOpacity
-      style={styles.item}
-      onPress={() => navigation.navigate('ProductDetail', { product: item })}
-    >
-      <View style={styles.itemImageView}>
-        {/* <TouchableOpacity
-          style={{ position: 'absolute', right: 10, top: 10 }}
-        >
-          <Icon name="heart" type="antdesign" size={15} color={color.red} />
-        </TouchableOpacity> */}
-        <Image
-          style={styles.itemImage}
-          resizeMode="contain"
-          source={{ uri: item.sp_hinhanh }}
-        />
-      </View>
+  // const onClickAddCart = (data) => {
+  //   const itemcart = {
+  //     product: data,
+  //     quantity: 1,
+  //     price: 10,
+  //   };
 
-      <View style={styles.itemFooter}>
-        <Text style={font.textName}>{item.sp_ten}</Text>
-        <Text style={font.textPrice}>{item.sp_ten}</Text>
-      </View>
-      <TouchableOpacity
-        style={styles.addToCartButton}
-        onPress={() => onClickAddCart(item)}
-      >
-        <Text>Thêm vào giỏ</Text>
-      </TouchableOpacity>
-    </TouchableOpacity>
-  );
-  const onClickAddCart = (data) => {
-    const itemcart = {
-      product: data,
-      quantity: 1,
-      price: 10,
-    };
-
-    AsyncStorage.getItem('cart')
-      .then((datacart) => {
-        if (datacart != null) {
-          const cart = JSON.parse(datacart);
-          const item = cart.find((c) => c.product.sp_ma === data.sp_ma);
-          //console.log(item);
-          if (item) {
-            item.quantity += 1;
-          } else {
-            cart.push(itemcart);
-          }
-          AsyncStorage.setItem('cart', JSON.stringify(cart)).then(() =>
-            console.log(cart)
-          );
-        } else {
-          const cart = [];
-          cart.push(itemcart);
-          AsyncStorage.setItem('cart', JSON.stringify(cart)).then(() =>
-            console.log(cart)
-          );
-        }
-        Alert.alert('Add thành công');
-      })
-      .catch((error) => {
-        Alert.alert(error);
-      });
-  };
+  //   AsyncStorage.getItem('cart')
+  //     .then((datacart) => {
+  //       if (datacart != null) {
+  //         const cart = JSON.parse(datacart);
+  //         const item = cart.find((c) => c.product.sp_ma === data.sp_ma);
+  //         //console.log(item);
+  //         if (item) {
+  //           item.quantity += 1;
+  //         } else {
+  //           cart.push(itemcart);
+  //         }
+  //         AsyncStorage.setItem('cart', JSON.stringify(cart)).then(() =>
+  //           console.log(cart)
+  //         );
+  //       } else {
+  //         const cart = [];
+  //         cart.push(itemcart);
+  //         AsyncStorage.setItem('cart', JSON.stringify(cart)).then(() =>
+  //           console.log(cart)
+  //         );
+  //       }
+  //       Alert.alert('Add thành công');
+  //     })
+  //     .catch((error) => {
+  //       Alert.alert(error);
+  //     });
+  // };
   return (
     <View style={styles.container}>
       <Text style={font.textTitle1}> Sản phẩm mới nhất </Text>
-      <FlatList
-        data={serverData}
-        //data defined in constructor
-        //ItemSeparatorComponent={ItemSeparatorView}
-        //Item Separator View
-        showsVerticalScrollIndicator={false}
-        renderItem={ItemView}
-        keyExtractor={(item, index) => index.toString()}
-        numColumns={2}
-      />
+      <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+        <View style={{ flex: 1, flexDirection: 'row' }}>
+          {serverData.map((item) => (
+            <View key={item.sp_ma} style={{ width: 150, marginRight: 10 }}>
+              <TouchableOpacity
+                onPress={() =>
+                  navigation.navigate('ProductDetail', { product: item })
+                }
+                style={styles.newProductImageView}
+              >
+                <Image
+                  resizeMode="contain"
+                  style={{ flex: 1 }}
+                  source={{
+                    uri: item.sp_hinhanh,
+                  }}
+                />
+              </TouchableOpacity>
+              <View style={{ marginTop: 8 }}>
+                <Text style={styles.newProductName}>{item.sp_ten}</Text>
+                <View style={styles.newProductPriceView}>
+                  <Text style={styles.newProductPrice}>${item.sp_soluong}</Text>
+                  <View style={{ flexDirection: 'row' }}>
+                    <TouchableOpacity
+                      style={{}}
+                      onPress={() => setFavourite(!isFavourite)}
+                    >
+                      {/* <Icon name="heart" type="antdesign" size={20} color={color.red} /> */}
+                      <FAIcon
+                        name={isFavourite ? 'heart' : 'heart-o'}
+                        size={18}
+                        //color={color.red}
+                      />
+                    </TouchableOpacity>
+                  </View>
+                </View>
+              </View>
+              {/* <TouchableOpacity
+                style={styles.newProductAddButton}
+                onPress={() => onClickAddCart(item)}
+              >
+                <Text style={styles.newProductAddButtonText}>Thêm vào giỏ</Text>
+              </TouchableOpacity> */}
+            </View>
+          ))}
+        </View>
+      </ScrollView>
     </View>
   );
 }
-
-const { width } = Dimensions.get('window');
-const itemWidth = (width - 40 - 5) / 2;
 
 const styles = StyleSheet.create({
   container: {
@@ -122,43 +127,42 @@ const styles = StyleSheet.create({
   label: {
     fontSize: 18,
   },
-  item: {
-    width: itemWidth,
-    padding: 7,
-    elevation: 1,
-    // borderWidth: 1,
-    // borderColor: '#333',
-    borderRadius: 6,
-    marginRight: 5,
-    marginBottom: 5,
+  newProductImageView: {
+    flex: 1,
+    height: 150,
+    width: 150,
+    paddingHorizontal: 5,
+    backgroundColor: '#fff',
+    borderRadius: 10,
+    overflow: 'hidden',
+  },
+  newProductName: {
+    fontFamily: 'SFProDisplaySemiBold',
+    fontSize: 16,
+  },
+  newProductPriceView: {
+    flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'space-between',
+    marginTop: 2,
   },
-  itemImageView: {
-    width: itemWidth,
-    paddingHorizontal: 7,
+  newProductPrice: {
+    fontSize: 16,
+    fontFamily: 'SFProDisplaySemiBold',
   },
-  itemImage: {
-    width: itemWidth - 14,
-    height: itemWidth,
+  newProductIcon: {
+    marginLeft: 10,
   },
-  itemFooter: {
-    padding: 5,
-    width: itemWidth,
-  },
-  itemName: {
-    paddingVertical: 5,
-    height: 50,
-    //backgroundColor: '#333',
-  },
-  itemText: {
-    // fontSize: 16,
-    height: 30,
-    paddingVertical: 5,
-    //backgroundColor: '#FAD',
-  },
-  addToCartButton: {
-    backgroundColor: color.primary,
-    paddingHorizontal: 20,
-    paddingVertical: 10,
-  },
+  // newProductAddButton: {
+  //   backgroundColor: color.primary,
+  //   marginTop: 10,
+  //   paddingVertical: 8,
+  //   alignItems: 'center',
+  //   justifyContent: 'center',
+  // },
+  // newProductAddButtonText: {
+  //   color: color.white,
+  //   fontFamily: 'SFProDisPlayRegular',
+  //   fontSize: 18,
+  // },
 });

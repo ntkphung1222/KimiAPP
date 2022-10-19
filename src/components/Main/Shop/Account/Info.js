@@ -88,12 +88,12 @@ export default function ChangeInfo({ navigation, route }) {
               <Text style={label}>Email</Text>
             </View>
             <View style={textView}>
-              <Text style={label}>ntkphung1222@gmail.com</Text>
+              <Text style={label}>{user.email}</Text>
             </View>
           </View>
           <TouchableOpacity
             style={textChangeInfo}
-            onPress={() => navigation.navigate('ChangeInfo')}
+            onPress={() => navigation.navigate('ChangeInfo', { user })}
           >
              <Icon style={iconChange} type="antdesign" name="edit" size={20} />
             <Text style={font.textTitle2}>Chỉnh sửa</Text>
@@ -109,6 +109,7 @@ const avatarsize = 120;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: color.backgroundColor,
   },
   wrapper: {
     //paddingHorizontal: 20,

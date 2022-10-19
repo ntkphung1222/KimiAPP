@@ -38,7 +38,7 @@ const Signin = ({ navigation }) => {
         // eslint-disable-next-line no-const-assign
         //setUserCurrent = res.user;
         AsyncStorage.setItem('user', JSON.stringify(res.user)).then(() =>
-          navigation.navigate('Account')
+          navigation.navigate('Shop')
         );
         //const data = await AsyncStorage.getItem('user');
         //console.log(data);

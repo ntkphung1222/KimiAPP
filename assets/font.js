@@ -43,7 +43,7 @@ export default {
     fontFamily: 'SFProDisplaySemiBold',
     fontSize: 16,
     color: color.darkblue,
-    marginHorizontal: 2,
+    
     //textAlign: 'center',
   },
   label: {
@@ -65,6 +65,18 @@ export default {
   textBodySmall: {
     fontFamily: 'SFProDisPlayRegular',
     fontSize: 14,
+    color: color.darkblue,
+    textAlign: 'center'
+  },
+  textButtonWhite: {
+    fontFamily: 'SFProDisplaySemiBold',
+    fontSize: 16,
+    color: color.white,
+    textAlign: 'center'
+  },
+  textButton: {
+    fontFamily: 'SFProDisplaySemiBold',
+    fontSize: 16,
     color: color.darkblue,
     textAlign: 'center'
   }

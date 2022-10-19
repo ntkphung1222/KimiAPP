@@ -6,7 +6,7 @@ import {
   StyleSheet,
   Text,
   TextInput,
-  Alert
+  Alert,
   //Dimensions,
 } from 'react-native';
 // import Select from 'react-select';
@@ -74,7 +74,7 @@ export default function ShippingAddress({ navigation }) {
             // Change listner on the searchable input
             onItemSelect={(item) => Alert.alert(JSON.stringify(item))}
             // Called after the selection from the dropdown
-            containerStyle={{ }}
+            containerStyle={{}}
             // Suggestion container style
             textInputStyle={inputStyle}
             itemStyle={{
@@ -118,11 +118,12 @@ export default function ShippingAddress({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: color.white,
+    backgroundColor: color.backgroundColor,
   },
   header: {
     flexDirection: 'row',
     height: 50,
+    marginTop: 22,
     alignItems: 'flex-start',
     backgroundColor: color.primary,
   },

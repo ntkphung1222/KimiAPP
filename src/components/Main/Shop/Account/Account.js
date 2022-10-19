@@ -7,6 +7,7 @@ import {
   Image,
   Dimensions,
   TouchableOpacity,
+  Alert,
 } from 'react-native';
 import { Icon } from 'react-native-elements';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -18,30 +19,53 @@ import color from '../../../../../assets/color';
 const optionArray = [
   {
     id: '1',
-    value: 'Đơn hàng của tôi',
-    iconname: 'receipt',
-    icontype: 'material',
-    color: color.darkblue,
+    value: 'Thông tin cá nhân',
+    iconname: 'user',
+    icontype: 'antdesign',
+    color: color.primary,
   },
   {
     id: '2',
-    value: 'Địa chỉ nhận hàng',
-    iconname: 'location',
-    icontype: 'entypo',
-    color: color.darkblue,
+    value: 'Đơn hàng của tôi',
+    iconname: 'shopping-cart',
+    icontype: 'feather',
+    color: '#01B383',
   },
   {
     id: '3',
-    value: 'Đổi mật khẩu',
-    iconname: 'lock',
-    icontype: 'simplelineicons',
-    color: color.darkblue,
+    value: 'Địa chỉ nhận hàng',
+    iconname: 'location-pin',
+    icontype: 'entypo',
+    color: color.red,
   },
   {
     id: '4',
     value: 'Đăng xuất',
     iconname: 'logout',
     icontype: 'materialicons',
+    color: color.darkblue,
+  },
+];
+const option2Array = [
+  {
+    id: '5',
+    value: 'Cài đặt',
+    iconname: 'settings',
+    icontype: 'feather',
+    color: color.darkblue,
+  },
+  {
+    id: '6',
+    value: 'Liên hệ với chúng tôi',
+    iconname: 'hipchat',
+    icontype: 'fontisto',
+    color: color.blue,
+  },
+  {
+    id: '7',
+    value: 'Giới thiệu về ứng dụng',
+    iconname: 'infocirlce',
+    icontype: 'antdesign',
     color: color.darkblue,
   },
 ];
@@ -58,38 +82,47 @@ export default function Account({ navigation }) {
       }
     });
   }, []);
-  //const user = global.userCurrent;
-  //const userID = route.params.userID;
-
-  //const { id, name, email, email_verified_at, created_at, updated_at } = route.params.user;
-  const { container, header, avatar, wrapper } = styles;
-  const label = font.label;
+  const { container, avatarView, avatar, wrapper, optionView } = styles;
+  const label = font.textBody;
   const [listItems] = useState(optionArray);
+  const [listItemsSetting] = useState(option2Array);
+
   const logout = () => {
     AsyncStorage.removeItem('user');
-    //setUser([]);
-    //navigation.navigate('Main');
+    Alert.alert('Logout Successful!');
   };
   const gotoScreen = ($id) => {
-    if ($id === '1') navigation.navigate('Order');
-    if ($id === '2') navigation.navigate('ShippingAddress');
-    if ($id === '3') navigation.navigate('ChangePassword');
+    if ($id === '1') navigation.navigate('Info', { user });
+    if ($id === '2') navigation.navigate('Order');
+    if ($id === '3') navigation.navigate('ShippingAddress');
     if ($id === '4') logout();
   };
-  
+
   const ItemView = ({ item }) => (
     // Single Comes here which will be repeatative for the FlatListItems
     <TouchableOpacity
       style={styles.itemStyle}
       onPress={() => gotoScreen(item.id)}
     >
-      <Icon
-        style={styles.icon}
-        name={item.iconname}
-        type={item.icontype}
-        size={20}
-        color={item.color}
-      />
+      <View
+        style={{
+          width: 40,
+          height: 40,
+          borderRadius: 10,
+          backgroundColor: item.color,
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}
+      >
+        <Icon
+          style={styles.icon}
+          name={item.iconname}
+          type={item.icontype}
+          size={20}
+          color={color.white}
+        />
+      </View>
+
       <Text style={label}>{item.value}</Text>
     </TouchableOpacity>
   );
@@ -99,28 +132,35 @@ export default function Account({ navigation }) {
   );
   return (
     <View style={container}>
+      <View style={styles.bigCircle} />
       <Header title={'Tài khoản'} navigation={navigation} />
-      <TouchableOpacity
-        style={header}
-        onPress={() => navigation.navigate('Info', { user })}
-      >
-        <Image
-          style={avatar}
-          resizeMode="contain"
-          source={{
-            uri: 'https://cdn.pixabay.com/photo/2020/12/09/16/40/pill-5817906_960_720.png',
-          }}
-        />
-        <View>
-          <Text>{user.name}</Text>
-          <Text>Thông tin cá nhân</Text>
+      <View style={avatarView}>
+          <Image
+            style={avatar}
+            resizeMode="contain"
+            source={{
+              uri: 'https://png.pngtree.com/element_our/20200702/ourlarge/pngtree-yellow-character-avatar-icon-image_2292190.jpg',
+            }}
+          />
+          <Text style={label}>{user.name}</Text>
         </View>
-      </TouchableOpacity>
-      <View style={{ height: 20, width: '100%' }} />
+      {/* <View style={{ height: 20, width: '100%' }} /> */}
       <View style={wrapper}>
         <FlatList
           data={listItems}
-          //style={wrapper}
+          style={optionView}
+          //data defined in constructor
+          ItemSeparatorComponent={ItemSeparatorView}
+          //Item Separator View
+          renderItem={ItemView}
+          showsVerticalScrollIndicator={false}
+          keyExtractor={(item, index) => index.toString()}
+          numColumns={1}
+          //ListHeaderComponent={getHeader}
+        />
+        <FlatList
+          data={listItemsSetting}
+          style={optionView}
           //data defined in constructor
           ItemSeparatorComponent={ItemSeparatorView}
           //Item Separator View
@@ -135,35 +175,51 @@ export default function Account({ navigation }) {
   );
 }
 const { width } = Dimensions.get('window');
-const headerheight = 100;
-const avatarsize = 80;
+const avatarsize = 100;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: color.backgroundColor,
   },
-  header: {
-    backgroundColor: color.white,
-    flexDirection: 'row',
+  avatarView: {
+    //backgroundColor: color.blue,
     width,
-    height: headerheight,
-    paddingHorizontal: 20,
+    height: 150,
     alignItems: 'center',
+    justifyContent: 'center',
+  },
+  bigCircle: {
+    width: 1000,
+    height: 1000,
+    backgroundColor: color.primary,
+    borderRadius: 1000,
+    position: 'absolute',
+    top: -780,
+    left: -300,
+    right: -300
   },
   avatar: {
     width: avatarsize,
     height: avatarsize,
     borderRadius: avatarsize,
+    resizeMode: 'cover',
+    borderColor: color.white,
+    borderWidth: 2,
   },
-  wrapper: {
+  wrapper: {},
+  optionView: {
+    marginTop: 20,
+    marginHorizontal: 20,
+    paddingHorizontal: 20,
     backgroundColor: color.white,
+    borderRadius: 20,
   },
   itemStyle: {
     flexDirection: 'row',
     justifyContent: 'flex-start',
     alignItems: 'center',
-    padding: 5,
+    paddingVertical: 8,
+    borderRadius: 8,
   },
-  icon: {
-    marginRight: 5,
-  },
+  icon: {},
 });

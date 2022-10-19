@@ -42,7 +42,7 @@ export default function Payment({ navigation, route }) {
     let total = 0;
     const cart = dataCart;
     for (let i = 0; i < cart.length; i++) {
-      total += (cart[i].price * cart[i].quantity);
+      total += cart[i].price * cart[i].quantity;
     }
     return total;
   };
@@ -82,7 +82,11 @@ export default function Payment({ navigation, route }) {
           <Text style={label}>Danh sách sản phẩm</Text>
           {dataCart.map((item) => (
             <View key={item.product.sp_ma} style={productView}>
-              <Image style={productImage} source={{ uri: item.product.sp_hinhanh }} />
+              <Image
+                style={productImage}
+                resizeMode="contain"
+                source={{ uri: item.product.sp_hinhanh }}
+              />
               <View style={productRight}>
                 <Text style={productTop}>{item.product.sp_ten}</Text>
                 <View style={productBottom}>
@@ -95,9 +99,7 @@ export default function Payment({ navigation, route }) {
 
           <View style={styles.subtotalView}>
             <Text style={styles.subtotalText}>Tổng tiền -</Text>
-            <Text style={styles.subtotalPrice}>
-              {onLoadToTal()}
-            </Text>
+            <Text style={styles.subtotalPrice}>{onLoadToTal()}</Text>
           </View>
         </ScrollView>
       </View>
@@ -132,7 +134,7 @@ export default function Payment({ navigation, route }) {
         </RadioButton.Group>
         <TouchableOpacity
           style={styles.checkoutButton}
-          //onPress={() => navigation.navigate('Payment')}
+          onPress={() => navigation.navigate('Success')}
         >
           <Text style={styles.checkoutButtonText}>Đặt hàng</Text>
         </TouchableOpacity>
@@ -144,11 +146,12 @@ export default function Payment({ navigation, route }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    //backgroundColor: color.primary,
+    backgroundColor: color.backgroundColor,
   },
   header: {
     flexDirection: 'row',
     height: 50,
+    marginTop: 22,
     alignItems: 'flex-start',
     backgroundColor: color.primary,
   },

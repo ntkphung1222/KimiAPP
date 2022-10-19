@@ -2,11 +2,13 @@ import React, { useState } from 'react';
 import {
   StyleSheet,
   Text,
+  TextInput,
   View,
   Image,
   Dimensions,
   Alert,
   TouchableOpacity,
+  ScrollView,
 } from 'react-native';
 import { RadioButton } from 'react-native-paper';
 import moment from 'moment';
@@ -19,12 +21,13 @@ import { Input } from '@rneui/themed';
 import Header from '../Header';
 import color from '../../../../../assets/color';
 
-export default function ChangeInfo({ navigation }) {
-  //const product = route.params.product;
+export default function ChangeInfo({ navigation, route }) {
+  const { user } = route.params;
   const [value, setValue] = useState('male');
   const title = 'Cập nhật thông tin cá nhân';
   const [selectedDate, setSelectedDate] = useState();
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
+  //const [selectedDate1, setSelectedDate1] = useState('');
   //const segmentedPicker = React.createRef();
   // Datetime Picker
   const showDatePicker = () => {
@@ -79,7 +82,7 @@ export default function ChangeInfo({ navigation }) {
   };
 
   return (
-    <View style={container}>
+    <ScrollView style={container}>
       <Header navigation={navigation} title={title} />
       <View style={wrapper}>
         <View style={avatarView}>
@@ -105,7 +108,7 @@ export default function ChangeInfo({ navigation }) {
         </View>
         <View style={infoView}>
           <Text style={label}>Họ tên</Text>
-          <Input style={input} />
+          <TextInput style={input} value={user.name} />
           <Text style={label}>Giới tính</Text>
 
           <RadioButton.Group
@@ -130,7 +133,7 @@ export default function ChangeInfo({ navigation }) {
           >
             <Text>{`${
               selectedDate
-                ? moment(selectedDate).format('MM-DD-YYYY')
+                ? moment(selectedDate).format('DD/MM/YYYY')
                 : 'Chọn ngày sinh'
             }`}</Text>
             <Icon
@@ -143,6 +146,8 @@ export default function ChangeInfo({ navigation }) {
             <DateTimePickerModal
               isVisible={isDatePickerVisible}
               mode="date"
+              maximumDate={new Date()}
+              minimumDate={new Date('1900-01-01')}
               onConfirm={handleConfirm}
               onCancel={hideDatePicker}
             />
@@ -154,10 +159,13 @@ export default function ChangeInfo({ navigation }) {
             keyboardType={'number-pad'}
           />
           <Text style={label}>Email</Text>
-          <Input keyboardType={'email-address'} />
+          <Input keyboardType={'email-address'} value={user.email} />
+          <TouchableOpacity style={styles.saveChangesButton}>
+            <Text style={styles.textSaveChangeButton}>Cập nhật</Text>
+          </TouchableOpacity>
         </View>
       </View>
-    </View>
+    </ScrollView>
   );
 }
 const { width } = Dimensions.get('window');
@@ -165,10 +173,9 @@ const avatarsize = 120;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: color.backgroundColor,
   },
-  wrapper: {
-    //paddingHorizontal: 20,
-  },
+  wrapper: {},
   avatarView: {
     //backgroundColor: color.blue,
     width,
@@ -178,7 +185,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   infoView: {
-    paddingHorizontal: 16,
+    paddingHorizontal: 20,
   },
   avatar: {
     position: 'relative',
@@ -203,27 +210,46 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     alignItems: 'center',
   },
+  saveChangesButton: {
+    elevation: 8,
+    backgroundColor: color.primary,
+    borderRadius: 10,
+    paddingVertical: 10,
+    marginTop: 10,
+    marginBottom: 25,
+    //flex: 0.2,
+    width: width - 40,
+    //marginHorizontal: 20,
+    right: 0,
+    bottom: 0,
+  },
+  textSaveChangeButton: {
+    fontSize: 18,
+    color: color.white,
+    fontWeight: 'bold',
+    alignSelf: 'center',
+  },
 });
 
 // import React from 'react';
 // import SegmentedPicker from 'react-native-segmented-picker';
- 
+
 // class ChangeInfo extends React.Component {
 //   constructor(props) {
 //     super(props);
 //     this.segmentedPicker = React.createRef();
 //   }
- 
+
 //   componentDidMount() {
 //     // Can alternatively be shown with the `visible` prop for redux etc.
 //     this.segmentedPicker.current.show();
 //   }
- 
+
 //   onConfirm = (selections) => {
 //     console.info(selections);
 //     // => { col_1: "option_1", col_2: "option_3" }
 //   }
- 
+
 //   render() {
 //     return (
 //       <SegmentedPicker

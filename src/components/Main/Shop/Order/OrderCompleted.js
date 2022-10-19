@@ -13,7 +13,7 @@ import font from '../../../../../assets/font';
 //import font from '../../../../../assets/font';
 
 const orderArray = [
-  { 
+  {
     id: 1,
     date: '13/10/2022',
     name: 'ok',
@@ -23,7 +23,7 @@ const orderArray = [
     totalSum: '200.000đ',
     state: 'Hủy',
   },
-  { 
+  {
     id: 2,
     date: '13/10/2022',
     name: 'ok',
@@ -33,7 +33,7 @@ const orderArray = [
     totalSum: '100.000đ',
     state: 'Hủy',
   },
-  { 
+  {
     id: 3,
     date: '13/10/2022',
     name: 'ok',
@@ -45,11 +45,11 @@ const orderArray = [
   },
 ];
 
-export default function OrderCompleted() {
+export default function OrderCompleted({ navigation }) {
   const [listItems] = useState(orderArray);
   const ItemView = ({ item }) => (
     // Single Comes here which will be repeatative for the FlatListItems
-    <TouchableOpacity style={styles.itemStyle}>
+    <View style={styles.itemStyle}>
       <View style={styles.itemImageStyle}>
         <Image
           style={styles.itemImage}
@@ -63,14 +63,20 @@ export default function OrderCompleted() {
         <Text>{item.date}</Text>
         <Text>{item.name}</Text>
 
-       <View style={{ flexDirection: 'row', justifyContent: 'flex-end' }}>
+        <View style={{ flexDirection: 'row' }}>
           <Text style={font.textBodySmall}>
             Tổng cộng ({item.numProduct} sản phẩm):
           </Text>
           <Text style={font.textPrice}>{item.totalSum} </Text>
         </View>
+        <TouchableOpacity
+          style={{ width: 100 }}
+          onPress={() => navigation.navigate('RatingProduct')}
+        >
+          <Text>Đánh giá</Text>
+        </TouchableOpacity>
       </View>
-    </TouchableOpacity>
+    </View>
   );
   return (
     <View style={styles.container}>
@@ -93,14 +99,15 @@ export default function OrderCompleted() {
 const { width } = Dimensions.get('window');
 const styles = StyleSheet.create({
   container: {
-    flex: 1,    
+    flex: 1,
+    backgroundColor: color.backgroundColor,
   },
   itemStyle: {
     flexDirection: 'row',
     marginTop: 10,
     width,
     padding: 20,
-    backgroundColor: color.white
+    backgroundColor: color.white,
   },
   itemImageStyle: {
     width: width * 0.25,

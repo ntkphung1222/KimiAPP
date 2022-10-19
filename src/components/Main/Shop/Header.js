@@ -36,6 +36,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     height: 50,
     width,
+    marginTop: 22,
     alignItems: 'flex-start',
     backgroundColor: color.primary,
   },
