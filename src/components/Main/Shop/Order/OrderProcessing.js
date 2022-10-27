@@ -5,82 +5,78 @@ import {
   TouchableOpacity,
   StyleSheet,
   Image,
-  FlatList,
+  ScrollView,
+  //FlatList,
   Dimensions,
 } from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import color from '../../../../../assets/color';
 import font from '../../../../../assets/font';
 //import font from '../../../../../assets/font';
 
-export default function OrderProcessing() {
-  const [serverData, setServerData] = useState([]);
-  const [user, setUser] = useState([]);
-  useEffect(() => {
-    AsyncStorage.getItem('user').then((userR) => {
-      //console.log(userR);
-      if (userR !== null) {
-        const userCurrent = JSON.parse(userR);
-        setUser(userCurrent);
-      }
-    });
-    load();
-  }, []);
-  const load = async () => {
-    await // eslint-disable-next-line no-undef
-    fetch(`http://kimimylife.site/api/orderhistory?hdx_kh=${user.id}`)
-      .then((response) => response.json())
-      .then((responseJson) => {
-        //Successful response from the API Call
-        setServerData(responseJson.results);
-      })
-      .then(() => {})
-      .catch((error) => {
-        console.error(error);
-      });
-  };
-
-  const ItemView = ({ item }) => (
-    // Single Comes here which will be repeatative for the FlatListItems
-    <TouchableOpacity style={styles.itemStyle}>
-      <View style={styles.itemImageStyle}>
-        <Image
-          style={styles.itemImage}
-          resizeMode="contain"
-          source={{
-            uri: item.sp_hinhanh,
-          }}
-        />
+export default function OrderProcessing({ route }) {
+  try {
+    const [serverData, setServerData] = useState([]);
+    const { user } = route.params;
+    useEffect(() => {
+      // eslint-disable-next-line no-undef
+      fetch(`http://kimimylife.site/api/orderhistory?hdx_kh=${user.id}`)
+        .then((response) => response.json())
+        .then((responseJson) => {
+          //Successful response from the API Call
+          setServerData(responseJson.results);
+        })
+        .then(() => {})
+        .catch((error) => {
+          console.error(error);
+        });
+    }, []);
+    return (
+      <View style={{ flex: 1 }}>
+        {serverData.length > 0 ? (
+          <ScrollView style={styles.container}>
+            {serverData.map((item) => (
+              <View key={item.hdx_ma} style={{ marginBottom: 10 }}>
+                {item.map((data) => (
+                  <TouchableOpacity key={data.hdxct_ma} style={styles.itemStyle}>
+                    <View style={styles.itemImageStyle}>
+                      <Image
+                        style={styles.itemImage}
+                        resizeMode="contain"
+                        source={{
+                          uri: data.sp_hinhanh,
+                        }}
+                      />
+                    </View>
+                    <View style={styles.orderInfo}>
+                      {/* <Text>{data.ten}</Text> */}
+                      <Text>{data.sp_ten}</Text>
+                      <View
+                        style={{
+                          flexDirection: 'row',
+                          justifyContent: 'flex-end',
+                        }}
+                      >
+                        <Text style={font.textBodySmall}>
+                          Tổng cộng ({data.soluong} sản phẩm):
+                        </Text>
+                        <Text style={font.textPrice}>{data.totalSum} </Text>
+                      </View>
+                    </View>
+                  </TouchableOpacity>
+                ))}
+              </View>
+            ))}
+          </ScrollView>
+        ) : (
+          <View style={styles.emptyView}>
+            <Text style={font.textTitle1}>Bạn chưa có đơn hàng nào. </Text>
+          </View>
+        )}
       </View>
-      <View style={styles.orderInfo}>
-        <Text>{item.ten}</Text>
-        <Text>{item.sp_ten}</Text>
-        <View style={{ flexDirection: 'row', justifyContent: 'flex-end' }}>
-          <Text style={font.textBodySmall}>
-            Tổng cộng ({item.soluong} sản phẩm):
-          </Text>
-          <Text style={font.textPrice}>{item.totalSum} </Text>
-        </View>
-      </View>
-    </TouchableOpacity>
-  );
-  return (
-    <View style={styles.container}>
-      {/* <FlatList
-        data={serverData}
-        //style={wrapper}
-        //data defined in constructor
-        //ItemSeparatorComponent={ItemSeparatorView}
-        //Item Separator View
-        renderItem={ItemView}
-        showsVerticalScrollIndicator={false}
-        keyExtractor={(item) => item.hdx_ma}
-        numColumns={1}
-        //ListHeaderComponent={getHeader}
-      /> */}
-      <Text>{console.log(serverData)}</Text>
-    </View>
-  );
+    );
+  } catch (ex) {
+    console.log(ex);
+  }
 }
 
 const { width } = Dimensions.get('window');
@@ -91,7 +87,9 @@ const styles = StyleSheet.create({
   },
   itemStyle: {
     flexDirection: 'row',
-    marginTop: 10,
+    borderBottomColor: color.greylight,
+    borderTopColor: color.greylight,
+    borderWidth: 1,
     width,
     padding: 20,
     backgroundColor: color.white,
@@ -107,6 +105,10 @@ const styles = StyleSheet.create({
   },
   orderInfo: {
     paddingRight: 20,
-    width: width * 0.75 - 20,
+    width: width * 0.73,
   },
+  emptyView: {
+    flex: 1,
+    marginTop: 140,
+  }
 });

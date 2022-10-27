@@ -46,13 +46,17 @@ export default function ChangeInfo({ navigation, route }) {
         </View>
         <View style={infoView}>
           <Text style={font.labelBold}>Thông tin cá nhân</Text>
-         
+
           <View style={rowView}>
             <View style={labelView}>
               <Text style={label}>Giới tính</Text>
             </View>
             <View style={textView}>
-              <Text style={label}>Nữ</Text>
+              {user.gioitinh === 'NULL' ? (
+                <Text style={label}>{user.gioitinh}</Text>
+              ) : (
+                <Text style={label}>Chưa cập nhật</Text>
+              )}
             </View>
           </View>
           <View
@@ -64,7 +68,11 @@ export default function ChangeInfo({ navigation, route }) {
               <Text style={label}>Ngày sinh</Text>
             </View>
             <View style={textView}>
-              <Text style={label}>27-06-2000</Text>
+            {user.ngaysinh === 'NULL' ? (
+                <Text style={label}>{user.ngaysinh}</Text>
+              ) : (
+                <Text style={label}>Chưa cập nhật</Text>
+              )}
             </View>
           </View>
           <View
@@ -76,7 +84,7 @@ export default function ChangeInfo({ navigation, route }) {
               <Text style={label}>Số điện thoại</Text>
             </View>
             <View style={textView}>
-              <Text style={label}>0989415460</Text>
+              <Text style={label}>{user.sodienthoai}</Text>
             </View>
           </View>
           <View
@@ -95,9 +103,8 @@ export default function ChangeInfo({ navigation, route }) {
             style={textChangeInfo}
             onPress={() => navigation.navigate('ChangeInfo', { user })}
           >
-             <Icon style={iconChange} type="antdesign" name="edit" size={20} />
+            <Icon style={iconChange} type="antdesign" name="edit" size={20} />
             <Text style={font.textTitle2}>Chỉnh sửa</Text>
-           
           </TouchableOpacity>
         </View>
       </View>
@@ -113,8 +120,8 @@ const styles = StyleSheet.create({
   },
   wrapper: {
     backgroundColor: color.backgroundColor,
-    flex: 1
-    },
+    flex: 1,
+  },
   avatarView: {
     //backgroundColor: color.blue,
     width,
@@ -133,7 +140,7 @@ const styles = StyleSheet.create({
   infoView: {
     paddingHorizontal: 20,
     paddingVertical: 15,
-    backgroundColor: color.white
+    backgroundColor: color.white,
   },
   rowView: {
     flexDirection: 'row',
@@ -155,9 +162,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: color.greylight,
     borderRadius: 20,
-    marginTop: 10
+    marginTop: 10,
   },
-  iconChange: {   
+  iconChange: {
     marginRight: 2,
   },
 });

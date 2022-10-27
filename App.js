@@ -10,7 +10,7 @@ import ForgotPassword from './src/components/Authentication/ForgotPassword';
 import Order from './src/components/Main/Shop/Order/Order';
 import ChangeInfo from './src/components/Main/Shop/Account/ChangeInfo';
 import Main from './src/components/Main/Main';
-//import OrderHistory from './src/components/OrderHistory/OrderHistory';
+import OrderHistory from './src/components/Main/Shop/OrderHistory/OrderHistory';
 import Cart from './src/components/Main/Shop/Cart/Cart';
 import Payment from './src/components/Main/Shop/Cart/Payment';
 import Success from './src/components/Main/Shop/Cart/Success';
@@ -127,11 +127,11 @@ export default function App() {
           component={Category}
           options={{ headerShown: false }}
         />
-        {/* <Stack.Screen
+        <Stack.Screen
           name="OrderHistory"
           component={OrderHistory}
           options={{ headerShown: false }}
-        /> */}
+        />
         <Stack.Screen
           name="Authentication"
           component={Authentication}

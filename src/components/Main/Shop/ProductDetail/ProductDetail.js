@@ -13,6 +13,7 @@ import {
 import { NumericFormat } from 'react-number-format';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Feather as Icon, FontAwesome as FAIcon } from '@expo/vector-icons';
+import { Badge } from 'react-native-elements';
 //import { Icon } from 'react-native-elements';
 import color from '../../../../../assets/color';
 import Header from '../Header';
@@ -20,6 +21,8 @@ import font from '../../../../../assets/font';
 
 export default function ProductDetail({ navigation, route }) {
   const { product } = route.params;
+  const [count, setCount] = useState(0);
+
   const [quan, setQuan] = useState(1);
   const title = 'Chi tiết sản phẩm';
 
@@ -77,7 +80,7 @@ export default function ProductDetail({ navigation, route }) {
     AsyncStorage.getItem('cart')
       .then((datacart) => {
         if (datacart != null) {
-          const cart = JSON.parse(datacart);
+          const cart = JSON.parse(datacart);        
           const item = cart.find((c) => c.product.sp_ma === data.sp_ma);
           //console.log(item);
           if (item) {
@@ -100,6 +103,24 @@ export default function ProductDetail({ navigation, route }) {
   return (
     <View style={container}>
       <Header navigation={navigation} title={title} />
+      <TouchableOpacity
+        onPress={() => {
+          navigation.navigate('Cart');
+        }}
+      >
+        <Badge
+          style={{}}
+          status="error"
+          value={count}
+          containerStyle={{ position: 'absolute', top: -10, left: 12 }}
+        />
+        <Icon
+          type="feather"
+          name="shopping-cart"
+          color={color.white}
+          size={25}
+        />
+      </TouchableOpacity>
       <ScrollView style={wrapper} showsVerticalScrollIndicator={false}>
         <View style={imageView}>
           <Image
@@ -133,7 +154,7 @@ export default function ProductDetail({ navigation, route }) {
             renderText={(formatValue) => (
               <Text style={styles.actualPriceText}>{formatValue}</Text>
             )}
-          />       
+          />
           <TouchableOpacity
             style={{ position: 'absolute', right: 20 }}
             onPress={() => setFavourite(!isFavourite)}
@@ -244,7 +265,7 @@ export default function ProductDetail({ navigation, route }) {
               marginHorizontal: 10,
             }}
           >
-Sản phẩm cùng danh mục
+            Sản phẩm cùng danh mục
           </Text>
           <ScrollView horizontal showsHorizontalScrollIndicator={false}>
             <View

@@ -10,12 +10,17 @@ import OrderProcessing from './OrderProcessing';
 import OrderCompleted from './OrderCompleted';
 
 const Tab = createMaterialTopTabNavigator();
-export default function Order({ navigation }) {
+export default function Order({ navigation, route }) {
+  const { user } = route.params;
   return (
     <View style={styles.container}>
       <Header title="Đơn hàng" navigation={navigation} />
       <Tab.Navigator>
-        <Tab.Screen name="Đang xử lý" component={OrderProcessing} />
+        <Tab.Screen
+          name='Đang xử lý'
+          initialParams={{ user }}
+          component={OrderProcessing}
+        />
         <Tab.Screen name="Đã hoàn thành" component={OrderCompleted} />
       </Tab.Navigator>
     </View>

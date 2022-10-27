@@ -99,7 +99,7 @@ export default function Account({ navigation }) {
   };
   const gotoScreen = ($id) => {
     if ($id === '1') navigation.navigate('Info', { user });
-    if ($id === '2') navigation.navigate('Order');
+    if ($id === '2') navigation.navigate('Order', { user });
     if ($id === '3') navigation.navigate('ShippingAddress');
     if ($id === '6') navigation.navigate('Chat');
     if ($id === '4') logout();
@@ -154,7 +154,7 @@ export default function Account({ navigation }) {
       <View style={{ flexDirection: 'row', paddingHorizontal: 20, height: 60 }}>
         <TouchableOpacity
           style={styles.action1}
-          onPress={() => navigation.navigate('OrderProcessing')}
+          onPress={() => navigation.navigate('OrderHistory')}
         >
           <FAIcon5 name="box-open" size={20} color="gray" />
           <Text>Sản phẩm đã mua</Text>
