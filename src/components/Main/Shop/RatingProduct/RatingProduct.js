@@ -32,19 +32,17 @@ export default function RatingProduct({ navigation, route }) {
           </View>
           <View style={styles.rightItemView}>
             <Text>{product.sp_ten}</Text>
-            <Text>{product.sp_ten}</Text>
-            <Text>{product.sp_ten}</Text>
+            
           </View>
         </View>
         <View>
           <AirbnbRating
             count={5}
-            reviews={['Terrible', 'Bad', 'OK', 'Good', 'Very Good']}
+            reviews={['Rất tệ', 'Tệ', 'Tạm được', 'Tốt', 'Tuyệt vời']}
             defaultRating={5}
-           
           />
         </View>
-        <View>
+        <View style={{ paddingHorizontal: 20 }}>
           <TextInput
             placeholder="Nhập đánh giá của bạn"
             style={input}
@@ -72,24 +70,26 @@ const styles = StyleSheet.create({
     // justifyContent: 'center',
     // alignItems: 'center',
     width,
-    paddingHorizontal: 20,
+    //paddingHorizontal: 20,
   },
   itemView: {
+    marginVertical: 10,
     flexDirection: 'row',
-    width: width - 40,
-   backgroundColor: color.white,
+    width,
+    padding: 5,
+    backgroundColor: color.white,
   },
   leftItemView: {
     width: width * 0.25,
   },
   itemImage: {
-    width: 90,
-    height: 90,
+    width: 100,
+    height: 100,
     borderRadius: 8,
   },
   rightItemView: {
-    //backgroundColor: color.white,
-    //width: width * 0.75
+    paddingHorizontal: 10,
+    width: width * 0.75
   },
   input: {
     marginVertical: 20,

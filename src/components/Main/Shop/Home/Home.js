@@ -5,9 +5,12 @@ import {
   StyleSheet,
   View,
   Text,
+  TouchableOpacity,
+  RefreshControl,
   //StatusBar,
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Icon, Badge } from 'react-native-elements';
 import color from '../../../../../assets/color';
 import Banner from './Banner';
 import Category from './Category';
@@ -16,47 +19,101 @@ import NewProduct from './NewProduct';
 
 export default function Home({ navigation }) {
   const [user, setUser] = useState([]);
+  const [dataCart, setDataCart] = useState([]);
+  const [refreshing, setRefreshing] = useState(false);
+  const [count, setCount] = useState(0);
 
+  const loadData = () => {
+    AsyncStorage.getItem('cart').then((cart) => {
+      if (cart !== null) {
+        const cartS = JSON.parse(cart);
+        setDataCart(cartS);
+        setCount(dataCart.length);
+      }
+    });
+  };
   useEffect(() => {
     //StatusBar.setHidden(true);
     // eslint-disable-next-line no-undef
     LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
     AsyncStorage.getItem('user').then((userR) => {
-      //console.log(userR);
       if (userR !== null) {
         const userCurrent = JSON.parse(userR);
         setUser(userCurrent);
       }
     });
+    AsyncStorage.getItem('cart').then((cart) => {
+      if (cart !== null) {
+        const cartS = JSON.parse(cart);
+        setDataCart(cartS);
+        setCount(dataCart.length);
+      }
+    });
   }, []);
-  //const BadgedIcon = withBadge(1)(Icon);
+ 
+  //const BadgedIcon = withBadge(count)(Icon);
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    loadData();
+    setRefreshing(false);
+  }, []);
   const { container } = styles;
   return (
     <View style={container}>
-      {/* <Header
-        containerStyle={{ height: 50, paddingHorizontal: 20 }}
-        leftComponent={<Text>Xin chào, {user.name}</Text>}
-        rightComponent={
-          <View>
-            <TouchableOpacity>
-              <BadgedIcon name="notifications" color="white" size={30} />
-            </TouchableOpacity>
-          </View>
-        }
-        backgroundColor={color.primary}
-      /> */}
       <View
         style={{
           height: 50,
           paddingHorizontal: 20,
-          justifyContent: 'center',
           marginTop: 22,
-          //backgroundColor: color.primary,
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          backgroundColor: color.primary,
         }}
       >
-        <Text>Xin chào, {user.name} </Text>
+        <Text
+          style={{
+            color: color.white,
+            fontFamily: 'SFProDisplaySemiBold',
+            fontSize: 18,
+          }}
+        >
+          Xin chào, {user.name}
+        </Text>
+        <View style={{ flexDirection: 'row' }}>
+          <TouchableOpacity
+            style={{ marginRight: 10 }}
+            onPress={() => navigation.navigate('Search')}
+          >
+            <Icon type="feather" name="search" color={color.white} size={25} />
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => {
+              navigation.navigate('Cart');
+            }}
+          >
+            <Badge
+              style={{}}
+              status="error"
+              value={count}
+              containerStyle={{ position: 'absolute', top: -10, right: -12 }}
+            />
+            <Icon
+              type="feather"
+              name="shopping-cart"
+              color={color.white}
+              size={25}
+            />
+          </TouchableOpacity>
+        </View>
       </View>
-      <ScrollView showsVerticalScrollIndicator={false}>
+      <ScrollView
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }
+        showsVerticalScrollIndicator={false}
+        style={{ backgroundColor: color.backgroundColor }}
+      >
         <Banner />
         <Category navigation={navigation} />
         <NewProduct navigation={navigation} />
@@ -68,8 +125,7 @@ export default function Home({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    
-    backgroundColor: color.backgroundColor,
+    backgroundColor: color.primary,
   },
   searchContainer: {
     //backgroundColor: color.primary,

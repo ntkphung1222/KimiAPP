@@ -25,7 +25,7 @@ export default function Order({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: color.backgroundColor,
+    backgroundColor: color.primary,
     // justifyContent: 'center',
   },
   header: {

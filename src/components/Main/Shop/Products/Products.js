@@ -9,7 +9,7 @@ import {
   Dimensions,
   TouchableOpacity,
 } from 'react-native';
-import { Icon } from 'react-native-elements';
+import { NumericFormat } from 'react-number-format';
 import color from '../../../../../assets/color';
 import font from '../../../../../assets/font';
 import Header from '../Header';
@@ -49,18 +49,18 @@ export default function Products({ navigation, route }) {
         />
       </View>
       <View style={styles.itemFooter}>
-        <Text style={font.textName}>{item.sp_ten}</Text>
-        <Text style={font.textPrice}>{item.sp_ten}</Text>
-        <View style={styles.likeView}>
-          <Icon
-            type="antdesign"
-            name="like1"
-            color={color.blue}
-            size={15}
-            marginRight={2}
-          />
-          <Text>12</Text>
-        </View>
+        <Text style={font.productNameSmall}>{item.sp_ten}</Text>
+        <NumericFormat
+          type="text"
+          value={item.sp_giaban}
+          allowLeadingZeros
+          thousandSeparator=","
+          displayType="text"
+          suffix={'đ'}
+          renderText={(formatValue) => (
+            <Text style={font.textPrice}>{formatValue}</Text>
+          )}
+        />
       </View>
     </TouchableOpacity>
   );
@@ -90,7 +90,7 @@ export default function Products({ navigation, route }) {
           //ItemSeparatorComponent={ItemSeparatorView}
           //Item Separator View
           renderItem={ItemView}
-          maxToRenderPerBatch={4}
+          //maxToRenderPerBatch={4}
           showsVerticalScrollIndicator={false}
           keyExtractor={(item, index) => index.toString()}
           numColumns={numColumns}
@@ -101,16 +101,18 @@ export default function Products({ navigation, route }) {
   );
 }
 const { width } = Dimensions.get('window');
-const itemWidth = (width - 40 - 5) / 2;
+const itemWidth = (width - 40) / 2;
 const itemFilter = (width - 40 - 15) / 4;
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: color.backgroundColor,
+    backgroundColor: color.primary,
   },
   wrapper: {
     paddingHorizontal: 20,
+    flex: 1,
+    backgroundColor: color.backgroundColor,
   },
   filterView: {
     flexDirection: 'row',
@@ -123,23 +125,33 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     alignItems: 'center',
   },
-  itemImageView: {},
+
   item: {
-    width: itemWidth,
-    padding: 5,
+    width: itemWidth - 5,
+    padding: 0,
     elevation: 1,
-    borderRadius: 6,
-    marginRight: 5,
-    marginBottom: 5,
+    borderWidth: 1,
+    borderColor: color.greylight,
+    borderRadius: 10,
+    marginRight: 10,
+    marginBottom: 10,
     alignItems: 'center',
+    backgroundColor: color.white,
+  },
+  itemImageView: {
+    flex: 1,
+    height: 110,
+    width: itemWidth - 11,
+    paddingHorizontal: 12,
+    borderRadius: 10,
+    overflow: 'hidden',
   },
   itemImage: {
-    backgroundColor: color.white,
-    width: itemWidth - 10,
-    height: itemWidth,
+    borderRadius: 6,
+    flex: 1,
   },
   itemFooter: {
-    paddingHorizontal: 5,
+    paddingHorizontal: 10,
     width: itemWidth,
   },
   itemName: {
@@ -149,10 +161,5 @@ const styles = StyleSheet.create({
   itemText: {
     height: 30,
     paddingVertical: 5,
-  },
-  likeView: {
-    flexDirection: 'row',
-    justifyContent: 'flex-end',
-    paddingVertical: 1,
   },
 });

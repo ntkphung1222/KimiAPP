@@ -1,5 +1,11 @@
 import React from 'react';
-import { StyleSheet, View, Text, Dimensions, TouchableOpacity } from 'react-native';
+import {
+  StyleSheet,
+  View,
+  Text,
+  Dimensions,
+  TouchableOpacity,
+} from 'react-native';
 import { Icon } from 'react-native-elements';
 import color from '../../../../../assets/color';
 import font from '../../../../../assets/font';
@@ -9,23 +15,34 @@ export default function Success({ navigation }) {
   return (
     <View style={container}>
       <View style={wrapper}>
-        <View style={checkIconView}>
-          <Icon type="octicons" name="check" size={80} color={color.primary} />
+        <View style={styles.noticeView}>
+          <View style={checkIconView}>
+            <Icon
+              type="octicons"
+              name="check"
+              size={80}
+              color={color.primary}
+            />
+          </View>
+          <Text style={font.textTitle1}>Đặt hàng thành công</Text>
+          <View style={{ position: 'absolute', bottom: 20 }}>
+            <Text style={font.label}>Chi tiết đơn hàng</Text>
+          </View>
         </View>
-        <View>
-            <Text style={font.textTitle1} >Đặt hàng thành công</Text>
-        </View>
-        <View>
-            <TouchableOpacity onPress={() => navigation.navigate('Shop')}>
-                <Text>Quay lại trang chủ</Text>
-            </TouchableOpacity>
+        <View style={styles.actionView}>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => navigation.navigate('Shop')}
+          >
+            <Text style={styles.textButton}>Quay lại trang chủ</Text>
+          </TouchableOpacity>
         </View>
       </View>
     </View>
   );
 }
 
-const { width } = Dimensions.get('window');
+const { width, height } = Dimensions.get('window');
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -35,9 +52,15 @@ const styles = StyleSheet.create({
   },
   wrapper: {
     width: width - 40,
+    justifyContent: 'space-between',
+    //backgroundColor: color.white,
+    flex: 1,
+  },
+  noticeView: {
+    width: width - 40,
+    height: height * 0.8,
     borderRadius: 50,
     backgroundColor: color.white,
-    flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -49,6 +72,24 @@ const styles = StyleSheet.create({
     borderRadius: 1000,
     alignItems: 'center',
     justifyContent: 'center',
-    marginBottom: 30
+    marginBottom: 30,
+  },
+  actionView: {
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  button: {
+    elevation: 8,
+    backgroundColor: color.primary,
+    borderRadius: 10,
+    paddingVertical: 10,
+    width: width - 40,
+    marginHorizontal: 20,
+  },
+  textButton: {
+    fontSize: 18,
+    color: color.white,
+    fontWeight: 'bold',
+    alignSelf: 'center',
   },
 });

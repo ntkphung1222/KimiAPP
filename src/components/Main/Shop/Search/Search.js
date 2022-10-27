@@ -7,7 +7,7 @@ import {
   Dimensions,
   TextInput,
   TouchableOpacity,
-  Image
+  Image,
 } from 'react-native';
 import { Icon } from 'react-native-elements';
 import color from '../../../../../assets/color';
@@ -82,7 +82,7 @@ export default function Search({ navigation }) {
             name="angle-left"
             type="font-awesome"
             size={35}
-            color={color.white}
+            color={color.primary}
           />
         </TouchableOpacity>
         <TextInput
@@ -101,29 +101,34 @@ export default function Search({ navigation }) {
           textContentType="none"
         />
         <TouchableOpacity
-          style={styles.touchIconQR}
+          style={styles.buttonSearch}
           onPress={() => {
             // navigation.goBack();
           }}
         >
-          <Icon
-            style={styles.headerIcon}
-            name="qr-code-scanner"
-            size={30}
-            color={color.white}
-          />
+          <Text
+            style={{
+              fontFamily: 'SFProDisPlayRegular',
+              fontSize: 14,
+              color: color.white,
+            }}
+          >
+            Tìm kiếm
+          </Text>
         </TouchableOpacity>
       </View>
-      <Text style={styles.label}> Tất cả danh mục </Text>
-      <FlatList
-        data={serverData}
-        //data defined in constructor
-        //ItemSeparatorComponent={ItemSeparatorView}
-        //Item Separator View
-        renderItem={ItemView}
-        keyExtractor={(item, index) => index.toString()}
-        numColumns={numColumns}
-      />
+      <View style={styles.wrapper}>
+        <Text style={styles.label}> Tất cả danh mục </Text>
+        <FlatList
+          data={serverData}
+          //data defined in constructor
+          //ItemSeparatorComponent={ItemSeparatorView}
+          //Item Separator View
+          renderItem={ItemView}
+          keyExtractor={(item, index) => index.toString()}
+          numColumns={numColumns}
+        />
+      </View>
     </View>
   );
 }
@@ -149,46 +154,52 @@ const styles = StyleSheet.create({
   itemImage: {
     width: 40,
     height: 40,
-    backgroundColor: color.white
+    backgroundColor: color.white,
   },
   header: {
     flexDirection: 'row',
     height: 50,
     marginTop: 22,
-    alignItems: 'flex-start',
-    justifyContent: 'space-between',
-    backgroundColor: color.primary,
+    alignItems: 'center',
+    //justifyContent: 'space-between',
+    //backgroundColor: color.primary,
+    paddingHorizontal: 20,
   },
   touchIconBack: {
-    width: 50,
-    height: 50,
+    width: 30,
+    height: 40,
     justifyContent: 'center',
+    alignItems: 'flex-start',
+    //backgroundColor: color.primary,
   },
-  touchIconQR: {
-    width: 50,
-    height: 50,
-
+  buttonSearch: {
+    //width: 100,
+    paddingHorizontal: 10,
+    position: 'absolute',
+    right: 20,
+    height: 35,
     justifyContent: 'center',
-    //alignContent: 'flex-end'
+    backgroundColor: color.primary,
+    borderRadius: 15,
   },
   headerIcon: {
-    //marginRight: 20,
+    marginRight: 0,
   },
   inputSearch: {
-    width: '70%',
+    width: '68%',
     height: 35,
     backgroundColor: color.white,
     borderRadius: 6,
     //marginHorizontal: 20,
     paddingHorizontal: 15,
-    marginVertical: 7.5,
     fontSize: 16,
     color: color.text,
+    borderColor: color.primary,
+    borderWidth: 1
   },
   isHighlighted: {
-    borderColor: 'green',
-    borderWidth: 1,
+    borderColor: color.primary,
+    borderWidth: 2,
   },
-  wrapper: { backgroundColor: color.white, paddingHorizontal: 20 },
+  wrapper: { backgroundColor: color.backgroundColor, flex: 1 },
 });
-

@@ -55,7 +55,7 @@ const Signup = ({ navigation }) => {
     );
   };
   const handleSubmit = () => {
-    register(email, firstName, password)
+    register(firstName, number, email, password)
       .then((res) => {
         if (res.success) {
           onSuccess();

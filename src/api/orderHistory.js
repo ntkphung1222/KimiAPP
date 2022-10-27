@@ -1,18 +1,19 @@
-const register = (name, sodienthoai, email, password) =>
+// eslint-disable-next-line camelcase
+const order = (hdx_kh, hdx_soluong, hdx_tongtien, chitiet) =>
   //this.refs.form.submit();
   //eslint-disable-next-line no-undef
-  fetch('http://kimimylife.site/api/auth/register', {
+  fetch('http://kimimylife.site/api/invoiceexport', {
     method: 'POST',
     headers: {
       Accept: 'application/json',
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      name,
-      sodienthoai,
-      email,
-      password
+      hdx_kh,
+      hdx_soluong,
+      hdx_tongtien,
+      chitiet,
     }),
   }).then((res) => res.json());
 
-export default register;
+export default order;

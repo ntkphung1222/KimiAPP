@@ -6,18 +6,19 @@ import {
   StyleSheet,
   Image,
   TouchableOpacity,
+  Dimensions,
 } from 'react-native';
-import { FontAwesome as FAIcon } from '@expo/vector-icons';
+import { NumericFormat } from 'react-number-format';
 //import AsyncStorage from '@react-native-async-storage/async-storage';
 // import { Icon } from 'react-native-elements';
 //import color from '../../../../../assets/color';
 import font from '../../../../../assets/font';
 import getNewProduct from '../../../../api/getNewProduct';
+import color from '../../../../../assets/color';
 //import color from '../../../../../assets/color';
 
 export default function NewProduct({ navigation }) {
   const [serverData, setServerData] = useState([]);
-  const [isFavourite, setFavourite] = useState(false);
 
   useEffect(() => {
     // eslint-disable-next-line no-undef
@@ -67,16 +68,24 @@ export default function NewProduct({ navigation }) {
   return (
     <View style={styles.container}>
       <Text style={font.textTitle1}> Sản phẩm mới nhất </Text>
-      <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-        <View style={{ flex: 1, flexDirection: 'row' }}>
+      <ScrollView>
+        <View
+          style={{
+            flexWrap: 'wrap',
+            flex: 1,
+            flexDirection: 'row',
+            paddingLeft: 20,
+          }}
+        >
           {serverData.map((item) => (
-            <View key={item.sp_ma} style={{ width: 150, marginRight: 10 }}>
-              <TouchableOpacity
-                onPress={() =>
-                  navigation.navigate('ProductDetail', { product: item })
-                }
-                style={styles.newProductImageView}
-              >
+            <TouchableOpacity
+              onPress={() =>
+                navigation.navigate('ProductDetail', { product: item })
+              }
+              key={item.sp_ma}
+              style={styles.itemView}
+            >
+              <View style={styles.newProductImageView}>
                 <Image
                   resizeMode="contain"
                   style={{ flex: 1 }}
@@ -84,24 +93,27 @@ export default function NewProduct({ navigation }) {
                     uri: item.sp_hinhanh,
                   }}
                 />
-              </TouchableOpacity>
-              <View style={{ marginTop: 8 }}>
-                <Text style={styles.newProductName}>{item.sp_ten}</Text>
+              </View>
+              <View
+                style={{
+                  marginTop: 0,
+                  justifyContent: 'center',
+                  alignContent: 'center',
+                }}
+              >
+                <Text adjustsFontSizeToFit style={styles.newProductName}>{item.sp_ten}</Text>
                 <View style={styles.newProductPriceView}>
-                  <Text style={styles.newProductPrice}>${item.sp_soluong}</Text>
-                  <View style={{ flexDirection: 'row' }}>
-                    <TouchableOpacity
-                      style={{}}
-                      onPress={() => setFavourite(!isFavourite)}
-                    >
-                      {/* <Icon name="heart" type="antdesign" size={20} color={color.red} /> */}
-                      <FAIcon
-                        name={isFavourite ? 'heart' : 'heart-o'}
-                        size={18}
-                        //color={color.red}
-                      />
-                    </TouchableOpacity>
-                  </View>
+                  <NumericFormat
+                    type="text"
+                    value={item.sp_giaban}
+                    allowLeadingZeros
+                    thousandSeparator=","
+                    displayType="text"
+                    suffix={'đ'}
+                    renderText={(formatValue) => (
+                      <Text style={styles.newProductPrice}>{formatValue}</Text>
+                    )}
+                  />
                 </View>
               </View>
               {/* <TouchableOpacity
@@ -110,7 +122,7 @@ export default function NewProduct({ navigation }) {
               >
                 <Text style={styles.newProductAddButtonText}>Thêm vào giỏ</Text>
               </TouchableOpacity> */}
-            </View>
+            </TouchableOpacity>
           ))}
         </View>
       </ScrollView>
@@ -118,41 +130,56 @@ export default function NewProduct({ navigation }) {
   );
 }
 
+const { width } = Dimensions.get('window');
+const itemW = (width - 40) / 2;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingHorizontal: 20,
-    //backgroundColor: color.white
+    //paddingHorizontal: 20,
+
+    //backgroundColor: color.backgroundColor
   },
   label: {
     fontSize: 18,
   },
+  itemView: {
+    width: itemW - 5,
+    marginRight: 10,
+    marginBottom: 10,
+    borderColor: color.greylight,
+    borderWidth: 1,
+    borderRadius: 10,
+    paddingHorizontal: 7,
+    backgroundColor: color.white,
+    //justifyContent: 'space-around',
+    alignItems: 'center',
+    elevation: 1
+  },
   newProductImageView: {
     flex: 1,
-    height: 150,
-    width: 150,
-    paddingHorizontal: 5,
-    backgroundColor: '#fff',
+    height: 110,
+    width: itemW - 11,
+    paddingHorizontal: 12,
     borderRadius: 10,
     overflow: 'hidden',
+    //backgroundColor: color.blue,
   },
   newProductName: {
     fontFamily: 'SFProDisplaySemiBold',
-    fontSize: 16,
+    fontSize: 14,
+    justifyContent: 'space-between'
   },
   newProductPriceView: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
+    //alignItems: 'center',
+    // justifyContent: 'space-between',
     marginTop: 2,
   },
   newProductPrice: {
-    fontSize: 16,
+    fontSize: 15,
+    color: color.primary,
     fontFamily: 'SFProDisplaySemiBold',
   },
-  newProductIcon: {
-    marginLeft: 10,
-  },
+ 
   // newProductAddButton: {
   //   backgroundColor: color.primary,
   //   marginTop: 10,

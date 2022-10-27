@@ -10,6 +10,10 @@ import {
   Alert,
 } from 'react-native';
 import { Icon } from 'react-native-elements';
+import {
+  FontAwesome as FAIcon,
+  FontAwesome5 as FAIcon5,
+} from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Header from '../Header';
 //import global from '../../../global';
@@ -89,12 +93,15 @@ export default function Account({ navigation }) {
 
   const logout = () => {
     AsyncStorage.removeItem('user');
+    setUser([]);
     Alert.alert('Logout Successful!');
+    navigation.navigate('Shop');
   };
   const gotoScreen = ($id) => {
     if ($id === '1') navigation.navigate('Info', { user });
     if ($id === '2') navigation.navigate('Order');
     if ($id === '3') navigation.navigate('ShippingAddress');
+    if ($id === '6') navigation.navigate('Chat');
     if ($id === '4') logout();
   };
 
@@ -135,16 +142,28 @@ export default function Account({ navigation }) {
       <View style={styles.bigCircle} />
       <Header title={'Tài khoản'} navigation={navigation} />
       <View style={avatarView}>
-          <Image
-            style={avatar}
-            resizeMode="contain"
-            source={{
-              uri: 'https://png.pngtree.com/element_our/20200702/ourlarge/pngtree-yellow-character-avatar-icon-image_2292190.jpg',
-            }}
-          />
-          <Text style={label}>{user.name}</Text>
-        </View>
-      {/* <View style={{ height: 20, width: '100%' }} /> */}
+        <Image
+          style={avatar}
+          resizeMode="contain"
+          source={{
+            uri: 'https://png.pngtree.com/element_our/20200702/ourlarge/pngtree-yellow-character-avatar-icon-image_2292190.jpg',
+          }}
+        />
+        <Text style={label}>{user.name}</Text>
+      </View>
+      <View style={{ flexDirection: 'row', paddingHorizontal: 20, height: 60 }}>
+        <TouchableOpacity
+          style={styles.action1}
+          onPress={() => navigation.navigate('OrderProcessing')}
+        >
+          <FAIcon5 name="box-open" size={20} color="gray" />
+          <Text>Sản phẩm đã mua</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.action2}>
+          <FAIcon name="heart" size={20} color={color.like} />
+          <Text>Yêu thích</Text>
+        </TouchableOpacity>
+      </View>
       <View style={wrapper}>
         <FlatList
           data={listItems}
@@ -189,14 +208,14 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   bigCircle: {
-    width: 1000,
-    height: 1000,
+    width: 1200,
+    height: 1200,
     backgroundColor: color.primary,
-    borderRadius: 1000,
+    borderRadius: 1200,
     position: 'absolute',
-    top: -780,
-    left: -300,
-    right: -300
+    top: -920,
+    left: -400,
+    right: -400,
   },
   avatar: {
     width: avatarsize,
@@ -207,6 +226,30 @@ const styles = StyleSheet.create({
     borderWidth: 2,
   },
   wrapper: {},
+  action1: {
+    width: (width - 40) / 2,
+
+    //borderWidth: 1,
+    borderTopLeftRadius: 10,
+    borderRightWidth: 1,
+    borderRightColor: color.primary,
+    borderBottomLeftRadius: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: color.white,
+  },
+  action2: {
+    width: (width - 40) / 2,
+
+    //borderWidth: 1,
+    borderLeftWidth: 1,
+    borderLeftColor: color.primary,
+    borderTopRightRadius: 10,
+    borderBottomRightRadius: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: color.white,
+  },
   optionView: {
     marginTop: 20,
     marginHorizontal: 20,

@@ -19,6 +19,18 @@ export default {
     color: color.darkblue,
     textAlign: 'center',
   },
+  textTitleNormal: {
+    fontFamily: 'SFProDisplaySemiBold',
+    fontSize: 16,
+    color: color.darkblue,
+    marginHorizontal: 20,
+  },
+  label16blackbold: {
+    fontFamily: 'SFProDisplaySemiBold',
+    fontSize: 16,
+    color: color.darkblue,
+    marginHorizontal: 20,
+  },
   textBody: {
     fontFamily: 'SFProDisPlayRegular',
     fontSize: 16,
@@ -35,16 +47,19 @@ export default {
   },
   textPrice: {
     fontFamily: 'SFProDisplaySemiBold',
-    fontSize: 16,
-    color: color.darkblue,
+    fontSize: 15,
+    color: color.primary,
     marginHorizontal: 2,
   },
-  textName: {
+  productNameLarge: {
     fontFamily: 'SFProDisplaySemiBold',
     fontSize: 16,
-    color: color.darkblue,
-    
+    color: color.darkblue, 
     //textAlign: 'center',
+  },
+  productNameSmall: {
+    fontFamily: 'SFProDisplaySemiBold',
+    fontSize: 14,
   },
   label: {
     fontFamily: 'SFProDisPlayRegular',
@@ -79,5 +94,10 @@ export default {
     fontSize: 16,
     color: color.darkblue,
     textAlign: 'center'
+  },
+  label16white: {
+  fontFamily: 'SFProDisPlayRegular',
+  color: color.white,
+  fontSize: 16,
   }
 };

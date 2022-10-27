@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   View,
   ScrollView,
@@ -7,15 +7,20 @@ import {
   Text,
   //Dimensions,
   Image,
+  Alert,
 } from 'react-native';
 import { RadioButton } from 'react-native-paper';
 import { Icon } from 'react-native-elements';
+import { NumericFormat } from 'react-number-format';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import order from '../../../../api/order';
 import momo from '../../../../images/momo.png';
 import cod from '../../../../images/cod.png';
 import color from '../../../../../assets/color';
 
 export default function Payment({ navigation, route }) {
   const { dataCart } = route.params;
+  const [user, setUser] = useState([]);
   const [value, setValue] = useState('first');
   const {
     label,
@@ -42,10 +47,34 @@ export default function Payment({ navigation, route }) {
     let total = 0;
     const cart = dataCart;
     for (let i = 0; i < cart.length; i++) {
-      total += cart[i].price * cart[i].quantity;
+      total += cart[i].product.sp_giaban * cart[i].quantity;
     }
     return total;
   };
+  useEffect(() => {
+    AsyncStorage.getItem('user').then((userR) => {
+      //console.log(userR);
+      if (userR !== null) {
+        const userCurrent = JSON.parse(userR);
+        setUser(userCurrent);
+      } else {
+        navigation.navigate('Signin');
+      }
+    });
+  }, []);
+  function handleSubmit() {
+    //this.ref.form.submit();
+    order(user.id, dataCart.length, onLoadToTal(), dataCart)
+      .then((res) => {
+        if (res.success) {
+          AsyncStorage.removeItem('cart');
+          navigation.navigate('Success');
+        } else {
+          Alert.alert('Fail');
+        }
+      })
+      .catch((error) => console.log(error));
+  }
   return (
     <View style={container}>
       <View style={header}>
@@ -74,8 +103,8 @@ export default function Payment({ navigation, route }) {
             >
               <Icon name="location-pin" size={35} color={color.red} />
               <View>
-                <Text>Kim Phung</Text>
-                <Text>0989415460</Text>
+                <Text>{user.name}</Text>
+                <Text>{user.sodienthoai}</Text>
               </View>
             </TouchableOpacity>
           </View>
@@ -90,7 +119,16 @@ export default function Payment({ navigation, route }) {
               <View style={productRight}>
                 <Text style={productTop}>{item.product.sp_ten}</Text>
                 <View style={productBottom}>
-                  <Text>Giá: {item.price}</Text>
+                  <NumericFormat
+                    type="text"
+                    value={item.product.sp_giaban}
+                    allowLeadingZeros
+                    thousandSeparator=","
+                    displayType="text"
+                    prefix="Giá: "
+                    suffix={'đ'}
+                    renderText={(formatValue) => <Text>{formatValue}</Text>}
+                  />
                   <Text>SL: {item.quantity}</Text>
                 </View>
               </View>
@@ -99,7 +137,17 @@ export default function Payment({ navigation, route }) {
 
           <View style={styles.subtotalView}>
             <Text style={styles.subtotalText}>Tổng tiền -</Text>
-            <Text style={styles.subtotalPrice}>{onLoadToTal()}</Text>
+            <NumericFormat
+              type="text"
+              value={onLoadToTal()}
+              allowLeadingZeros
+              thousandSeparator=","
+              displayType="text"
+              suffix={'đ'}
+              renderText={(formatValue) => (
+                <Text style={styles.subtotalPrice}>{formatValue}</Text>
+              )}
+            />
           </View>
         </ScrollView>
       </View>
@@ -134,7 +182,7 @@ export default function Payment({ navigation, route }) {
         </RadioButton.Group>
         <TouchableOpacity
           style={styles.checkoutButton}
-          onPress={() => navigation.navigate('Success')}
+          onPress={() => handleSubmit()}
         >
           <Text style={styles.checkoutButtonText}>Đặt hàng</Text>
         </TouchableOpacity>
@@ -146,7 +194,7 @@ export default function Payment({ navigation, route }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: color.backgroundColor,
+    backgroundColor: color.primary,
   },
   header: {
     flexDirection: 'row',

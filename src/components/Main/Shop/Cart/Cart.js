@@ -10,14 +10,14 @@ import {
   Dimensions,
   Alert,
 } from 'react-native';
+import { NumericFormat } from 'react-number-format';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Icon } from 'react-native-elements';
 import color from '../../../../../assets/color';
 import font from '../../../../../assets/font';
 
-const wait = (timeout) => (
-new Promise((resolve) => setTimeout(resolve, timeout))
-);
+// const wait = (timeout) =>
+//   new Promise((resolve) => setTimeout(resolve, timeout));
 
 function Cart({ navigation }) {
   const [dataCart, setDataCart] = useState([]);
@@ -28,17 +28,24 @@ function Cart({ navigation }) {
         const cartS = JSON.parse(cart);
         setDataCart(cartS);
       }
-    }); 
+    });
   };
 
   useEffect(() => {
     loadData();
   }, []);
-  
+  const onLoadToTal = () => {
+    let total = 0;
+    const cart = dataCart;
+    for (let i = 0; i < cart.length; i++) {
+      total += cart[i].product.sp_giaban * cart[i].quantity;
+    }
+    return total;
+  };
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
     loadData();
-    wait(2000).then(() => setRefreshing(false));
+    setRefreshing(false);
   }, []);
   return (
     <View style={styles.container}>
@@ -46,11 +53,21 @@ function Cart({ navigation }) {
         <Text style={styles.headerTitle}>Giỏ hàng</Text>
         <TouchableOpacity
           onPress={() => {
-            AsyncStorage.removeItem('cart');
-            setDataCart([]);
+            if (dataCart.length !== 0) {
+              Alert.alert('Bạn muốn xóa tất cả sản phẩm trong giỏ hàng?', '', [
+                { text: 'Trở về' },
+                {
+                  text: 'Xóa',
+                  onPress: () => {
+                    setDataCart([]);
+                    AsyncStorage.removeItem('cart');
+                  },
+                },
+              ]);
+            }
           }}
         >
-          <Icon type="entypo" name="trash" size={20} color={color.white} />
+          <Icon type="feather" name="trash-2" size={22} color={color.white} />
         </TouchableOpacity>
       </View>
       <View style={styles.cartContainer}>
@@ -64,11 +81,13 @@ function Cart({ navigation }) {
               <ScrollView showsVerticalScrollIndicator={false}>
                 {dataCart
                   .sort((a, b) => a.product.sp_ten > b.product.sp_ten)
-                  .map((item) => (
+                  .map((item, i) => (
                     <View key={item.product.sp_ma} style={styles.itemView}>
                       <TouchableOpacity
                         onPress={() =>
-                          navigation.navigate('ProductDetail', { product: item.product })
+                          navigation.navigate('ProductDetail', {
+                            product: item.product,
+                          })
                         }
                       >
                         <Image
@@ -81,11 +100,53 @@ function Cart({ navigation }) {
                       </TouchableOpacity>
 
                       <View style={styles.rightItemView}>
-                        <Text>{item.product.sp_ten}</Text>
+                        <View style={styles.rightTopView}>
+                          <Text>{item.product.sp_ten}</Text>
+                          <TouchableOpacity
+                            onPress={() =>
+                              Alert.alert(
+                                `Xóa ${item.product.sp_ten} khỏi giỏ hàng?`,
+                                '',
+                                [
+                                  { text: 'Trở về' },
+                                  {
+                                    text: 'Xóa',
+                                    onPress: () => {
+                                      dataCart.splice(i, 1);
+                                      AsyncStorage.setItem(
+                                        'cart',
+                                        JSON.stringify(dataCart)
+                                      ).then(() => {
+                                        setDataCart(dataCart);
+                                        loadData();
+                                      });
+                                    },
+                                  },
+                                ]
+                              )
+                            }
+                          >
+                            <Icon
+                              type="feather"
+                              name="trash-2"
+                              size={20}
+                              color={color.red}
+                            />
+                          </TouchableOpacity>
+                        </View>
                         {/* <Text>{JSON.stringify(dataCart)}</Text> */}
                         <View style={styles.bottomView}>
-                          <Text>{item.price}</Text>
-
+                          <NumericFormat
+                            type="text"
+                            value={item.product.sp_giaban}
+                            allowLeadingZeros
+                            thousandSeparator=","
+                            displayType="text"
+                            suffix={'đ'}
+                            renderText={(formatValue) => (
+                              <Text>{formatValue}</Text>
+                            )}
+                          />
                           <View style={styles.quantityView}>
                             <TouchableOpacity
                               onPress={() => {
@@ -107,25 +168,18 @@ function Cart({ navigation }) {
                                           AsyncStorage.setItem(
                                             'cart',
                                             JSON.stringify(dataCart)
-                                          ).then(() => console.log(dataCart));
+                                          ).then();
                                         },
                                       },
                                     ]
                                   );
                                 }
-                                const newProd = {
-                                  ...item,
-                                  quantity: item.quantity - 1,
-                                  //price: product.price - product.perPrice,
-                                };
-                                const restProds = dataCart.filter(
-                                  (p) => p.product.sp_ma !== item.product.sp_ma
-                                );
-                                setDataCart([...restProds, newProd]);
+                                dataCart[i].quantity -= 1;
+                                setDataCart(dataCart);
                                 AsyncStorage.setItem(
                                   'cart',
                                   JSON.stringify(dataCart)
-                                ).then(() => console.log(dataCart));
+                                ).then(() => loadData());
                               }}
                             >
                               <Icon
@@ -138,19 +192,12 @@ function Cart({ navigation }) {
                             <Text>{item.quantity}</Text>
                             <TouchableOpacity
                               onPress={() => {
-                                const newProd = {
-                                  ...item,
-                                  quantity: item.quantity + 1,
-                                  //price: item.price + item.perPrice,
-                                };
-                                const restProds = dataCart.filter(
-                                  (p) => p.product.sp_ma !== item.product.sp_ma
-                                );
-                                setDataCart([...restProds, newProd]);
+                                dataCart[i].quantity += 1;
+                                setDataCart(dataCart);
                                 AsyncStorage.setItem(
                                   'cart',
                                   JSON.stringify(dataCart)
-                                ).then(() => console.log(dataCart));
+                                ).then(() => loadData());
                               }}
                             >
                               <Icon
@@ -166,6 +213,20 @@ function Cart({ navigation }) {
                     </View>
                   ))}
               </ScrollView>
+              <View style={styles.subtotalView}>
+                <Text style={styles.subtotalText}>Tổng tiền -</Text>
+                <NumericFormat
+                  type="text"
+                  value={onLoadToTal()}
+                  allowLeadingZeros
+                  thousandSeparator=","
+                  displayType="text"
+                  suffix={'đ'}
+                  renderText={(formatValue) => (
+                    <Text style={styles.subtotalPrice}>{formatValue}</Text>
+                  )}
+                />
+              </View>
               <TouchableOpacity
                 activeOpacity={0.8}
                 style={styles.button}
@@ -196,7 +257,7 @@ const { width } = Dimensions.get('window');
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: color.backgroundColor,
+    backgroundColor: color.primary,
   },
   header: {
     marginTop: 22,
@@ -244,6 +305,10 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     padding: 5,
   },
+  rightTopView: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
   bottomView: {
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -282,5 +347,21 @@ const styles = StyleSheet.create({
     color: color.white,
     fontWeight: 'bold',
     alignSelf: 'center',
+  },
+  subtotalView: {
+    display: 'flex',
+    flexDirection: 'row',
+    marginTop: 20,
+    justifyContent: 'space-between',
+    paddingBottom: 10,
+    paddingHorizontal: 20,
+  },
+  subtotalText: {
+    fontSize: 18,
+    fontWeight: '500',
+  },
+  subtotalPrice: {
+    fontSize: 18,
+    fontWeight: '300',
   },
 });

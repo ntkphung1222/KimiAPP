@@ -8,34 +8,19 @@ import {
   Dimensions,
   TouchableOpacity,
   ScrollView,
-  Alert
+  Alert,
 } from 'react-native';
+import { NumericFormat } from 'react-number-format';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Feather as Icon, FontAwesome as FAIcon } from '@expo/vector-icons';
 //import { Icon } from 'react-native-elements';
 import color from '../../../../../assets/color';
 import Header from '../Header';
 import font from '../../../../../assets/font';
-//import global from '../../../global';
-//const { like, setLike } = useState(false);
 
-// const Rating = ({ rating, maxRating }) => (
-//   <View style={{ flexDirection: 'row' }}>
-//     {Array(rating)
-//       .fill(1)
-//       .map(() => (
-//         <FAIcon name="star" size={20} color='black' />
-//       ))}
-//     {Array(maxRating - rating)
-//       .fill(1)
-//       .map(() => (
-//         <FAIcon name="star-o" size={20} color='black' />
-//       ))}
-//   </View>
-// );
 export default function ProductDetail({ navigation, route }) {
   const { product } = route.params;
-
+  const [quan, setQuan] = useState(1);
   const title = 'Chi tiết sản phẩm';
 
   const { container, wrapper, imageView, itemImage } = styles;
@@ -85,8 +70,8 @@ export default function ProductDetail({ navigation, route }) {
   const onClickAddCart = (data) => {
     const itemcart = {
       product: data,
-      quantity: 1,
-      price: 10,
+      quantity: quan,
+      // price: data.sp_giaban,
     };
 
     AsyncStorage.getItem('cart')
@@ -96,30 +81,26 @@ export default function ProductDetail({ navigation, route }) {
           const item = cart.find((c) => c.product.sp_ma === data.sp_ma);
           //console.log(item);
           if (item) {
-            item.quantity += 1;
+            item.quantity += quan;
           } else {
             cart.push(itemcart);
           }
-          AsyncStorage.setItem('cart', JSON.stringify(cart)).then(() =>
-            console.log(cart)
-          );
+          AsyncStorage.setItem('cart', JSON.stringify(cart)).then();
         } else {
           const cart = [];
           cart.push(itemcart);
-          AsyncStorage.setItem('cart', JSON.stringify(cart)).then(() =>
-            console.log(cart)
-          );
+          AsyncStorage.setItem('cart', JSON.stringify(cart)).then();
         }
-        Alert.alert('Add thành công');
+        //Alert.alert('Add thành công');
       })
       .catch((error) => {
         Alert.alert(error);
       });
-    };
+  };
   return (
     <View style={container}>
       <Header navigation={navigation} title={title} />
-      <ScrollView style={wrapper}>
+      <ScrollView style={wrapper} showsVerticalScrollIndicator={false}>
         <View style={imageView}>
           <Image
             style={itemImage}
@@ -129,10 +110,30 @@ export default function ProductDetail({ navigation, route }) {
             }}
           />
         </View>
-        <Text style={font.textName}>{product.sp_ten}</Text>
+        <Text style={font.productNameLarge}>{product.sp_ten}</Text>
         <View style={styles.productPriceView}>
-          <Text style={styles.discountedPriceText}>$29.99</Text>
-          <Text style={styles.actualPriceText}>$40.00</Text>
+          <NumericFormat
+            type="text"
+            value={product.sp_giaban}
+            allowLeadingZeros
+            thousandSeparator=","
+            displayType="text"
+            suffix={'đ'}
+            renderText={(formatValue) => (
+              <Text style={styles.discountedPriceText}>{formatValue}</Text>
+            )}
+          />
+          <NumericFormat
+            type="text"
+            value={40000}
+            allowLeadingZeros
+            thousandSeparator=","
+            displayType="text"
+            suffix={'đ'}
+            renderText={(formatValue) => (
+              <Text style={styles.actualPriceText}>{formatValue}</Text>
+            )}
+          />       
           <TouchableOpacity
             style={{ position: 'absolute', right: 20 }}
             onPress={() => setFavourite(!isFavourite)}
@@ -141,32 +142,80 @@ export default function ProductDetail({ navigation, route }) {
             <FAIcon
               name={isFavourite ? 'heart' : 'heart-o'}
               size={22}
-              //color={color.red}
+              color={isFavourite ? '#FD6C57' : '#D8D8D8'}
             />
           </TouchableOpacity>
         </View>
         {/* <View style={{ marginVertical: 10 }}>
           <Rating rating={4} maxRating={5} />
         </View> */}
-        <TouchableOpacity onPress={() => navigation.navigate('RatingProduct', { product })}>
+        <TouchableOpacity
+          onPress={() => navigation.navigate('RatingProduct', { product })}
+        >
           <Text>Đánh giá của bạn</Text>
         </TouchableOpacity>
-        <View style={{ flexDirection: 'row' }}>
-          
+        <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}
+          >
+            <TouchableOpacity
+              onPress={() => {
+                if (quan > 1) {
+                  setQuan(quan - 1);
+                }
+              }}
+            >
+              <Icon
+                style={styles.toggleCounterButton}
+                name="minus-circle"
+                type="font-awesome"
+                color="gray"
+                size={25}
+              />
+            </TouchableOpacity>
+            <Text
+              style={{
+                width: 20,
+                textAlign: 'center',
+                marginHorizontal: 12,
+                fontFamily: 'SFProDisPlayRegular',
+                fontSize: 22,
+              }}
+            >
+              {quan}
+            </Text>
+            <TouchableOpacity
+              onPress={() => {
+                // eslint-disable-next-line no-const-assign
+                setQuan(quan + 1);
+              }}
+            >
+              <Icon
+                style={styles.toggleCounterButton}
+                name="plus-circle"
+                type="font-awesome"
+                color="gray"
+                size={25}
+              />
+            </TouchableOpacity>
+          </View>
           <TouchableOpacity
             style={styles.addToCartButton}
             onPress={() => onClickAddCart(product)}
           >
             <Text style={font.textButtonWhite}>Thêm vào giỏ</Text>
           </TouchableOpacity>
-          
         </View>
         <View style={{ marginTop: 10, backgroundColor: '#fff' }}>
           <TouchableOpacity
             style={styles.productDescriptionHeader}
             onPress={() => setSeeFullDescription((prev) => !prev)}
           >
-            <Text style={{ fontFamily: 'SFProDisplaySemiBold', fontSize: 16 }}>
+            <Text style={{ fontFamily: 'SFProDisplaySemiBold', fontSize: 18 }}>
               Mô tả sản phẩm
             </Text>
             <TouchableOpacity
@@ -195,14 +244,17 @@ export default function ProductDetail({ navigation, route }) {
               marginHorizontal: 10,
             }}
           >
-            More Products
+Sản phẩm cùng danh mục
           </Text>
           <ScrollView horizontal showsHorizontalScrollIndicator={false}>
             <View
               style={{ flex: 1, flexDirection: 'row', paddingVertical: 10 }}
             >
               {moreProducts.map((item) => (
-                <View key={item.productID} style={{ width: 180, marginRight: 20 }}>
+                <View
+                  key={item.productID}
+                  style={{ width: 180, marginRight: 20 }}
+                >
                   <View style={styles.moreProductImageView}>
                     <Image
                       style={{ flex: 1 }}
@@ -248,11 +300,9 @@ const itemWidth = width - 40;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: color.greylight,
+    backgroundColor: color.primary,
   },
   wrapper: {
-    borderTopLeftRadius: 30,
-    borderTopRightRadius: 30,
     paddingHorizontal: 20,
     backgroundColor: color.white,
   },
@@ -281,7 +331,7 @@ const styles = StyleSheet.create({
   addToCartButton: {
     backgroundColor: color.primary,
     borderRadius: 4,
-    width: itemWidth,
+    width: itemWidth / 2,
     paddingVertical: 8,
     marginRight: 10,
   },

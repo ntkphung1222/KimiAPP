@@ -59,15 +59,10 @@ export default function ShippingAddress({ navigation }) {
         <Text style={headerTitle}>Địa chỉ nhận hàng</Text>
       </View>
       <View style={wrapper}>
-        {/* <View>
-          <Text style={label}>Thông tin người nhận</Text>
-          <TextInput style={inputStyle} placeholder="Tên người nhận" />
-          <TextInput
-            style={inputStyle}
-            placeholder="Số điện thoại người nhận"
-          />
-        </View> */}
         <View>
+        <Text style={label}>Thông tin người nhận</Text>
+        <TextInput style={inputStyle} placeholder="Tên người nhận" />
+          <TextInput style={inputStyle} keyboardType="decimal-pad" placeholder="Số điện thoại" />
           <Text style={label}>Địa chỉ nhận hàng</Text>
           <SearchableDropdown
             onTextChange={(text) => console.log(text)}
@@ -118,7 +113,7 @@ export default function ShippingAddress({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: color.backgroundColor,
+    backgroundColor: color.primary,
   },
   header: {
     flexDirection: 'row',
@@ -139,7 +134,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
   },
   wrapper: {
-    //backgroundColor: color.white,
+    flex: 1,
+    backgroundColor: color.backgroundColor,
     paddingHorizontal: 20,
     paddingBottom: 20,
   },
@@ -154,5 +150,6 @@ const styles = StyleSheet.create({
     borderColor: color.borderSecond,
     marginBottom: 5,
     paddingHorizontal: 10,
+    backgroundColor: color.white
   },
 });

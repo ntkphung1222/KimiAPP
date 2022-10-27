@@ -109,11 +109,12 @@ const avatarsize = 120;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: color.backgroundColor,
+    backgroundColor: color.primary,
   },
   wrapper: {
-    //paddingHorizontal: 20,
-  },
+    backgroundColor: color.backgroundColor,
+    flex: 1
+    },
   avatarView: {
     //backgroundColor: color.blue,
     width,

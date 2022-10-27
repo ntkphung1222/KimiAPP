@@ -28,6 +28,11 @@ import RatingProduct from './src/components/Main/Shop/RatingProduct/RatingProduc
 import Search from './src/components/Main/Shop/Search/Search';
 import Info from './src/components/Main/Shop/Account/Info';
 import Shop from './src/components/Main/Shop/Shop';
+import Chat from './src/components/Main/Shop/Chat/Chat';
+
+import OrderProcessing from './src/components/Main/Shop/Order/OrderProcessing';
+
+import Home from './src/components/Main/Shop/Home/Home';
 
 const Stack = createNativeStackNavigator();
 
@@ -170,6 +175,26 @@ export default function App() {
         <Stack.Screen
           name="RatingProduct"
           component={RatingProduct}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="Chat"
+          component={Chat}
+          options={{ headerShown: false }}
+        />
+        {/* <Stack.Screen
+          name="Chat1"
+          component={Chat1}
+          options={{ headerShown: false }}
+        /> */}
+        <Stack.Screen
+          name="Home"
+          component={Home}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="OrderProcessing"
+          component={OrderProcessing}
           options={{ headerShown: false }}
         />
       </Stack.Navigator>
