@@ -6,6 +6,7 @@ import { StyleSheet, View } from 'react-native';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import Header from '../Header';
 import color from '../../../../../assets/color';
+import OrderHistory from './OrderHistory';
 import OrderProcessing from './OrderProcessing';
 import OrderCompleted from './OrderCompleted';
 
@@ -17,11 +18,16 @@ export default function Order({ navigation, route }) {
       <Header title="Đơn hàng" navigation={navigation} />
       <Tab.Navigator>
         <Tab.Screen
-          name='Đang xử lý'
+          name="Tất cả"
+          initialParams={{ user }}
+          component={OrderHistory}
+        />
+        <Tab.Screen
+          name="Đang xử lý"
           initialParams={{ user }}
           component={OrderProcessing}
         />
-        <Tab.Screen name="Đã hoàn thành" component={OrderCompleted} />
+        <Tab.Screen name="Đã giao" component={OrderCompleted} />
       </Tab.Navigator>
     </View>
   );

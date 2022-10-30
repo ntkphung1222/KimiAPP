@@ -52,7 +52,7 @@ export default function ChangeInfo({ navigation, route }) {
               <Text style={label}>Giới tính</Text>
             </View>
             <View style={textView}>
-              {user.gioitinh === 'NULL' ? (
+              {user.gioitinh !== 'NULL' ? (
                 <Text style={label}>{user.gioitinh}</Text>
               ) : (
                 <Text style={label}>Chưa cập nhật</Text>
@@ -68,7 +68,7 @@ export default function ChangeInfo({ navigation, route }) {
               <Text style={label}>Ngày sinh</Text>
             </View>
             <View style={textView}>
-            {user.ngaysinh === 'NULL' ? (
+            {user.ngaysinh !== 'NULL' ? (
                 <Text style={label}>{user.ngaysinh}</Text>
               ) : (
                 <Text style={label}>Chưa cập nhật</Text>
@@ -155,6 +155,8 @@ const styles = StyleSheet.create({
   },
   textView: {
     width: width * 0.7,
+    marginLeft: 10,
+    
   },
   textChangeInfo: {
     flexDirection: 'row',

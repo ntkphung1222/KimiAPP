@@ -10,11 +10,13 @@ import ForgotPassword from './src/components/Authentication/ForgotPassword';
 import Order from './src/components/Main/Shop/Order/Order';
 import ChangeInfo from './src/components/Main/Shop/Account/ChangeInfo';
 import Main from './src/components/Main/Main';
-import OrderHistory from './src/components/Main/Shop/OrderHistory/OrderHistory';
+import OrderHistory from './src/components/Main/Shop/Order/OrderHistory';
 import Cart from './src/components/Main/Shop/Cart/Cart';
 import Payment from './src/components/Main/Shop/Cart/Payment';
 import Success from './src/components/Main/Shop/Cart/Success';
-import ShippingAddress from './src/components/Main/Shop/Cart/ShippingAddress';
+import ShippingAddress from './src/components/Main/Shop/ShippingAddress/ShippingAddress';
+import AddShippingAddress from './src/components/Main/Shop/ShippingAddress/AddShippingAddress';
+
 import Account from './src/components/Main/Shop/Account/Account';
 import ChangePassword from './src/components/Main/Shop/ChangePassword/ChangePassword';
 
@@ -29,8 +31,8 @@ import Search from './src/components/Main/Shop/Search/Search';
 import Info from './src/components/Main/Shop/Account/Info';
 import Shop from './src/components/Main/Shop/Shop';
 import Chat from './src/components/Main/Shop/Chat/Chat';
-
-import OrderProcessing from './src/components/Main/Shop/Order/OrderProcessing';
+//import OrderProcessing from './src/components/Main/Shop/Order/OrderProcessing';
+import OrderDetail from './src/components/Main/Shop/Order/OrderDetail';
 
 import Home from './src/components/Main/Shop/Home/Home';
 
@@ -90,6 +92,11 @@ export default function App() {
         <Stack.Screen
           name="ShippingAddress"
           component={ShippingAddress}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="AddShippingAddress"
+          component={AddShippingAddress}
           options={{ headerShown: false }}
         />
         <Stack.Screen
@@ -192,9 +199,10 @@ export default function App() {
           component={Home}
           options={{ headerShown: false }}
         />
+        
         <Stack.Screen
-          name="OrderProcessing"
-          component={OrderProcessing}
+          name="OrderDetail"
+          component={OrderDetail}
           options={{ headerShown: false }}
         />
       </Stack.Navigator>

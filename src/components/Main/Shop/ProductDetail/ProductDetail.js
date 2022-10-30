@@ -1,5 +1,5 @@
 /* eslint-disable camelcase */
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   StyleSheet,
   Text,
@@ -9,6 +9,7 @@ import {
   TouchableOpacity,
   ScrollView,
   Alert,
+  RefreshControl,
 } from 'react-native';
 import { NumericFormat } from 'react-number-format';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -21,11 +22,15 @@ import font from '../../../../../assets/font';
 
 export default function ProductDetail({ navigation, route }) {
   const { product } = route.params;
-  const [count, setCount] = useState(0);
-
+  const [refreshing, setRefreshing] = useState(false);
+  const [c, setC] = useState(0);
   const [quan, setQuan] = useState(1);
   const title = 'Chi tiết sản phẩm';
-
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    loadData();
+    setRefreshing(false);
+  }, []);
   const { container, wrapper, imageView, itemImage } = styles;
   const [productDescription] = useState(
     // eslint-disable-next-line max-len
@@ -33,6 +38,20 @@ export default function ProductDetail({ navigation, route }) {
   );
   const [isFavourite, setFavourite] = useState(false);
   const [seeFullDescription, setSeeFullDescription] = useState(false);
+
+  const loadData = () => {
+    AsyncStorage.getItem('cart').then((cart) => {
+      if (cart !== null) {
+        const cartS = JSON.parse(cart);
+        setCount(cartS.length);
+      }
+    });
+  };
+
+  useEffect(() => {
+    loadData();
+  }, [c]);
+  const [count, setCount] = useState(0);
   const [moreProducts] = useState([
     {
       productID: 1,
@@ -80,7 +99,7 @@ export default function ProductDetail({ navigation, route }) {
     AsyncStorage.getItem('cart')
       .then((datacart) => {
         if (datacart != null) {
-          const cart = JSON.parse(datacart);        
+          const cart = JSON.parse(datacart);
           const item = cart.find((c) => c.product.sp_ma === data.sp_ma);
           //console.log(item);
           if (item) {
@@ -111,7 +130,7 @@ export default function ProductDetail({ navigation, route }) {
         <Badge
           style={{}}
           status="error"
-          value={count}
+          value={c}
           containerStyle={{ position: 'absolute', top: -10, left: 12 }}
         />
         <Icon
@@ -121,7 +140,13 @@ export default function ProductDetail({ navigation, route }) {
           size={25}
         />
       </TouchableOpacity>
-      <ScrollView style={wrapper} showsVerticalScrollIndicator={false}>
+      <ScrollView
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }
+        style={wrapper}
+        showsVerticalScrollIndicator={false}
+      >
         <View style={imageView}>
           <Image
             style={itemImage}
@@ -226,7 +251,13 @@ export default function ProductDetail({ navigation, route }) {
           </View>
           <TouchableOpacity
             style={styles.addToCartButton}
-            onPress={() => onClickAddCart(product)}
+            onPress={() => {
+              setC(c + 1);
+              onClickAddCart(product);
+            }}
+            refreshControl={
+              <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+            }
           >
             <Text style={font.textButtonWhite}>Thêm vào giỏ</Text>
           </TouchableOpacity>

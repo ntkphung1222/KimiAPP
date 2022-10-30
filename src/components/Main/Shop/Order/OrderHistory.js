@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 import React, { useState, useEffect } from 'react';
 import {
   View,
@@ -8,16 +9,20 @@ import {
   ScrollView,
   //FlatList,
   Dimensions,
+  TextInput,
 } from 'react-native';
 import { NumericFormat } from 'react-number-format';
+import { Icon } from 'react-native-elements';
 import color from '../../../../../assets/color';
 import font from '../../../../../assets/font';
 //import font from '../../../../../assets/font';
 
-export default function OrderProcessing({ route }) {
+export default function OrderProcessing({ navigation, route }) {
   try {
-    const [serverData, setServerData] = useState({});
     const { user } = route.params;
+    const [search, setSearch] = useState('');
+    const [serverData, setServerData] = useState({});
+    const [masterDataSource, setMasterDataSource] = useState();
     useEffect(() => {
       // eslint-disable-next-line no-undef
       fetch(`http://kimimylife.site/api/orderhistory?hdx_kh=${user.id}`)
@@ -25,6 +30,7 @@ export default function OrderProcessing({ route }) {
         .then((responseJson) => {
           //Successful response from the API Call
           setServerData(responseJson.results);
+          setMasterDataSource(responseJson.results);
           //console.log(Object.keys(responseJson.results).length);
         })
         .then(() => {})
@@ -32,24 +38,72 @@ export default function OrderProcessing({ route }) {
           console.error(error);
         });
     }, []);
+    const searchFilterFunction = (text) => {
+      setSearch(text);
+    };
     return (
       <View style={{ flex: 1 }}>
         {Object.keys(serverData).length > 0 ? (
           <ScrollView style={styles.container}>
+            <View>
+              {/* <Text>{JSON.stringify(masterDataSource)}</Text> */}
+              <TextInput
+                placeholder="Tìm kiếm đơn hàng"
+                onChangeText={(text) => searchFilterFunction(text)}
+                value={search}
+                style={{
+                  borderWidth: 1,
+                  borderColor: color.primary,
+                  backgroundColor: color.white,
+                  padding: 5,
+                  height: 45,
+                  paddingHorizontal: 10,
+                  marginHorizontal: 20,
+                  borderRadius: 10,
+                  marginVertical: 10,
+                }}
+              />
+              <TouchableOpacity
+                style={{ position: 'absolute', right: 30, top: 20 }}
+                //onPress={() => navigation.navigate('Search')}
+              >
+                <Icon
+                  type="feather"
+                  name="search"
+                  color={color.primary}
+                  size={25}
+                />
+              </TouchableOpacity>
+            </View>
             {Object.entries(serverData)
               .sort(() => -1)
               .map(([i, value]) => (
                 <TouchableOpacity
+                  onPress={() =>
+                    navigation.navigate('OrderDetail', {
+                      productList: value.data,
+                    })
+                  }
                   key={i}
                   style={{
-                    // borderBottomColor: color.greylight,
-                    // borderTopColor: color.greylight,
-                    // borderWidth: 1,
                     marginBottom: 10,
-                    paddingBottom: 40,
+                    paddingBottom: 80,
                     backgroundColor: color.white,
                   }}
                 >
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      paddingVertical: 2,
+                      justifyContent: 'space-between',
+                      paddingHorizontal: 20,
+                      borderBottomWidth: 0.5,
+                      borderBottomColor: color.greylight,
+                    }}
+                  >
+                    <Text>Mã đơn hàng</Text>
+                    <Text style={{ fontStyle: 'italic' }}>#{i}</Text>
+                  </View>
                   {/* <Text>console.log{JSON.stringify(serverData)}</Text> */}
                   {value.data.map((data) => (
                     <View key={data.hdxct_ma} style={styles.itemStyle}>
@@ -86,11 +140,36 @@ export default function OrderProcessing({ route }) {
                               <Text>{formatValue}</Text>
                             )}
                           />
-                          <Text>SL: {data.soluong}</Text>
+                          <Text>x {data.soluong}</Text>
                         </View>
                       </View>
                     </View>
                   ))}
+                  <View
+                    style={{
+                      position: 'absolute',
+                      bottom: 40,
+                      right: 20,
+                      borderRadius: 10,
+                      borderColor: color.primary,
+                      borderWidth: 1,
+                      paddingHorizontal: 10,
+                      paddingVertical: 2,
+                    }}
+                  >
+                    <Text style={{ fontStyle: 'italic' }}>
+                      {value.trangthai === '0'
+                        ? 'Chờ xác nhận'
+                        : value.trangthai === '1'
+                        ? 'Đang xử lý'
+                        : value.trangthai === '2'
+                        ? 'Đang giao'
+                        : value.trangthai === '3'
+                        ? 'Đã giao'
+                        : 'Đã hủy'}
+                    </Text>
+                  </View>
+
                   <View
                     style={{
                       position: 'absolute',

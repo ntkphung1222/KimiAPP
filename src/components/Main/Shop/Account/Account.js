@@ -8,6 +8,7 @@ import {
   Dimensions,
   TouchableOpacity,
   Alert,
+  ScrollView
 } from 'react-native';
 import { Icon } from 'react-native-elements';
 import {
@@ -37,7 +38,7 @@ const optionArray = [
   },
   {
     id: '3',
-    value: 'Địa chỉ nhận hàng',
+    value: 'Địa chỉ giao hàng',
     iconname: 'location-pin',
     icontype: 'entypo',
     color: color.red,
@@ -141,6 +142,7 @@ export default function Account({ navigation }) {
     <View style={container}>
       <View style={styles.bigCircle} />
       <Header title={'Tài khoản'} navigation={navigation} />
+      <ScrollView>
       <View style={avatarView}>
         <Image
           style={avatar}
@@ -190,6 +192,7 @@ export default function Account({ navigation }) {
           //ListHeaderComponent={getHeader}
         />
       </View>
+      </ScrollView>
     </View>
   );
 }

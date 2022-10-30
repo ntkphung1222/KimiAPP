@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import {
-  FlatList,
   View,
   Text,
   StyleSheet,
@@ -8,11 +7,12 @@ import {
   TextInput,
   TouchableOpacity,
   Image,
+  ScrollView,
+  Alert
 } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Icon } from 'react-native-elements';
 import color from '../../../../../assets/color';
-
-const numColumns = 3;
 
 export default function Search({ navigation }) {
   const [search, setSearch] = useState('');
@@ -22,7 +22,7 @@ export default function Search({ navigation }) {
 
   useEffect(() => {
     // eslint-disable-next-line no-undef
-    fetch('http://kimimylife.site/api/category')
+    fetch('http://kimimylife.site/api/allproduct')
       .then((response) => response.json())
       .then((responseJson) => {
         //Successful response from the API Call
@@ -34,6 +34,37 @@ export default function Search({ navigation }) {
       });
   }, []);
 
+  const onClickAddCart = (data) => {
+    const itemcart = {
+      product: data,
+      quantity: 1,
+      // price: data.sp_giaban,
+    };
+
+    AsyncStorage.getItem('cart')
+      .then((datacart) => {
+        if (datacart != null) {
+          const cart = JSON.parse(datacart);        
+          const item = cart.find((c) => c.product.sp_ma === data.sp_ma);
+          //console.log(item);
+          if (item) {
+            item.quantity += 1;
+          } else {
+            cart.push(itemcart);
+          }
+          AsyncStorage.setItem('cart', JSON.stringify(cart)).then();
+        } else {
+          const cart = [];
+          cart.push(itemcart);
+          AsyncStorage.setItem('cart', JSON.stringify(cart)).then();
+        }
+        //Alert.alert('Add thành công');
+      })
+      .catch((error) => {
+        Alert.alert(error);
+      });
+  };
+
   const searchFilterFunction = (text) => {
     // Check if searched text is not blank
     if (text) {
@@ -41,8 +72,8 @@ export default function Search({ navigation }) {
       // Filter the masterDataSource and update FilteredDataSource
       const newData = masterDataSource.filter((item) => {
         // Applying filter for the inserted text in search bar
-        const itemData = item.dm_ten
-          ? item.dm_ten.toUpperCase()
+        const itemData = item.sp_ten
+          ? item.sp_ten.toUpperCase()
           : ''.toUpperCase();
         const textData = text.toUpperCase();
         return itemData.indexOf(textData) > -1;
@@ -57,17 +88,6 @@ export default function Search({ navigation }) {
     }
   };
 
-  const ItemView = ({ item }) => (
-    // Single Comes here which will be repeatative for the FlatListItems
-    <View style={styles.item}>
-      <Image
-        style={styles.itemImage}
-        resizeMode="contain"
-        source={{ uri: item.dm_hinhanh }}
-      />
-      <Text style={styles.itemText}>{item.dm_ten}</Text>
-    </View>
-  );
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -86,7 +106,7 @@ export default function Search({ navigation }) {
           />
         </TouchableOpacity>
         <TextInput
-          placeholder="Tìm kiếm ở đây"
+          placeholder="Nhập tên sản phẩm..."
           onChangeText={(text) => searchFilterFunction(text)}
           value={search}
           onFocus={() => {
@@ -95,74 +115,130 @@ export default function Search({ navigation }) {
           onBlur={() => setIsHighlighted(false)}
           placeholderTextColor={color.text}
           style={[styles.inputSearch, isHighlighted && styles.isHighlighted]}
-          maxLength={10}
           autoCapitalize={false}
           keyboardType="default"
           textContentType="none"
         />
-        <TouchableOpacity
-          style={styles.buttonSearch}
-          onPress={() => {
-            // navigation.goBack();
-          }}
-        >
-          <Text
-            style={{
-              fontFamily: 'SFProDisPlayRegular',
-              fontSize: 14,
-              color: color.white,
-            }}
-          >
-            Tìm kiếm
-          </Text>
-        </TouchableOpacity>
       </View>
       <View style={styles.wrapper}>
-        <Text style={styles.label}> Tất cả danh mục </Text>
-        <FlatList
-          data={serverData}
-          //data defined in constructor
-          //ItemSeparatorComponent={ItemSeparatorView}
-          //Item Separator View
-          renderItem={ItemView}
-          keyExtractor={(item, index) => index.toString()}
-          numColumns={numColumns}
-        />
+        <Text style={styles.label}> Lịch sử tìm kiếm </Text>
+        <View style={{ flexDirection: 'row', paddingHorizontal: 20 }}>
+          <TouchableOpacity
+            onPress={() => searchFilterFunction('Kem')}
+            style={{
+              backgroundColor: color.greylight,
+              borderRadius: 10,
+              paddingHorizontal: 10,
+              paddingVertical: 5,
+              marginRight: 5,
+            }}
+          >
+            <Text>Kem</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => searchFilterFunction('Thuốc')}
+            style={{
+              backgroundColor: color.greylight,
+              borderRadius: 10,
+              paddingHorizontal: 10,
+              paddingVertical: 5,
+              marginRight: 5,
+            }}
+          >
+            <Text>Thuốc</Text>
+          </TouchableOpacity>
+        </View>
+        <Text style={styles.label}> Tất cả sản phẩm </Text>
+        <ScrollView>
+          {serverData.map((item) => (
+            <TouchableOpacity
+              onPress={() =>
+                navigation.navigate('ProductDetail', { product: item })
+              }
+              style={styles.item}
+              key={item.sp_ma}
+            >
+              <View style={styles.leftItemView}>
+                <Image
+                  style={styles.itemImage}
+                  resizeMode="contain"
+                  source={{ uri: item.sp_hinhanh }}
+                />
+              </View>
+              <View style={styles.rightItemView}>
+                <View style={styles.rightTopView}>
+                  <Text style={styles.itemText}>{item.sp_ten}</Text>
+                </View>
+                <View style={styles.rightBottomView}>
+                  <Text>{item.sp_giaban}</Text>
+                  <TouchableOpacity
+                    onPress={() => onClickAddCart(item)}
+                    style={styles.btnAdd}
+                  >
+                    <Text style={{ color: color.primary }}>THÊM VÀO GIỎ</Text>
+                  </TouchableOpacity>
+                </View>
+              </View>
+            </TouchableOpacity>
+          ))}
+        </ScrollView>
       </View>
     </View>
   );
 }
 
 const { width } = Dimensions.get('window');
-const itemWidth = width / numColumns;
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: color.backgroundColor,
+    //backgroundColor: color.backgroundColor,
+    backgroundColor: color.white,
   },
   label: {
     fontSize: 18,
   },
   item: {
-    //height: 44,
-    width: itemWidth,
-    //backgroundColor: '#333',
-    alignItems: 'center',
+    flex: 1,
+    height: width * 0.3,
+    flexDirection: 'row',
+    width,
+    paddingHorizontal: 10,
+    borderBottomWidth: 1,
+    borderBottomColor: color.greylight,
+  },
+  leftItemView: {
+    width: width * 0.3,
     justifyContent: 'center',
   },
   itemImage: {
-    width: 40,
-    height: 40,
-    backgroundColor: color.white,
+    flex: 1,
+    width: width * 0.25,
+  },
+  rightItemView: {
+    width: width * 0.7,
+    padding: 10,
+    //backgroundColor: '#333',
+  },
+  rightTopView: {},
+  rightBottomView: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    position: 'absolute',
+    bottom: 10,
+    right: 20,
+    left: 10,
+  },
+  btnAdd: {
+    paddingHorizontal: 10,
+    paddingVertical: 5
   },
   header: {
     flexDirection: 'row',
     height: 50,
     marginTop: 22,
     alignItems: 'center',
-    //justifyContent: 'space-between',
-    //backgroundColor: color.primary,
     paddingHorizontal: 20,
   },
   touchIconBack: {
@@ -186,7 +262,7 @@ const styles = StyleSheet.create({
     marginRight: 0,
   },
   inputSearch: {
-    width: '68%',
+    width: '90%',
     height: 35,
     backgroundColor: color.white,
     borderRadius: 6,
@@ -195,11 +271,12 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: color.text,
     borderColor: color.primary,
-    borderWidth: 1
+    borderWidth: 1,
   },
   isHighlighted: {
     borderColor: color.primary,
     borderWidth: 2,
   },
-  wrapper: { backgroundColor: color.backgroundColor, flex: 1 },
+  wrapper: { backgroundColor: color.white, flex: 1 },
+  itemText: {},
 });

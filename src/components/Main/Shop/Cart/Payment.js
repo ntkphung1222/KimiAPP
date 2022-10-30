@@ -8,6 +8,7 @@ import {
   //Dimensions,
   Image,
   Alert,
+  Dimensions,
 } from 'react-native';
 import { RadioButton } from 'react-native-paper';
 import { Icon } from 'react-native-elements';
@@ -45,9 +46,21 @@ export default function Payment({ navigation, route }) {
   } = styles;
   const onLoadToTal = () => {
     let total = 0;
+
     const cart = dataCart;
     for (let i = 0; i < cart.length; i++) {
       total += cart[i].product.sp_giaban * cart[i].quantity;
+      //totalSoLuong += cart[i].quantity;
+    }
+    return total;
+  };
+  const onLoadToTalQuan = () => {
+    let total = 0;
+
+    const cart = dataCart;
+    for (let i = 0; i < cart.length; i++) {
+      total += cart[i].quantity;
+      //totalSoLuong += cart[i].quantity;
     }
     return total;
   };
@@ -62,9 +75,10 @@ export default function Payment({ navigation, route }) {
       }
     });
   }, []);
+  const soluong = onLoadToTalQuan();
   function handleSubmit() {
     //this.ref.form.submit();
-    order(user.id, dataCart.length, onLoadToTal(), dataCart)
+    order(user.id, soluong, onLoadToTal(), dataCart)
       .then((res) => {
         if (res.success) {
           AsyncStorage.removeItem('cart');
@@ -93,7 +107,7 @@ export default function Payment({ navigation, route }) {
         </TouchableOpacity>
         <Text style={headerTitle}>Kiểm tra</Text>
       </View>
-      <View style={{ flex: 0.7 }}>
+      <View style={{ flex: 0.65 }}>
         <ScrollView style={wrapper} showsVerticalScrollIndicator={false}>
           <View style={shippingAddressContainer}>
             <Text style={label}> Địa chỉ nhận hàng</Text>
@@ -111,11 +125,13 @@ export default function Payment({ navigation, route }) {
           <Text style={label}>Danh sách sản phẩm</Text>
           {dataCart.map((item) => (
             <View key={item.product.sp_ma} style={productView}>
+              <View style={styles.productImageView}>
               <Image
                 style={productImage}
                 resizeMode="contain"
                 source={{ uri: item.product.sp_hinhanh }}
               />
+              </View>
               <View style={productRight}>
                 <Text style={productTop}>{item.product.sp_ten}</Text>
                 <View style={productBottom}>
@@ -125,7 +141,7 @@ export default function Payment({ navigation, route }) {
                     allowLeadingZeros
                     thousandSeparator=","
                     displayType="text"
-                    prefix="Giá: "
+                    //prefix="Giá: "
                     suffix={'đ'}
                     renderText={(formatValue) => <Text>{formatValue}</Text>}
                   />
@@ -191,6 +207,7 @@ export default function Payment({ navigation, route }) {
   );
 }
 
+const { width } = Dimensions.get('window');
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -271,12 +288,18 @@ const styles = StyleSheet.create({
   },
   productView: {
     flexDirection: 'row',
+    borderBottomWidth: 1,
+    borderBottomColor: color.greylight,
+    padding: 5
+  },
+  productImageView: {
+
   },
   productImage: {
-    width: 100,
-    height: 100,
+    width: width * 0.3,
+    height: width * 0.3,
   },
-  productRight: { paddingLeft: 5 },
+  productRight: { width: width * 0.6 },
   productTop: {
     height: 70,
     paddingVertical: 5,

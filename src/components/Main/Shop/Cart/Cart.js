@@ -101,11 +101,14 @@ function Cart({ navigation }) {
 
                       <View style={styles.rightItemView}>
                         <View style={styles.rightTopView}>
-                          <Text>{item.product.sp_ten}</Text>
+                          <Text style={{ width: width * 0.6 }}>
+                            {item.product.sp_ten}
+                          </Text>
                           <TouchableOpacity
                             onPress={() =>
                               Alert.alert(
-                                `Xóa ${item.product.sp_ten} khỏi giỏ hàng?`,
+                                // `Xóa ${item.product.sp_ten} khỏi giỏ hàng?`,
+                                'Xóa sản phẩm này khỏi giỏ hàng?',
                                 '',
                                 [
                                   { text: 'Trở về' },
