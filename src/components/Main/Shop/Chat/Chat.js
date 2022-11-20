@@ -176,7 +176,7 @@ export default function Chat({ navigation }) {
                   style={{
                     maxWidth: Dimensions.get('screen').width * 0.8,
                     //backgroundColor: color.primary,
-                    backgroundColor: 
+                    backgroundColor:
                     item.sender === currentUser.name ? color.primary : color.white,
                     alignSelf:
                       item.sender === currentUser.name
@@ -221,7 +221,7 @@ export default function Chat({ navigation }) {
             <TextInput
               defaultValue={inputMessage1}
               style={styles.messageInput}
-              placeholder="Message"
+              placeholder="Nhập tin nhắn"
               onChangeText={(text) => setInputMessage1(text)}
               onSubmitEditing={() => {
                 sendMessage1();
@@ -233,7 +233,7 @@ export default function Chat({ navigation }) {
                 sendMessage1();
               }}
             >
-              <Icon name="send" type="material" />
+              <Icon name="send" type="material" color={color.primary} />
             </TouchableOpacity>
           </View>
         </View>
@@ -242,7 +242,7 @@ export default function Chat({ navigation }) {
             <TextInput
               defaultValue={inputMessage}
               style={styles.messageInput}
-              placeholder="Message"
+              placeholder="Nhập tin nhắn"
               onChangeText={(text) => setInputMessage(text)}
               onSubmitEditing={() => {
                 sendMessage();
@@ -254,7 +254,7 @@ export default function Chat({ navigation }) {
                 sendMessage();
               }}
             >
-              <Icon name="send" type="material" />
+              <Icon name="send" type="material" color={color.primary} />
             </TouchableOpacity>
           </View>
         </View>

@@ -13,6 +13,7 @@ import {
 import { NumericFormat } from 'react-number-format';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Icon } from 'react-native-elements';
+import Header from '../Header';
 import color from '../../../../../assets/color';
 import font from '../../../../../assets/font';
 
@@ -21,6 +22,7 @@ import font from '../../../../../assets/font';
 
 function Cart({ navigation }) {
   const [dataCart, setDataCart] = useState([]);
+  const [user, setUser] = useState(null);
   const [refreshing, setRefreshing] = useState(false);
   const loadData = () => {
     AsyncStorage.getItem('cart').then((cart) => {
@@ -30,7 +32,15 @@ function Cart({ navigation }) {
       }
     });
   };
-
+  useEffect(() => {
+    AsyncStorage.getItem('user').then((userR) => {
+      //console.log(userR);
+      if (userR !== null) {
+        const userCurrent = JSON.parse(userR);
+        setUser(userCurrent);
+      }
+    });
+  }, []);
   useEffect(() => {
     loadData();
   }, []);
@@ -49,9 +59,9 @@ function Cart({ navigation }) {
   }, []);
   return (
     <View style={styles.container}>
-      <View style={styles.header}>
-        <Text style={styles.headerTitle}>Giỏ hàng</Text>
-        <TouchableOpacity
+      <Header title='Giỏ hàng' navigation={navigation} />
+      <TouchableOpacity
+      style={{ position: 'absolute', top: 32, right: 20 }}
           onPress={() => {
             if (dataCart.length !== 0) {
               Alert.alert('Bạn muốn xóa tất cả sản phẩm trong giỏ hàng?', '', [
@@ -66,48 +76,51 @@ function Cart({ navigation }) {
               ]);
             }
           }}
-        >
+      >
           <Icon type="feather" name="trash-2" size={22} color={color.white} />
         </TouchableOpacity>
-      </View>
       <View style={styles.cartContainer}>
-        <ScrollView
+        {/* <ScrollView
           refreshControl={
             <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
           }
-        >
+        > */}
           {dataCart.length > 0 ? (
-            <View>
-              <ScrollView showsVerticalScrollIndicator={false}>
+            <View style={{ flex: 1 }}>
+              <ScrollView 
+              refreshControl={
+                <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+              }
+              showsVerticalScrollIndicator={false} style={{ flex: 0.8 }}
+              >
+                <View>
                 {dataCart
                   .sort((a, b) => a.product.sp_ten > b.product.sp_ten)
                   .map((item, i) => (
-                    <View key={item.product.sp_ma} style={styles.itemView}>
-                      <TouchableOpacity
-                        onPress={() =>
-                          navigation.navigate('ProductDetail', {
-                            product: item.product,
-                          })
-                        }
-                      >
+                    <TouchableOpacity 
+                    onPress={() =>
+                      navigation.navigate('ProductDetail', {
+                        product: item.product,
+                      })
+                    }
+                    key={item.product.sp_ma} style={styles.itemView} 
+                    >
+                      <View>
                         <Image
                           style={styles.imageView}
                           resizeMode="contain"
-                          source={{
-                            uri: item.product.sp_hinhanh,
-                          }}
-                        />
-                      </TouchableOpacity>
+                          source={{ uri: `http://kimimylife.site/sp_hinhanh/${item.product.sp_hinhanh}` }}
 
+                        />
+                      </View>
                       <View style={styles.rightItemView}>
                         <View style={styles.rightTopView}>
-                          <Text style={{ width: width * 0.6 }}>
+                          <Text style={styles.itemName}>
                             {item.product.sp_ten}
                           </Text>
                           <TouchableOpacity
                             onPress={() =>
                               Alert.alert(
-                                // `Xóa ${item.product.sp_ten} khỏi giỏ hàng?`,
                                 'Xóa sản phẩm này khỏi giỏ hàng?',
                                 '',
                                 [
@@ -130,8 +143,8 @@ function Cart({ navigation }) {
                             }
                           >
                             <Icon
-                              type="feather"
-                              name="trash-2"
+                              type="fontawesome"
+                              name="close"
                               size={20}
                               color={color.red}
                             />
@@ -147,7 +160,7 @@ function Cart({ navigation }) {
                             displayType="text"
                             suffix={'đ'}
                             renderText={(formatValue) => (
-                              <Text>{formatValue}</Text>
+                              <Text style={font.textBold}>{formatValue}</Text>
                             )}
                           />
                           <View style={styles.quantityView}>
@@ -155,7 +168,7 @@ function Cart({ navigation }) {
                               onPress={() => {
                                 if (item.quantity === 1) {
                                   return Alert.alert(
-                                    `Xóa ${item.product.sp_ten} khỏi giỏ hàng?`,
+                                    'Xóa sản phẩm này khỏi giỏ hàng?',
                                     '',
                                     [
                                       { text: 'Trở về' },
@@ -192,16 +205,21 @@ function Cart({ navigation }) {
                                 color="gray"
                               />
                             </TouchableOpacity>
-                            <Text>{item.quantity}</Text>
+                            <Text style={font.textBold}>{item.quantity}</Text>
                             <TouchableOpacity
                               onPress={() => {
-                                dataCart[i].quantity += 1;
-                                setDataCart(dataCart);
-                                AsyncStorage.setItem(
-                                  'cart',
-                                  JSON.stringify(dataCart)
-                                ).then(() => loadData());
+                                if (dataCart[i].quantity < item.product.sp_soluonggioihan) {
+                                  dataCart[i].quantity += 1;
+                                  setDataCart(dataCart);
+                                  AsyncStorage.setItem(
+                                    'cart',
+                                    JSON.stringify(dataCart)
+                                  ).then(() => loadData());
+                                } else {
+                                  Alert.alert('Bạn đã đạt số lượng mua giới hạn cho sản phẩm này.');
+                                }
                               }}
+                              style={{}}
                             >
                               <Icon
                                 style={styles.toggleCounterButton}
@@ -213,11 +231,19 @@ function Cart({ navigation }) {
                           </View>
                         </View>
                       </View>
-                    </View>
+                    </TouchableOpacity>
                   ))}
+                  </View>
               </ScrollView>
+              <View 
+              style={{ flex: 0.2, 
+                backgroundColor: color.white, 
+                borderTopWidth: 0.5, 
+                borderTopColor: color.gray 
+                }}
+              >
               <View style={styles.subtotalView}>
-                <Text style={styles.subtotalText}>Tổng tiền -</Text>
+                <Text style={styles.subtotalText}>Tổng tiền ({dataCart.length} sản phẩm)</Text>
                 <NumericFormat
                   type="text"
                   value={onLoadToTal()}
@@ -233,10 +259,11 @@ function Cart({ navigation }) {
               <TouchableOpacity
                 activeOpacity={0.8}
                 style={styles.button}
-                onPress={() => navigation.navigate('Payment', { dataCart })}
+                onPress={() => navigation.navigate('Payment', { dataCart, user })}
               >
                 <Text style={styles.textButton}>THANH TOÁN</Text>
               </TouchableOpacity>
+            </View>
             </View>
           ) : (
             <View style={styles.emptyCartView}>
@@ -249,7 +276,7 @@ function Cart({ navigation }) {
               <Text style={font.textTitle1}>Giỏ hàng trống.</Text>
             </View>
           )}
-        </ScrollView>
+        {/* </ScrollView> */}
       </View>
     </View>
   );
@@ -312,6 +339,12 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
+  itemName: {
+     width: width * 0.6,
+     fontFamily: 'SFProDisPlayRegular',
+     fontSize: 16,
+     color: color.darkblue
+  },
   bottomView: {
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -319,6 +352,8 @@ const styles = StyleSheet.create({
   },
   quantityView: {
     flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center'
   },
   toggleCounterButton: {
     paddingHorizontal: 10,
@@ -326,6 +361,7 @@ const styles = StyleSheet.create({
   emptyCartView: {
     flex: 1,
     marginTop: 140,
+    alignItems: 'center'
   },
   emptyCartViewText: {
     fontSize: 20,
@@ -361,10 +397,10 @@ const styles = StyleSheet.create({
   },
   subtotalText: {
     fontSize: 18,
-    fontWeight: '500',
+    fontFamily: 'SFProDisPlayRegular'
   },
   subtotalPrice: {
     fontSize: 18,
-    fontWeight: '300',
+    fontFamily: 'SFProDisplaySemiBold'
   },
 });

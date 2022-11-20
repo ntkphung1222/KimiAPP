@@ -11,6 +11,8 @@ import color from '../../../../../assets/color';
 import font from '../../../../../assets/font';
 
 export default function Success({ navigation }) {
+  // const { dataCart } = route.params;
+  // const productList = JSON.stringify(dataCart);
   const { container, wrapper, checkIconView } = styles;
   return (
     <View style={container}>
@@ -25,9 +27,21 @@ export default function Success({ navigation }) {
             />
           </View>
           <Text style={font.textTitle1}>Đặt hàng thành công</Text>
-          <View style={{ position: 'absolute', bottom: 20 }}>
-            <Text style={font.label}>Chi tiết đơn hàng</Text>
-          </View>
+          {/* <TouchableOpacity
+            onPress={() => navigation.navigate('OrderDetail', { productList })}
+            style={{ position: 'absolute', bottom: 20 }}
+          >
+            <Text
+              style={{
+                fontFamily: 'SFProDisPlayRegular',
+                fontSize: 16,
+                color: color.darkblue,
+                textDecorationLine: 'underline',
+              }}
+            >
+              Chi tiết đơn hàng
+            </Text>
+          </TouchableOpacity> */}
         </View>
         <View style={styles.actionView}>
           <TouchableOpacity

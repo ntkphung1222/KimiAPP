@@ -5,18 +5,20 @@ import { Icon } from 'react-native-elements';
 import Home from './Home/Home';
 import Search from './Search/Search';
 import Post from './Post/Post';
-//import Chat from './Chat/Chat';
-import Account from './Account/Account';
+import MainAccount from './Account/MainAccount';
 import color from '../../../../assets/color';
 
 const Tab = createBottomTabNavigator();
 
 export default function Shop() {
+  // const [dataCart, setDataCart] = useState([]);
+  // const [count, setCount] = useState();
   // useEffect(() => {
   //   AsyncStorage.getItem('cart').then((cart) => {
   //     if (cart !== null) {
-  //       cartS = JSON.parse(cart);
+  //       const cartS = JSON.parse(cart);
   //       setDataCart(cartS);
+  //       setCount(dataCart.length);
   //     }
   //   }); 
   // }, []);
@@ -33,6 +35,7 @@ export default function Shop() {
         <Tab.Screen
           name="Trang chủ"
           component={Home}
+          //initialParams={count}
           options={{
             // eslint-disable-next-line no-shadow
             tabBarIcon: ({ color, size }) => (
@@ -60,19 +63,9 @@ export default function Shop() {
             ),
           }}
         />
-        {/* <Tab.Screen
-          name="Nhắn tin"
-          component={Chat}
-          options={{
-            // eslint-disable-next-line no-shadow
-            tabBarIcon: ({ color, size }) => (
-              <Icon name="chat" color={color} size={size} />
-            ),
-          }}
-        /> */}
         <Tab.Screen
           name="Tài khoản"
-          component={Account}
+          component={MainAccount}
           options={{
             // eslint-disable-next-line no-shadow
             tabBarIcon: ({ color, size }) => (

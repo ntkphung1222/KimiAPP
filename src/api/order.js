@@ -1,8 +1,10 @@
+import { BASE_URL } from '../config';
+
 // eslint-disable-next-line camelcase
-const order = (hdx_kh, hdx_soluong, hdx_tongtien, chitiet) =>
+const order = (hdx_kh, hdx_soluong, hdx_tongtien, hdx_diachi, chitiet) =>
   //this.refs.form.submit();
   //eslint-disable-next-line no-undef
-  fetch('http://kimimylife.site/api/invoiceexport', {
+  fetch(`${BASE_URL}/api/invoiceexport`, {
     method: 'POST',
     headers: {
       Accept: 'application/json',
@@ -12,6 +14,7 @@ const order = (hdx_kh, hdx_soluong, hdx_tongtien, chitiet) =>
       hdx_kh,
       hdx_soluong,
       hdx_tongtien,
+      hdx_diachi,
       chitiet,
     }),
   }).then((res) => res.json());

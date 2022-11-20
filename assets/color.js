@@ -8,7 +8,7 @@ export default {
   text: '#000',
   red: '#FF0000',
   like: '#FD6C57',
-  star: '#FFA015',
+  star: '#EFCE4A',
   black: '#000',
   yellow: '#FFFF00',
   blue: '#2FAAF7',
