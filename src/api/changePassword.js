@@ -1,20 +1,17 @@
+/* eslint-disable no-unused-vars */
 import { BASE_URL } from '../config';
-
 /* eslint-disable camelcase */
-const ratingProduct = (hdx_ma, sp_ma, dg_sao, dg_noidung) =>
+const changePassword = (kh_email, matkhaucu, matkhaumoi) =>
   //eslint-disable-next-line no-undef
-  fetch(`${BASE_URL}/api/rating`, {
+  fetch(`${BASE_URL}/api/customer/changePassword`, {
     method: 'POST',
     headers: {
       Accept: 'application/json',
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-     hdx_ma,
-     sp_ma,
-     dg_sao,
-     dg_noidung
+      kh_email, matkhaucu, matkhaumoi
     }),
   }).then((res) => res.json());
 
-export default ratingProduct;
+export default changePassword;

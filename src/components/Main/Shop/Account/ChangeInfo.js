@@ -20,12 +20,11 @@ import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import changeInfo from '../../../../api/changeInfo';
 import Header from '../Header';
 import color from '../../../../../assets/color';
-import userAvatar from '../../../../images/userAvatar.png';
 import font from '../../../../../assets/font';
 
 export default function ChangeInfo({ navigation, route }) {
     const { user } = route.params;
-    const [userCurrent, setUserCurrent] = useState(user);
+    //const [userCurrent, setUserCurrent] = useState(user);
     const [name, setName] = useState(user.kh_ten);
     const [gender, setGender] = useState(user.kh_gioitinh);
     const [selectedDate, setSelectedDate] = useState(null);
@@ -63,7 +62,7 @@ export default function ChangeInfo({ navigation, route }) {
         setGender(val);
     };
     // The path of the picked image
-    const [pickedImagePath, setPickedImagePath] = useState('');
+    const [pickedImagePath, setPickedImagePath] = useState(`http://kimimylife.site/kh_avatar/${user.kh_anhdaidien}`);
 
     // This function is triggered when the "Select an image" button pressed
     const showImagePicker = async () => {
@@ -148,7 +147,7 @@ export default function ChangeInfo({ navigation, route }) {
             .then((res) => {
                 if (res.success) {
                     //AsyncStorage.removeItem('user');
-                    setUserCurrent(res.user);
+                    //setUserCurrent(res.user);
                     AsyncStorage.setItem('user', JSON.stringify(res.user));
                     onSuccess();
                 }
@@ -163,23 +162,19 @@ export default function ChangeInfo({ navigation, route }) {
             <ScrollView style={wrapper}>
                 <View style={avatarView}>
                     <View>
-                        {user.kh_anhdaidien !== null ? (
+                        {pickedImagePath !== 'http://kimimylife.site/kh_avatar/null' ? (
                             <Image
                                 source={{
-                                    uri: `http://kimimylife.site/kh_avatar/${user.kh_anhdaidien}`,
+                                    uri: pickedImagePath,
                                 }}
-                                resizeMode="contain"
-                                style={avatar}
-                            />
-                        ) : pickedImagePath !== '' ? (
-                            <Image
-                                source={{ uri: pickedImagePath }}
                                 resizeMode="contain"
                                 style={avatar}
                             />
                         ) : (
                             <Image
-                                source={userAvatar}
+                            source={{
+                                uri: 'http://kimimylife.site/kh_avatar/userAvatar.png',
+                            }}
                                 resizeMode="contain"
                                 style={avatar}
                             />

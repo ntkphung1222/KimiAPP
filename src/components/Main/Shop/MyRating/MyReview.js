@@ -16,7 +16,6 @@ import font from '../../../../../assets/font';
 export default function MyReview({ route, navigation }) {
     const { user } = route.params;
     const [serverDataReview, setServerDataReview] = useState([]);
-    const [product, setProduct] = useState([]);
     useEffect(() => {
         // eslint-disable-next-line no-undef
         fetch(`http://kimimylife.site/api/getAllDGByID?kh_ma=${user.kh_ma}`)
@@ -30,26 +29,12 @@ export default function MyReview({ route, navigation }) {
                 console.error(error);
             });
     }, []);
-    async function setproduct(
-        sp_ma,
-        dm_ma,
-        sp_hinhanh,
-        sp_ten,
-        sp_soluonggioihan,
-        sp_giaban
-    ) {
-        setProduct(
-            sp_ma,
-            dm_ma,
-            sp_hinhanh,
-            sp_ten,
-            sp_soluonggioihan,
-            sp_giaban
-        );
-    }
     return (
         <View style={styles.container}>
-            <ScrollView style={styles.wrapper}>
+            <ScrollView
+                style={styles.wrapper}
+                showsVerticalScrollIndicator={false}
+            >
                 {serverDataReview.length > 0 ? (
                     <View>
                         {serverDataReview.map((item, i) => (
@@ -57,17 +42,17 @@ export default function MyReview({ route, navigation }) {
                                 <View style={styles.leftView}>
                                     <Image
                                         source={{
-                                            uri: `http://kimimylife.site/sp_hinhanh/${item.sp_hinhanh}`,
+                                            uri: `http://kimimylife.site/kh_avatar/${user.kh_anhdaidien}`,
                                         }}
-                                        resizeMode="contain"
-                                        style={{ width: 50, height: 50 }}
+                                        resizeMode="cover"
+                                        style={{ width: 50, height: 50, borderRadius: 50 }}
                                     />
                                 </View>
 
                                 <View style={styles.rightView}>
                                     <View style={styles.rightTopView}>
-                                        <Text>{user.kh_name}</Text>
-                                        <Text>
+                                        <Text style={font.textNormal}>{user.kh_ten}</Text>
+                                        <Text style={font.textNormal}>
                                             {moment(
                                                 new Date(item.dg_ngay)
                                             ).format('DD/MM/YYYY')}
@@ -75,46 +60,37 @@ export default function MyReview({ route, navigation }) {
                                     </View>
                                     <View style={styles.starView}>
                                         <AirbnbRating
-                                            //isDisabled
+                                            isDisabled
                                             defaultRating={item.dg_sao}
                                             size={20}
                                             showRating={false}
                                         />
                                     </View>
-                                    <Text>
+                                    <Text style={font.textNormal}>
                                         {item.dg_noidung !== null
                                             ? item.dg_noidung
                                             : 'Không chứa nội dung.'}
                                     </Text>
                                     <TouchableOpacity
                                         onPress={() => {
-                                            setproduct(
-                                                item.sp_ma,
-                                                item.dm_ma,
-                                                item.sp_hinhanh,
-                                                item.sp_ten,
-                                                item.sp_soluonggioihan,
-                                                item.sp_giaban
-                                            );
                                             navigation.navigate(
                                                 'ProductDetail',
                                                 {
-                                                    product,
+                                                    product: item,
                                                 }
                                             );
-                                            console.log(product);
                                         }}
                                         style={styles.productView}
                                     >
                                         <Image
                                             source={{
-                                                uri: item.sp_hinhanh,
+                                                uri: `http://kimimylife.site/sp_hinhanh/${item.sp_hinhanh}`,
                                             }}
                                             resizeMode="contain"
                                             style={styles.productImage}
                                         />
                                         <Text style={styles.productName}>
-                                            {item.sp_ten}
+                                           {item.sp_ten}
                                         </Text>
                                     </TouchableOpacity>
                                 </View>
@@ -126,8 +102,6 @@ export default function MyReview({ route, navigation }) {
                         <Text style={font.textTitle1}>Không có đánh giá.</Text>
                     </View>
                 )}
-
-                {/* <Text> {JSON.stringify(serverDataReview)}</Text> */}
             </ScrollView>
         </View>
     );
@@ -146,13 +120,15 @@ const styles = StyleSheet.create({
         flex: 1,
         marginBottom: 10,
         backgroundColor: color.white,
-        paddingHorizontal: 10,
+        padding: 10,
     },
     leftView: {
+        paddingTop: 8,
         width: itemWidth * 0.15,
     },
     rightView: {
         width: itemWidth * 0.85,
+        paddingRight: 5
     },
     rightTopView: {
         flexDirection: 'row',
@@ -167,12 +143,17 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
+        width: itemWidth * 0.85,
     },
     productImage: {
-        width: 100,
-        height: 100,
+        width: itemWidth * 0.15,
+        height: itemWidth * 0.15,
     },
-    productName: {},
+    productName: {
+        fontFamily: 'SFProDisPlayRegular',
+        fontSize: 14,
+        width: itemWidth * 0.68,
+    },
     emptyView: {
         flex: 1,
         marginTop: 140,

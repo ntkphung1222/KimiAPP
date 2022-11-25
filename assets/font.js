@@ -32,6 +32,16 @@ export default {
         fontSize: 18,
         color: color.primary,
     },
+    textBoldSmall: {
+        fontFamily: 'SFProDisplaySemiBold',
+        fontSize: 14,
+        color: color.red,
+    },
+    textBoldSmallRed: {
+        fontFamily: 'SFProDisplaySemiBold',
+        fontSize: 14,
+        color: color.red,
+    },
     textNormalWhite: {
         fontFamily: 'SFProDisPlayRegular',
         fontSize: 16,

@@ -260,11 +260,7 @@ const AddShippingAddress = ({ navigation, route }) => {
                     <TouchableOpacity
                         activeOpacity={0.8}
                         onPress={() => {
-                            // Alert.alert(
-                            //     `${name} | ${number}, ${road}, ${ward}, ${district}, ${city}`
-                            // );
                             handleSubmit();
-                            //navigation.goBack();
                         }}
                         style={styles.button}
                     >

@@ -14,6 +14,7 @@ import font from '../../../../../assets/font';
 
 export default function PostDetail({ navigation, route }) {
     const { post } = route.params;
+
     return (
         <View style={styles.container}>
             <ScrollView style={styles.wrapper}>
@@ -77,7 +78,7 @@ const styles = StyleSheet.create({
         borderTopLeftRadius: 10,
         borderTopRightRadius: 10,
     },
-    postNameView: {},
+    postNameView: { paddingHorizontal: 10 },
     postContentView: {
         paddingHorizontal: 10,
         paddingVertical: 10,

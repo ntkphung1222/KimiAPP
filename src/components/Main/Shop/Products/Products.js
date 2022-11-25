@@ -1,4 +1,5 @@
 /* eslint-disable camelcase */
+import { FontAwesome as Icon } from '@expo/vector-icons';
 import React, { useState, useEffect } from 'react';
 import {
     FlatList,
@@ -70,7 +71,7 @@ export default function Products({ navigation, route }) {
                         <Text
                             style={[
                                 font.label,
-                                (isFocus === 'Mới nhất' && styles.changeText),
+                                isFocus === 'Mới nhất' && styles.changeText,
                             ]}
                         >
                             Mới nhất
@@ -86,10 +87,14 @@ export default function Products({ navigation, route }) {
                             isFocus === 'Bán chạy' && styles.changeBg,
                         ]}
                     >
-                        <Text style={[
+                        <Text
+                            style={[
                                 font.label,
-                                (isFocus === 'Bán chạy' && styles.changeText),
-                            ]}>Bán chạy</Text>
+                                isFocus === 'Bán chạy' && styles.changeText,
+                            ]}
+                        >
+                            Bán chạy
+                        </Text>
                     </TouchableOpacity>
                     <TouchableOpacity
                         onPress={() => {
@@ -97,34 +102,62 @@ export default function Products({ navigation, route }) {
                             onPress('Giá cao');
                         }}
                         style={[
-                            styles.filter,
+                            styles.filterGia,
                             isFocus === 'Giá cao' && styles.changeBg,
                         ]}
                     >
-                        <Text style={[
+                        <Text
+                            style={[
                                 font.label,
-                                (isFocus === 'Giá cao' && styles.changeText),
-                            ]}>Giá cao</Text>
+                                isFocus === 'Giá cao' && styles.changeText,
+                            ]}
+                        >
+                            Giá cao{' '}
+                        </Text>
+                        <Icon
+                            style={styles.icon}
+                            name="long-arrow-down"
+                            size={14}
+                            color= {
+                                isFocus === 'Giá cao' ? color.white : color.darkblue
+                            }
+                        />
+                        
                     </TouchableOpacity>
                     <TouchableOpacity
                         onPress={() => {
                             loadProduct(3);
-                            onPress('Giá thấp')
+                            onPress('Giá thấp');
                         }}
                         style={[
-                            styles.filter,
+                            styles.filterGia,
                             isFocus === 'Giá thấp' && styles.changeBg,
                         ]}
                     >
-                        <Text style={[
+                        <Text
+                            style={[
                                 font.label,
-                                (isFocus === 'Giá thấp' && styles.changeText),
-                            ]}>Giá thấp</Text>
+                                isFocus === 'Giá thấp' && styles.changeText,
+                            ]}
+                        >
+                            Giá thấp{' '}
+                        </Text>
+                        <Icon
+                            style={styles.icon}
+                            name="long-arrow-up"
+                            size={14}
+                            color= {
+                                isFocus === 'Giá thấp' ? color.white : color.darkblue
+                            }
+                           
+                        />
                     </TouchableOpacity>
                 </View>
-
+                
                 <ScrollView>
-                    <View style={styles.newProductView}>
+                    {
+                        serverData.length > 0 ? (
+<View style={styles.newProductView}>
                         {/* <Text>{JSON.stringify(serverData)}</Text> */}
                         {serverData.map((item) => (
                             <TouchableOpacity
@@ -140,15 +173,14 @@ export default function Products({ navigation, route }) {
                                     <Image
                                         resizeMode="contain"
                                         style={{ flex: 1 }}
-                                        source={{ uri: `http://kimimylife.site/sp_hinhanh/${item.sp_hinhanh}` }}
-
+                                        source={{
+                                            uri: `http://kimimylife.site/sp_hinhanh/${item.sp_hinhanh}`,
+                                        }}
                                     />
                                 </View>
                                 <View
                                     style={{
                                         marginTop: 0,
-                                        justifyContent: 'center',
-                                        alignContent: 'center',
                                     }}
                                 >
                                     <Text
@@ -157,34 +189,41 @@ export default function Products({ navigation, route }) {
                                     >
                                         {item.sp_ten}
                                     </Text>
-                                    <View style={styles.newProductPriceView}>
-                                        <NumericFormat
-                                            type="text"
-                                            value={item.sp_giaban}
-                                            allowLeadingZeros
-                                            thousandSeparator=","
-                                            displayType="text"
-                                            suffix={'đ'}
-                                            renderText={(formatValue) => (
-                                                <Text
-                                                    style={
-                                                        styles.newProductPrice
-                                                    }
-                                                >
-                                                    {formatValue}
-                                                </Text>
-                                            )}
-                                        />
-                                        <View>
-                                            <Text style={font.textNormalSmall}>
-                                                Đã bán {item.sp_daban}
+                                </View>
+                                <View style={styles.newProductPriceView}>
+                                    <NumericFormat
+                                        type="text"
+                                        value={item.sp_giaban}
+                                        allowLeadingZeros
+                                        thousandSeparator=","
+                                        displayType="text"
+                                        suffix={'đ'}
+                                        renderText={(formatValue) => (
+                                            <Text
+                                                style={styles.newProductPrice}
+                                            >
+                                                {formatValue}
                                             </Text>
-                                        </View>
+                                        )}
+                                    />
+                                    <View>
+                                        <Text style={font.textNormalSmall}>
+                                            Đã bán {item.sp_daban}
+                                        </Text>
                                     </View>
                                 </View>
                             </TouchableOpacity>
                         ))}
                     </View>
+                        ) : (
+                            <View style={styles.emptyView}>
+                            <Text style={font.textTitle1}>
+                                Không có sản phẩm nào.{' '}
+                            </Text>
+                        </View>
+                        )
+                    }
+                    
                 </ScrollView>
             </View>
         </View>
@@ -215,6 +254,15 @@ const styles = StyleSheet.create({
         marginRight: 5,
         borderRadius: 10,
         alignItems: 'center',
+    },
+    filterGia: {
+        backgroundColor: color.borderSecond,
+        width: itemFilter,
+        marginRight: 5,
+        borderRadius: 10,
+        alignItems: 'center',
+        justifyContent: 'center',
+        flexDirection: 'row',
     },
     changeBg: {
         backgroundColor: 'gray',
@@ -253,16 +301,25 @@ const styles = StyleSheet.create({
         fontFamily: 'SFProDisplaySemiBold',
         fontSize: 14,
         justifyContent: 'space-between',
+        width: itemW - 5,
+        paddingHorizontal: 10,
     },
     newProductPriceView: {
         alignItems: 'center',
         justifyContent: 'space-between',
         marginTop: 2,
         flexDirection: 'row',
+        width: itemW - 5,
+        paddingHorizontal: 10,
     },
     newProductPrice: {
         fontSize: 15,
         color: color.primary,
         fontFamily: 'SFProDisplaySemiBold',
+    },
+    emptyView: {
+        flex: 1,
+        marginTop: 140,
+        alignItems: 'center',
     },
 });

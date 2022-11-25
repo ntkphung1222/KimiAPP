@@ -60,7 +60,7 @@ export default function OrderCompleted({ navigation, route }) {
                     >
                         {/* <Text>{JSON.stringify(arr)}</Text> */}
                         {Object.entries(arr)
-                            .sort(() => -1)
+                            //.sort(() => -1)
                             .map(([i, value]) => (
                                 <TouchableOpacity
                                     onPress={() =>

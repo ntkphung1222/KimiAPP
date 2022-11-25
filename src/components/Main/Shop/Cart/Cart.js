@@ -24,15 +24,16 @@ function Cart({ navigation }) {
   const [dataCart, setDataCart] = useState([]);
   const [user, setUser] = useState(null);
   const [refreshing, setRefreshing] = useState(false);
-  const loadData = () => {
-    AsyncStorage.getItem('cart').then((cart) => {
+  const loadData = async () => {
+    await AsyncStorage.getItem('cart').then((cart) => {
       if (cart !== null) {
         const cartS = JSON.parse(cart);
         setDataCart(cartS);
       }
     });
   };
-  useEffect(() => {
+
+  const loadUser = async () => {
     AsyncStorage.getItem('user').then((userR) => {
       //console.log(userR);
       if (userR !== null) {
@@ -40,8 +41,15 @@ function Cart({ navigation }) {
         setUser(userCurrent);
       }
     });
-  }, []);
+  };
+
+  const checkUser = async () => {
+    if (user !== null) {
+    navigation.navigate('Payment', { dataCart, user });
+    } else navigation.navigate('Signin');
+  };
   useEffect(() => {
+    loadUser();
     loadData();
   }, []);
   const onLoadToTal = () => {
@@ -91,7 +99,7 @@ function Cart({ navigation }) {
               refreshControl={
                 <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
               }
-              showsVerticalScrollIndicator={false} style={{ flex: 0.8 }}
+              showsVerticalScrollIndicator={false} style={{ flex: 0.78 }}
               >
                 <View>
                 {dataCart
@@ -236,7 +244,7 @@ function Cart({ navigation }) {
                   </View>
               </ScrollView>
               <View 
-              style={{ flex: 0.2, 
+              style={{ flex: 0.22, 
                 backgroundColor: color.white, 
                 borderTopWidth: 0.5, 
                 borderTopColor: color.gray 
@@ -259,7 +267,7 @@ function Cart({ navigation }) {
               <TouchableOpacity
                 activeOpacity={0.8}
                 style={styles.button}
-                onPress={() => navigation.navigate('Payment', { dataCart, user })}
+                onPress={() => checkUser()}
               >
                 <Text style={styles.textButton}>THANH TOÁN</Text>
               </TouchableOpacity>
@@ -375,7 +383,6 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     marginTop: 10,
     marginBottom: 25,
-    //flex: 0.2,
     width: width - 40,
     marginHorizontal: 20,
     right: 0,

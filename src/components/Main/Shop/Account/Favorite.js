@@ -91,16 +91,14 @@ export default function Favorite({ navigation }) {
                                     <Image
                                         resizeMode="contain"
                                         style={{ flex: 1 }}
-                                        source={{
-                                            uri: item.product.sp_hinhanh,
-                                        }}
+                                        source={{ uri: `http://kimimylife.site/sp_hinhanh/${item.product.sp_hinhanh}` }}
+
                                     />
                                 </View>
                                 <View
                                     style={{
                                         marginTop: 0,
-                                        justifyContent: 'center',
-                                        alignContent: 'center',
+                                        width: itemW - 20
                                     }}
                                 >
                                     <Text
@@ -109,6 +107,7 @@ export default function Favorite({ navigation }) {
                                     >
                                         {item.product.sp_ten}
                                     </Text>
+                                    </View>
                                     <View style={styles.favProductPriceView}>
                                         <NumericFormat
                                             type="text"
@@ -127,8 +126,7 @@ export default function Favorite({ navigation }) {
                                         />
                                         <TouchableOpacity
                                             style={{
-                                                position: 'absolute',
-                                                right: 0,
+                                              
                                             }}
                                             onPress={() =>
                                                 Alert.alert(
@@ -172,7 +170,6 @@ export default function Favorite({ navigation }) {
                                             />
                                         </TouchableOpacity>
                                     </View>
-                                </View>
                             </TouchableOpacity>
                         ))}
                     </View>
@@ -230,6 +227,10 @@ const styles = StyleSheet.create({
     },
     favProductPriceView: {
         marginTop: 2,
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        flexDirection: 'row',
+        width: itemW - 20
     },
     favProductPrice: {
         fontSize: 15,

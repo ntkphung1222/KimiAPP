@@ -228,6 +228,7 @@ export default function Payment({ navigation, route }) {
                             )}
                         />
                     </View>
+                    {/* {console.log(dataCart)} */}
                 </ScrollView>
             </View>
             <View
@@ -393,7 +394,9 @@ const styles = StyleSheet.create({
         bottom: 0,
     },
     checkoutButton: {
+        elevation: 8,
         backgroundColor: color.primary,
+        borderRadius: 10,
         paddingVertical: 14,
         marginTop: 10,
         alignItems: 'center',
@@ -401,6 +404,7 @@ const styles = StyleSheet.create({
     checkoutButtonText: {
         fontSize: 18,
         color: color.white,
-        fontWeight: '700',
+        fontWeight: 'bold',
+        alignSelf: 'center',
     },
 });

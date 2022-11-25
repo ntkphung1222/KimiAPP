@@ -13,11 +13,10 @@ import {
 import ratingProduct from '../../../../api/ratingProduct';
 import color from '../../../../../assets/color';
 import Header from '../Header';
-//import font from '../../../../../assets/font';
+import font from '../../../../../assets/font';
 
 export default function RatingProduct({ navigation, route }) {
     const { product } = route.params;
-    const userID = route.params.userID;
     const [noidungdg, setNoiDungDG] = useState('');
     const { container, wrapper, input } = styles;
     const [defaultRating, setDefaultRating] = useState(5);
@@ -53,11 +52,12 @@ export default function RatingProduct({ navigation, route }) {
     );
 
     // eslint-disable-next-line camelcase, no-shadow
-    function handleSubmit(userID, sp_ma, dg_sosao, dg_noidung) {
+    function handleSubmit(hdx_ma, sp_ma, dg_sosao, dg_noidung) {
         // eslint-disable-next-line no-undef
-        ratingProduct(userID, sp_ma, dg_sosao, dg_noidung).then((res) => {
+        ratingProduct(hdx_ma, sp_ma, dg_sosao, dg_noidung).then((res) => {
             if (res.success) {
                 Alert.alert('Cảm ơn bạn đã đánh giá sản phẩm.');
+                navigation.goBack();
             } else {
                 Alert.alert('Đánh giá sản phẩm lỗi òi.');
             }
@@ -78,10 +78,13 @@ export default function RatingProduct({ navigation, route }) {
                             />
                         </View>
                         <View style={styles.rightItemView}>
-                            <Text>{product.sp_ten}</Text>
+                            <Text style={font.textNormal}>{product.sp_ten}</Text>
                         </View>
                     </View>
-                    <View style={{ marginTop: 20 }}>
+                    <View style={{ marginTop: 0 }}>
+                        <CustomRatingBar />
+                    </View>
+                    <View style={{ marginTop: 0 }}>
                         <CustomRatingBar />
                     </View>
                     <View style={{ paddingHorizontal: 20 }}>
@@ -101,9 +104,9 @@ export default function RatingProduct({ navigation, route }) {
                 <TouchableOpacity
                     style={styles.ratingButton}
                     onPress={() => {
-                        //console.log(userID, JSON.parse(product.sp_ma), 5, noidungdg);
+                        console.log(product.hdx_ma, JSON.parse(product.sp_ma), 5, noidungdg);
                         handleSubmit(
-                            userID,
+                           product.hdx_ma,
                             JSON.parse(product.sp_ma),
                             defaultRating,
                             noidungdg

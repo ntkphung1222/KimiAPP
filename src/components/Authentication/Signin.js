@@ -5,6 +5,7 @@ import {
     Text,
     Dimensions,
     TouchableOpacity,
+    Image,
     Alert,
 } from 'react-native';
 import { Icon } from 'react-native-elements';
@@ -14,6 +15,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import color from '../../../assets/color';
 import font from '../../../assets/font';
 import signIn from '../../api/signIn';
+import shipper from '../../images/shipper.png';
+
 
 //import saveToken from '../../api/saveToken';
 //import getToken from '../../api/getToken';
@@ -75,10 +78,14 @@ const Signin = ({ navigation }) => {
                     name="angle-left"
                     type="font-awesome"
                     size={30}
-                    color={color.white}
+                    color={color.black}
                 />
                 <Text style={styles.headerTitle}>Về trang chủ</Text>
             </TouchableOpacity>
+            < View style={styles.imageView}>
+            <Image source={shipper} style={styles.image} />
+
+            </View>
             <View style={styles.wrapper}>
                 <Text style={font.textTitle}>Đăng nhập</Text>
                 <Form onSubmit={handleSubmit}>
@@ -207,11 +214,12 @@ const { width } = Dimensions.get('window');
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: color.primary,
+        backgroundColor: color.white,
         justifyContent: 'flex-end',
     },
     wrapper: {
         width,
+        elevation: 20,
         borderTopLeftRadius: 40,
         borderTopRightRadius: 40,
         padding: 20,
@@ -219,7 +227,7 @@ const styles = StyleSheet.create({
     },
     headerTitle: {
         fontSize: 20,
-        color: color.white,
+        color: color.black,
         paddingVertical: 10,
         paddingHorizontal: 10,
     },
@@ -277,5 +285,16 @@ const styles = StyleSheet.create({
     forgotPasswordView: {
         marginVertical: 2,
         alignItems: 'flex-end',
+    },
+    imageView: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        width,
+        height: 350,
+    },
+    image: {
+        height: 200,
+        width: 200,
+        borderRadius: 20,
     },
 });

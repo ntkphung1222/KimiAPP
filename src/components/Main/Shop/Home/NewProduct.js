@@ -12,6 +12,7 @@ import { NumericFormat } from 'react-number-format';
 import font from '../../../../../assets/font';
 import getNewProduct from '../../../../api/getNewProduct';
 import color from '../../../../../assets/color';
+import newtag from '../../../../images/newtag.png';
 
 export default function NewProduct({ navigation }) {
     const [serverData, setServerData] = useState([]);
@@ -31,7 +32,8 @@ export default function NewProduct({ navigation }) {
     return (
         <View style={styles.container}>
             <View style={{ paddingLeft: 20 }}>
-            <Text style={font.textTitle1}> Sản phẩm mới nhất </Text></View>
+                <Text style={font.textTitle1}> Sản phẩm mới nhất </Text>
+            </View>
             <ScrollView>
                 <View style={styles.newProductView}>
                     {/* <Text>{JSON.stringify(serverData)}</Text> */}
@@ -49,15 +51,25 @@ export default function NewProduct({ navigation }) {
                                 <Image
                                     resizeMode="contain"
                                     style={{ flex: 1 }}
-                                    source={{ uri: `http://kimimylife.site/sp_hinhanh/${item.sp_hinhanh}` }}
+                                    source={{
+                                        uri: `http://kimimylife.site/sp_hinhanh/${item.sp_hinhanh}`,
+                                    }}
+                                />
 
+                                <Image
+                                    source={newtag}
+                                    style={{
+                                        width: 35,
+                                        height: 35,
+                                        position: 'absolute',
+                                        right: 0,
+                                        top: 0,
+                                    }}
                                 />
                             </View>
                             <View
                                 style={{
                                     marginTop: 0,
-                                    justifyContent: 'center',
-                                    alignContent: 'center',
                                 }}
                             >
                                 <Text
@@ -66,28 +78,26 @@ export default function NewProduct({ navigation }) {
                                 >
                                     {item.sp_ten}
                                 </Text>
-                                <View style={styles.newProductPriceView}>
-                                    <NumericFormat
-                                        type="text"
-                                        value={item.sp_giaban}
-                                        allowLeadingZeros
-                                        thousandSeparator=","
-                                        displayType="text"
-                                        suffix={'đ'}
-                                        renderText={(formatValue) => (
-                                            <Text
-                                                style={styles.newProductPrice}
-                                            >
-                                                {formatValue}
-                                            </Text>
-                                        )}
-                                    />
-                                    {/* <View>
+                            </View>
+                            <View style={styles.newProductPriceView}>
+                                <NumericFormat
+                                    type="text"
+                                    value={item.sp_giaban}
+                                    allowLeadingZeros
+                                    thousandSeparator=","
+                                    displayType="text"
+                                    suffix={'đ'}
+                                    renderText={(formatValue) => (
+                                        <Text style={styles.newProductPrice}>
+                                            {formatValue}
+                                        </Text>
+                                    )}
+                                />
+                                {/* <View>
                                         <Text style={font.textNormalSmall}>
                                             Đã bán {item.sp_daban}
                                         </Text>
                                     </View> */}
-                                </View>
                             </View>
                         </TouchableOpacity>
                     ))}
@@ -136,12 +146,16 @@ const styles = StyleSheet.create({
         fontFamily: 'SFProDisplaySemiBold',
         fontSize: 14,
         justifyContent: 'space-between',
+        width: itemW - 5,
+        paddingHorizontal: 10,
     },
     newProductPriceView: {
         alignItems: 'center',
         justifyContent: 'space-between',
         marginTop: 2,
         flexDirection: 'row',
+        width: itemW - 5,
+        paddingHorizontal: 10,
     },
     newProductPrice: {
         fontSize: 15,

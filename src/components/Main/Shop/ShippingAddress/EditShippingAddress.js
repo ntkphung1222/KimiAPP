@@ -108,7 +108,8 @@ const EditShippingAddress = ({ navigation, route }) => {
             Alert.alert('Vui lòng nhập đầy đủ thông tin.');
             return;
         }
-        editAddress(diachi.dc_ma, name, number, ward, road).then((res) => {
+        editAddress(diachi.dc_ma, name, number, ward, road)
+        .then((res) => {
             if (res.success) {
                 Alert.alert('Địa chỉ đã được cập nhật.');
                 navigation.goBack();
@@ -268,11 +269,7 @@ const EditShippingAddress = ({ navigation, route }) => {
                     <TouchableOpacity
                         activeOpacity={0.8}
                         onPress={() => {
-                            // Alert.alert(
-                            //     `${name} | ${number}, ${road}, ${ward}, ${district}, ${city}`
-                            // );
                             handleSubmit();
-                            //navigation.goBack();
                         }}
                         style={styles.button}
                     >
@@ -305,6 +302,8 @@ const styles = StyleSheet.create({
         borderRadius: 8,
         paddingHorizontal: 8,
         marginTop: 20,
+        fontSize: 16,
+        fontFamily: 'SFProDisPlayRegular',
         marginBottom: 10,
     },
     icon: {
@@ -317,6 +316,8 @@ const styles = StyleSheet.create({
         borderRadius: 8,
         marginBottom: 5,
         marginVertical: 20,
+        fontSize: 16,
+        fontFamily: 'SFProDisPlayRegular',
         paddingHorizontal: 8,
     },
     label: {
@@ -327,13 +328,17 @@ const styles = StyleSheet.create({
         zIndex: 999,
         paddingHorizontal: 8,
         fontSize: 14,
+        fontFamily: 'SFProDisPlayRegular'
     },
     placeholderStyle: {
         fontSize: 16,
         color: 'black',
+        fontFamily: 'SFProDisPlayRegular'
+
     },
     selectedTextStyle: {
         fontSize: 16,
+        fontFamily: 'SFProDisPlayRegular'
     },
     iconStyle: {
         width: 20,
@@ -342,6 +347,8 @@ const styles = StyleSheet.create({
     inputSearchStyle: {
         height: 40,
         fontSize: 16,
+        fontFamily: 'SFProDisPlayRegular'
+
     },
     button: {
         elevation: 8,
@@ -355,6 +362,7 @@ const styles = StyleSheet.create({
     textButton: {
         fontSize: 18,
         color: color.white,
+        fontFamily: 'SFProDisPlayRegular',
         fontWeight: 'bold',
         alignSelf: 'center',
         textTransform: 'uppercase',

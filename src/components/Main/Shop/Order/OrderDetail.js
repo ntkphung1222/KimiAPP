@@ -13,6 +13,7 @@ import {
 import { NumericFormat } from 'react-number-format';
 import Header from '../Header';
 import cancleOrder from '../../../../api/cancleOrder';
+import confirmOrder from '../../../../api/confirmOrder';
 import color from '../../../../../assets/color';
 import font from '../../../../../assets/font';
 //import font from '../../../../../assets/font';
@@ -29,6 +30,16 @@ export default function OrderDetail({ navigation, route }) {
                 Alert.alert('Hủy đơn hàng thành công.');
             } else {
                 Alert.alert('Thao tác thất bại.');
+            }
+        });
+    }
+
+    // eslint-disable-next-line camelcase
+    function daNhanHang(hdx_ma) {
+        // eslint-disable-next-line no-undef
+        confirmOrder(hdx_ma).then((res) => {
+            if (res.success) {
+                console.log(res.message);
             }
         });
     }
@@ -153,7 +164,7 @@ export default function OrderDetail({ navigation, route }) {
                                     {
                                         text: 'Xác nhận',
                                         onPress: () => {
-                                            //handleSubmit(productList[0].hdx_ma);
+                                            daNhanHang(productList[0].hdx_ma);
                                         },
                                     },
                                 ]);

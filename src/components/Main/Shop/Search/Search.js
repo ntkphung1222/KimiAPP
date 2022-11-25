@@ -73,6 +73,18 @@ export default function Search({ navigation }) {
                     //console.log(item);
                     if (item) {
                         item.quantity += 1;
+                        if (item.quantity > data.sp_soluonggioihan) {
+                            item.quantity = data.sp_soluonggioihan;
+                            Alert.alert(
+                                'Bạn đã đạt số lượng mua giới hạn cho sản phẩm này.'
+                            );
+                        }
+                        //else {
+                        //item.quantity = item.product.sp_soluong;
+                        //Alert.alert(
+                        ('Bạn đã đạt số lượng mua giới hạn cho sản phẩm này.');
+                        // );
+                        //}
                     } else {
                         cart.push(itemcart);
                     }
@@ -255,58 +267,89 @@ export default function Search({ navigation }) {
                     </View>
                 ) : null}
                 <View style={{ paddingLeft: 20 }}>
-                <Text style={font.textTitle1}> Tất cả sản phẩm </Text>
+                    <Text style={font.textTitle1}> Tất cả sản phẩm </Text>
                 </View>
                 <ScrollView>
                     {serverData
-                    //.sort(() => -1)
-                    .map((item, i) => (
-                        <TouchableOpacity
-                            onPress={() =>
-                                navigation.navigate('ProductDetail', {
-                                    product: item,
-                                })
-                            }
-                            style={styles.item}
-                            key={i}
-                        >
-                            <View style={styles.leftItemView}>
-                                <Image
-                                    style={styles.itemImage}
-                                    resizeMode="contain"
-                                    source={{ uri: `http://kimimylife.site/sp_hinhanh/${item.sp_hinhanh}` }}
-                                />
-                            </View>
-                            <View style={styles.rightItemView}>
-                                <View style={styles.rightTopView}>
-                                    <Text style={font.textNormal}>
-                                        {item.sp_ten}
-                                    </Text>
-                                </View>
-                                <View style={styles.rightBottomView}>
-                                    <NumericFormat
-                                        type="text"
-                                        value={item.sp_giaban}
-                                        allowLeadingZeros
-                                        thousandSeparator=","
-                                        displayType="text"
-                                        suffix={'đ'}
-                                        renderText={(formatValue) => (
-                                            <Text style={font.textBold}>{formatValue}</Text>
-                                        )}
-                                    />
-                                    <TouchableOpacity
-                                        onPress={() => onClickAddCart(item)}
-                                        style={styles.btnAdd}
-                                    >
-                                        <Text style={font.textNormalPrimary}>
-                                            THÊM VÀO GIỎ
+                        //.sort(() => -1)
+                        .map((item, i) => (
+                            <TouchableOpacity
+                                onPress={() =>
+                                    navigation.navigate('ProductDetail', {
+                                        product: item,
+                                    })
+                                }
+                                style={styles.item}
+                                key={i}
+                            >
+                                {item.sp_soluong === '0' ? (
+                                    <View style={styles.leftItemView}>
+                                        <Image
+                                            style={styles.itemImage}
+                                            resizeMode="contain"
+                                            blurRadius={50}
+                                            source={{
+                                                uri: `http://kimimylife.site/sp_hinhanh/${item.sp_hinhanh}`,
+                                            }}
+                                        />
+                                        <View style={styles.hethangView}>
+                                            <Text style={font.textBoldSmall}>
+                                                Hết hàng
+                                            </Text>
+                                        </View>
+                                    </View>
+                                ) : (
+                                    <View style={styles.leftItemView}>
+                                        <Image
+                                            style={styles.itemImage}
+                                            resizeMode="contain"
+                                            source={{
+                                                uri: `http://kimimylife.site/sp_hinhanh/${item.sp_hinhanh}`,
+                                            }}
+                                        />
+                                    </View>
+                                )}
+
+                                <View style={styles.rightItemView}>
+                                    <View style={styles.rightTopView}>
+                                        <Text style={font.textNormal}>
+                                            {item.sp_ten}
                                         </Text>
-                                    </TouchableOpacity>
+                                    </View>
+                                    <View style={styles.rightBottomView}>
+                                        <NumericFormat
+                                            type="text"
+                                            value={item.sp_giaban}
+                                            allowLeadingZeros
+                                            thousandSeparator=","
+                                            displayType="text"
+                                            suffix={'đ'}
+                                            renderText={(formatValue) => (
+                                                <Text style={font.textBold}>
+                                                    {formatValue}
+                                                </Text>
+                                            )}
+                                        />
+                                        <TouchableOpacity
+                                            onPress={() => {
+                                                item.sp_soluong === '0'
+                                                    ? Alert.alert(
+                                                          'Sản phẩm đã hết hàng.'
+                                                      )
+                                                    : onClickAddCart(item);
+                                            }}
+                                            style={styles.btnAdd}
+                                        >
+                                            <Text
+                                                style={font.textNormalPrimary}
+                                            >
+                                                THÊM VÀO GIỎ
+                                            </Text>
+                                        </TouchableOpacity>
+                                    </View>
                                 </View>
-                            </View>
-                        </TouchableOpacity>
-                    ))}
+                            </TouchableOpacity>
+                        ))}
                 </ScrollView>
             </View>
         </View>
@@ -347,6 +390,13 @@ const styles = StyleSheet.create({
     itemImage: {
         flex: 1,
         width: width * 0.25,
+    },
+    hethangView: {
+        borderWidth: 2,
+        borderColor: color.red,
+        position: 'absolute',
+        paddingHorizontal: 10,
+        borderRadius: 10,
     },
     rightItemView: {
         width: width * 0.7,

@@ -7,15 +7,18 @@ import {
     Image,
     TouchableOpacity,
     Dimensions,
+    RefreshControl
 } from 'react-native';
 import getNewPost from '../../../../api/getNewPost';
 import font from '../../../../../assets/font';
 import color from '../../../../../assets/color';
 
-const bgColor = [color.primary, '#615DD9', '#019E8B', '#FD6C57'];
+//const bgColor = [color.primary, '#615DD9', '#019E8B', '#FD6C57'];
 
 export default function Post({ navigation }) {
     const [dataPost, setDataPost] = useState([]);
+    const [refreshing, setRefreshing] = useState(false);
+
     function loadDataPost() {
         getNewPost()
             .then((responseJson) => {
@@ -27,6 +30,11 @@ export default function Post({ navigation }) {
             });
     }
     const { container, header, headerTitle } = styles;
+    const onRefresh = React.useCallback(() => {
+        setRefreshing(true);
+        loadDataPost();
+        setRefreshing(false);
+    }, []);
     useEffect(() => {
         loadDataPost();
     }, []);
@@ -36,10 +44,16 @@ export default function Post({ navigation }) {
                 <Text style={headerTitle}>Bài viết</Text>
             </View>
             <ScrollView
+                refreshControl={
+                    <RefreshControl
+                        refreshing={refreshing}
+                        onRefresh={onRefresh}
+                    />
+                }
                 showsVerticalScrollIndicator={false}
                 style={styles.wrapper}
             >
-                <ScrollView
+                {/* <ScrollView
                     horizontal
                     showsHorizontalScrollIndicator={false}
                     style={{ marginHorizontal: 20 }}
@@ -59,7 +73,7 @@ export default function Post({ navigation }) {
                             <Text style={font.label16white}>{item.bv_ten}</Text>
                         </TouchableOpacity>
                     ))}
-                </ScrollView>
+                </ScrollView> */}
                 {/* <Text style={font.label16blackbold}>Bài viết gần đây</Text> */}
                 <View style={{ marginHorizontal: 20 }}>
                     {dataPost
@@ -82,7 +96,7 @@ export default function Post({ navigation }) {
                                 }}
                             />
                             <View style={styles.itemNamePostView}>
-                            <Text style={font.label16blackbold}>
+                            <Text style={font.textBold} adjustsFontSizeToFit>
                                 {item.bv_ten}
                             </Text>
                             </View>
@@ -116,6 +130,7 @@ const styles = StyleSheet.create({
     },
     wrapper: {
         backgroundColor: color.backgroundColor,
+        paddingTop: 5,
     },
     itemPost: {
         marginBottom: 10,
@@ -130,7 +145,8 @@ const styles = StyleSheet.create({
         borderTopRightRadius: 10,
     },
     itemNamePostView: {
-
+        paddingHorizontal: 10,
+        
     },
     itemNamePost: {
 

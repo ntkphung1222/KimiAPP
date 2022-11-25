@@ -11,7 +11,6 @@ import { Icon } from 'react-native-elements';
 import Header from '../Header';
 import font from '../../../../../assets/font';
 import color from '../../../../../assets/color';
-import userAvatar from '../../../../images/userAvatar.png';
 //import color from '../../../../../assets/color';
 
 export default function ChangeInfo({ navigation, route }) {
@@ -36,7 +35,7 @@ export default function ChangeInfo({ navigation, route }) {
             <Header navigation={navigation} title={title} />
             <View style={wrapper}>
                 <View style={avatarView}>
-                    {user.kh_avatar !== null ? (
+                    {user.kh_anhdaidien !== null ? (
                         <Image
                             style={avatar}
                             resizeMode="contain"
@@ -48,7 +47,9 @@ export default function ChangeInfo({ navigation, route }) {
                         <Image
                             style={avatar}
                             resizeMode="contain"
-                            source={userAvatar}
+                            source={{
+                                uri: 'http://kimimylife.site/kh_avatar/userAvatar.png',
+                            }}
                         />
                     )}
                     <Text style={font.textNormal}>{user.kh_ten}</Text>

@@ -21,6 +21,7 @@ import Signin from '../../../Authentication/Signin';
 //import global from '../../../global';
 import font from '../../../../../assets/font';
 import color from '../../../../../assets/color';
+import beta from '../../../../images/beta.png';
 import { onSignIn } from '../../../global';
 
 const optionArray = [
@@ -49,20 +50,20 @@ const optionArray = [
     {
         id: '4',
         value: 'Đổi mật khẩu',
-        iconname: 'settings',
+        iconname: 'key',
         icontype: 'feather',
-        color: color.darkblue,
+        color: '#615DD9',
     },
     {
         id: '5',
         value: 'Đăng xuất',
-        iconname: 'logout',
-        icontype: 'materialicons',
+        iconname: 'log-out',
+        icontype: 'feather',
         color: color.darkblue,
     },
     {
         id: '6',
-        value: 'Liên hệ với chúng tôi',
+        value: 'Chat với nhân viên',
         iconname: 'hipchat',
         icontype: 'fontisto',
         color: color.blue,
@@ -106,7 +107,7 @@ export default function Account({ navigation }) {
         if ($id === '3') navigation.navigate('ShippingAddress', { user });
         if ($id === '4') navigation.navigate('ChangePassword', { user });
         if ($id === '5') logout();
-        if ($id === '6') navigation.navigate('Chat');
+        if ($id === '6') navigation.navigate('Chat', { user });
         if ($id === '7') navigation.navigate('ModalMessage');
     };
     const ItemView = ({ item }) => (
@@ -150,18 +151,21 @@ export default function Account({ navigation }) {
             <Header title={'Tài khoản'} navigation={navigation} />
 
             <View style={avatarView}>
-                {user.kh_avatar !== null ? (
+                {user.kh_anhdaidien !== null ? (
                     <Image
                         style={avatar}
                         resizeMode="contain"
                         source={{
                             uri: `http://kimimylife.site/kh_avatar/${user.kh_anhdaidien}`,
-                        }}                    />
+                        }}
+                    />
                 ) : (
                     <Image
                         style={avatar}
                         resizeMode="contain"
-                        source={userAvatar}
+                        source={{
+                            uri: 'http://kimimylife.site/kh_avatar/userAvatar.png',
+                        }}
                     />
                 )}
                 <Text style={font.textNormal}>{user.kh_ten}</Text>
@@ -201,6 +205,10 @@ export default function Account({ navigation }) {
                     numColumns={1}
                     //ListHeaderComponent={getHeader}
                 />
+                <View style={styles.betaView}>
+                    {/* <Image source={beta} style={{ width: 30, height: 30 }}/> */}
+                    <Text style={font.textBoldSmall}>BETA</Text>
+                </View>
             </View>
         </View>
     );
@@ -277,4 +285,13 @@ const styles = StyleSheet.create({
         borderRadius: 8,
     },
     icon: {},
+    betaView: {
+        position: 'absolute',
+        bottom: 74,
+        right: 40,
+        borderRadius: 5,
+        borderWidth: 1,
+        borderColor: color.red,
+        paddingHorizontal: 10,
+    },
 });

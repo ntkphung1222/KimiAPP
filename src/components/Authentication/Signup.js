@@ -4,6 +4,7 @@ import {
     View,
     Text,
     Dimensions,
+    Image,
     TouchableOpacity,
     Alert,
 } from 'react-native';
@@ -12,7 +13,7 @@ import { Form, InputText } from 'validate-form-in-expo-style';
 import { FontAwesome, Feather } from '@expo/vector-icons';
 import color from '../../../assets/color';
 import font from '../../../assets/font';
-
+import signin from '../../images/signin.png';
 import register from '../../api/signUp';
 
 const Signup = ({ navigation }) => {
@@ -38,7 +39,7 @@ const Signup = ({ navigation }) => {
     };
     const onFail = () => {
         Alert.alert(
-            'Email đã tồn tại.',
+            'Thao tác thất bại.',
             '',
             [
                 {
@@ -73,6 +74,10 @@ const Signup = ({ navigation }) => {
     };
     return (
         <View style={styles.container}>
+            < View style={styles.imageView}>
+            <Image source={signin} style={styles.image} />
+
+            </View>
             <View style={styles.wrapper}>
                 <Text style={font.textTitle}> Đăng ký</Text>
                 <Form onSubmit="">
@@ -278,10 +283,11 @@ const { width } = Dimensions.get('window');
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: color.primary,
+        backgroundColor: color.white,
         justifyContent: 'flex-end',
     },
     wrapper: {
+        elevation: 20,
         width,
         borderTopLeftRadius: 40,
         borderTopRightRadius: 40,
@@ -338,5 +344,16 @@ const styles = StyleSheet.create({
         width: 30,
         height: 30,
         margin: 10,
+    },
+    imageView: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        width,
+        height: 300,
+    },
+    image: {
+        height: 180,
+        width: 180,
+        borderRadius: 20,
     },
 });

@@ -1,25 +1,34 @@
 import React, { useState } from 'react';
-import {
-    View,
-    Text,
-    TouchableOpacity,
-    StyleSheet,
-    Alert,
-} from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, Alert } from 'react-native';
 import { Form, InputText } from 'validate-form-in-expo-style';
 import { Icon } from 'react-native-elements';
 import { FontAwesome } from '@expo/vector-icons';
 import color from '../../../../../assets/color';
 import Header from '../Header';
+import changePassword from '../../../../api/changePassword';
 
 export default function ChangePassword({ navigation, route }) {
-  const { user } = route.params;
+    const { user } = route.params;
     const [oldpassword, setOldPassword] = useState('');
     const [newpassword, setNewPassword] = useState('');
 
     function handleSubmit() {
-        //this.ref.form.submit();
+        if (oldpassword === '' || newpassword === '') {
+            Alert.alert('Vui lòng nhập đầy đủ thông tin.');
+            return;
+        }
+        changePassword(user.kh_email, oldpassword, newpassword)
+            .then((res) => {
+                if (res.success) {
+                    Alert.alert(res.message);
+                    navigation.goBack();
+                } else {
+                    Alert.alert(res.message);
+                }
+            })
+            .catch((error) => console.log(error));
     }
+
     return (
         <View style={styles.container}>
             <Header title="Đổi mật khẩu" navigation={navigation} />
@@ -109,7 +118,7 @@ export default function ChangePassword({ navigation, route }) {
                     />
                     <TouchableOpacity
                         activeOpacity={0.8}
-                        onPress={() => Alert.alert(oldpassword + newpassword + user.kh_ma)}
+                        onPress={() => handleSubmit()}
                         style={styles.button}
                     >
                         <Text style={styles.textButton}>Xác nhận</Text>

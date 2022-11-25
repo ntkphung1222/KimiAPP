@@ -70,13 +70,11 @@ export default function OrderCompleted({ navigation, route }) {
                                             width,
                                         }}
                                     >
-                                        <Text>Mã đơn hàng</Text>
+                                        <Text style={font.textNormal}>Mã đơn hàng</Text>
                                         <Text
-                                            style={{
-                                                fontStyle: 'italic',
-                                            }}
+                                            style={font.textNormalItalic}
                                         >
-                                            #{value.hdx_ma}
+                                            {value.hdx_ma}
                                         </Text>
                                     </View>
                                     {/* <Text>console.log{JSON.stringify(serverData)}</Text> */}
@@ -94,7 +92,7 @@ export default function OrderCompleted({ navigation, route }) {
                                                 />
                                             </View>
                                             <View style={styles.orderInfo}>
-                                                <Text>{data.sp_ten}</Text>
+                                                <Text style={font.textNormal}>{data.sp_ten}</Text>
                                                 <View
                                                     style={{
                                                         position: 'absolute',
@@ -105,6 +103,7 @@ export default function OrderCompleted({ navigation, route }) {
                                                         flexDirection: 'row',
                                                         justifyContent:
                                                             'space-between',
+                                                            alignItems: 'center'
                                                     }}
                                                 >
                                                     <NumericFormat
@@ -117,12 +116,12 @@ export default function OrderCompleted({ navigation, route }) {
                                                         renderText={(
                                                             formatValue
                                                         ) => (
-                                                            <Text>
+                                                            <Text style={font.textBold}>
                                                                 {formatValue}
                                                             </Text>
                                                         )}
                                                     />
-                                                    <Text>
+                                                    <Text style={font.textBold}>
                                                         x {data.soluong}
                                                     </Text>
                                                 </View>
@@ -145,6 +144,7 @@ export default function OrderCompleted({ navigation, route }) {
                                         <Text
                                             style={{
                                                 color: color.white,
+                                                fontFamily: 'SFProDisPlayRegular',
                                                 fontStyle: 'italic',
                                             }}
                                         >
@@ -160,18 +160,20 @@ export default function OrderCompleted({ navigation, route }) {
                                             left: 20,
                                             flexDirection: 'row',
                                             justifyContent: 'space-between',
+                                            alignItems: 'center'
                                         }}
                                     >
-                                        <Text style={font.textBodySmall}>
+                                        <Text style={font.textNormal}>
                                             {value.soluong} sản phẩm
                                         </Text>
                                         <View
                                             style={{
                                                 flexDirection: 'row',
+                                                alignItems: 'center'
                                             }}
                                         >
-                                            <Text style={font.textBodySmall}>
-                                                Thành tiền :
+                                            <Text style={font.textNormal}>
+                                                Thành tiền : {' '}
                                             </Text>
                                             <NumericFormat
                                                 type="text"
@@ -182,7 +184,7 @@ export default function OrderCompleted({ navigation, route }) {
                                                 suffix={'đ'}
                                                 renderText={(formatValue) => (
                                                     <Text
-                                                        style={font.textPrice}
+                                                    style={font.textBoldPrimary}
                                                     >
                                                         {formatValue}
                                                     </Text>

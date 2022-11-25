@@ -114,6 +114,22 @@ export default function ProductDetail({ navigation, route }) {
             }
         });
     }
+    const onSuccess = () => {
+        Alert.alert(
+            'Đã thêm sản phẩm vào giỏ hàng.',
+            '',
+            [
+                {
+                    text: 'Đi đến giỏ hàng',
+                    onPress: () => navigation.navigate('Cart'),  
+                },
+                {
+                    text: 'OK',
+                }
+            ],
+            
+        );
+    };
     useEffect(() => {
         loadCart();
         loadDGTB(product.sp_ma);
@@ -136,7 +152,7 @@ export default function ProductDetail({ navigation, route }) {
                     );
                     if (item) {
                         item.quantity += quan;
-                        if (item.sp_soluong > item.product.sp_soluonggioihan)
+                        //if (item.sp_soluong > item.product.sp_soluonggioihan){
                             if (
                                 item.quantity > item.product.sp_soluonggioihan
                             ) {
@@ -144,12 +160,14 @@ export default function ProductDetail({ navigation, route }) {
                                 Alert.alert(
                                     'Bạn đã đạt số lượng mua giới hạn cho sản phẩm này.'
                                 );
-                            } else {
-                                item.quantity = item.product.sp_soluong;
-                                Alert.alert(
-                                    'Bạn đã đạt số lượng mua giới hạn cho sản phẩm này.'
-                                );
-                            }
+                            } 
+                            //else {
+                                //item.quantity = item.product.sp_soluong;
+                                //Alert.alert(
+                                  //  'Bạn đã đạt số lượng mua giới hạn cho sản phẩm này.'
+                               // );
+                           // }
+                        //}
                     } else {
                         cart.push(itemcart);
                     }
@@ -165,7 +183,7 @@ export default function ProductDetail({ navigation, route }) {
                         JSON.stringify(cart)
                     ).then();
                 }
-                //Alert.alert('Add thành công');
+                //onSuccess();
             })
             .catch((error) => {
                 Alert.alert(error);
@@ -484,86 +502,8 @@ export default function ProductDetail({ navigation, route }) {
                             Đánh giá
                         </Text>
                     </View>
-                    {/* <Text>{JSON.stringify(dght)}</Text>
-                    <Text>{JSON.stringify(tcdg)}</Text> */}
-                    {tcdg.length > 3 ? (
-                        <View>
-                            {dght.map((itemDG, i) => (
-                                <View key={i} style={styles.itemRatingView}>
-                                    <View style={styles.leftView}>
-                                        <Image
-                                            style={{
-                                                width: 30,
-                                                height: 30,
-                                                borderRadius: 30,
-                                            }}
-                                            source={userAvatar}
-                                            resizeMode="cover"
-                                        />
-                                    </View>
-                                    <View style={styles.rightView}>
-                                        <View
-                                            style={{
-                                                flexDirection: 'row',
-                                                justifyContent: 'space-between',
-                                            }}
-                                        >
-                                            <Text style={styles.userName}>
-                                                {itemDG.name}
-                                            </Text>
-                                            <Text>
-                                                {/* {moment(
-                                                    new Date(itemDG.dg_ngay)
-                                                ).format('DD/MM/YYYY')} */}
-                                                {itemDG.dg_ngay}
-                                            </Text>
-                                        </View>
-                                        <View
-                                            style={{
-                                                flex: 1,
-                                                justifyContent: 'flex-start',
-                                                flexDirection: 'row',
-                                            }}
-                                        >
-                                            <AirbnbRating
-                                                size={15}
-                                                starContainerStyle={{
-                                                    marginRight: 0,
-                                                }}
-                                                isDisabled
-                                                showRating={false}
-                                                defaultRating={itemDG.dg_sao}
-                                            />
-                                        </View>
-                                        <Text>
-                                            {itemDG.dg_noidung !== null
-                                                ? itemDG.dg_noidung
-                                                : 'Không chứa nội dung.'}
-                                        </Text>
-                                    </View>
-                                </View>
-                            ))}
-                            <TouchableOpacity
-                                onPress={() =>
-                                    navigation.navigate('AllRatingByProduct', {
-                                        tcdg,
-                                    })
-                                }
-                            >
-                                <Text
-                                    style={{
-                                        textAlign: 'center',
-                                        textDecorationLine: 'underline',
-                                        fontStyle: 'italic',
-                                        color: color.primary,
-                                    }}
-                                >
-                                    {' '}
-                                    Xem tất cả
-                                </Text>
-                            </TouchableOpacity>
-                        </View>
-                    ) : tcdg.length > 0 && tcdg.length < 3 ? (
+                    {
+                    tcdg.length > 0 ? (
                         <View>
                             {tcdg.map((itemDG, i) => (
                                 <View key={i} style={styles.itemRatingView}>
@@ -586,7 +526,7 @@ export default function ProductDetail({ navigation, route }) {
                                             }}
                                         >
                                             <Text style={styles.userName}>
-                                                {itemDG.name}
+                                                {itemDG.kh_ten}
                                             </Text>
                                             <Text>
                                                 {/* {moment(
@@ -629,90 +569,95 @@ export default function ProductDetail({ navigation, route }) {
                         </View>
                     )}
                 </View>
-                <View style={{ marginTop: 10 }}>
-                    <Text
-                        style={{
-                            fontFamily: 'SFProDisPlayRegular',
-                            fontSize: 20,
-                            marginHorizontal: 10,
-                        }}
-                    >
-                        Sản phẩm cùng danh mục
-                    </Text>
-                    <ScrollView
-                        horizontal
-                        showsHorizontalScrollIndicator={false}
-                    >
-                        <View
+                {
+                    serverData.length > 0 ? (
+                        <View style={{ marginTop: 10 }}>
+                        <Text
                             style={{
-                                flexWrap: 'wrap',
-                                flex: 1,
-                                flexDirection: 'row',
+                                fontFamily: 'SFProDisPlayRegular',
+                                fontSize: 20,
+                                marginHorizontal: 10,
                             }}
                         >
-                            {serverData.map((item) => (
-                                <TouchableOpacity
-                                    onPress={() => {
-                                        navigation.navigate('ProductDetail', {
-                                            product: item,
-                                        });
-                                        goToTop();
-                                    }}
-                                    key={item.sp_ma}
-                                    style={styles.itemView}
-                                >
-                                    <View style={styles.newProductImageView}>
-                                        <Image
-                                            resizeMode="contain"
-                                            style={{ flex: 1 }}
-                                            source={{
-                                                uri: `http://kimimylife.site/sp_hinhanh/${item.sp_hinhanh}`,
-                                            }}
-                                        />
-                                    </View>
-                                    <View
-                                        style={{
-                                            marginTop: 0,
-                                            justifyContent: 'center',
-                                            alignContent: 'center',
+                            Sản phẩm cùng danh mục
+                        </Text>
+                        <ScrollView
+                            horizontal
+                            showsHorizontalScrollIndicator={false}
+                        >
+                            <View
+                                style={{
+                                    flexWrap: 'wrap',
+                                    flex: 1,
+                                    flexDirection: 'row',
+                                }}
+                            >
+                                {serverData.map((item) => (
+                                    <TouchableOpacity
+                                        onPress={() => {
+                                            navigation.navigate('ProductDetail', {
+                                                product: item,
+                                            });
+                                            goToTop();
                                         }}
+                                        key={item.sp_ma}
+                                        style={styles.itemView}
                                     >
-                                        <Text
-                                            adjustsFontSizeToFit
-                                            style={styles.newProductName}
-                                        >
-                                            {item.sp_ten}
-                                        </Text>
-                                        <View
-                                            style={styles.newProductPriceView}
-                                        >
-                                            <NumericFormat
-                                                type="text"
-                                                value={item.sp_giaban}
-                                                allowLeadingZeros
-                                                thousandSeparator=","
-                                                displayType="text"
-                                                suffix={'đ'}
-                                                renderText={(formatValue) => (
-                                                    <Text
-                                                        style={
-                                                            styles.newProductPrice
-                                                        }
-                                                    >
-                                                        {formatValue}
-                                                    </Text>
-                                                )}
+                                        <View style={styles.newProductImageView}>
+                                            <Image
+                                                resizeMode="contain"
+                                                style={{ flex: 1 }}
+                                                source={{
+                                                    uri: `http://kimimylife.site/sp_hinhanh/${item.sp_hinhanh}`,
+                                                }}
                                             />
-                                            <Text style={font.textNormalSmall}>
-                                                Đã bán {item.sp_daban}
-                                            </Text>
                                         </View>
-                                    </View>
-                                </TouchableOpacity>
-                            ))}
-                        </View>
-                    </ScrollView>
-                </View>
+                                        <View
+                                            style={{
+                                                marginTop: 0,
+                                                justifyContent: 'center',
+                                                alignContent: 'center',
+                                            }}
+                                        >
+                                            <Text
+                                                adjustsFontSizeToFit
+                                                style={styles.newProductName}
+                                            >
+                                                {item.sp_ten}
+                                            </Text>
+                                            <View
+                                                style={styles.newProductPriceView}
+                                            >
+                                                <NumericFormat
+                                                    type="text"
+                                                    value={item.sp_giaban}
+                                                    allowLeadingZeros
+                                                    thousandSeparator=","
+                                                    displayType="text"
+                                                    suffix={'đ'}
+                                                    renderText={(formatValue) => (
+                                                        <Text
+                                                            style={
+                                                                styles.newProductPrice
+                                                            }
+                                                        >
+                                                            {formatValue}
+                                                        </Text>
+                                                    )}
+                                                />
+                                                <Text style={font.textNormalSmall}>
+                                                    Đã bán {item.sp_daban}
+                                                </Text>
+                                            </View>
+                                        </View>
+                                    </TouchableOpacity>
+                                ))}
+                            </View>
+                        </ScrollView>
+                    </View>
+                    ) : null
+                }
+               
             </ScrollView>
         </View>
     );

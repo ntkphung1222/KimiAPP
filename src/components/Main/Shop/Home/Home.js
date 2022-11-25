@@ -111,6 +111,7 @@ export default function Home({ navigation, route }) {
                 style={{ backgroundColor: color.backgroundColor }}
             >
                 <Banner />
+                {/* <View style={styles.bigCircle} /> */}
                 <Category refreshControl navigation={navigation} />
                 <NewProduct refreshControl navigation={navigation} />
             </ScrollView>
@@ -136,5 +137,15 @@ const styles = StyleSheet.create({
         color: color.white,
         fontFamily: 'SFProDisplaySemiBold',
         fontSize: 18,
+    },
+    bigCircle: {
+        width: 1200,
+        height: 1200,
+        backgroundColor: color.primary,
+        borderRadius: 1200,
+        position: 'absolute',
+        top: -1000,
+        left: -400,
+        right: -400,
     },
 });
