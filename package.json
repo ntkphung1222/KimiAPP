@@ -29,6 +29,7 @@
     "expo-splash-screen": "~0.16.2",
     "expo-status-bar": "~1.4.0",
     "firebase": "^9.12.1",
+    "html-entities": "^2.3.3",
     "moment": "^2.29.4",
     "native-base": "^3.4.15",
     "navigator": "^1.0.1",

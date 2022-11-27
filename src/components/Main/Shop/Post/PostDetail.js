@@ -12,6 +12,7 @@ import { Icon } from 'react-native-elements';
 import color from '../../../../../assets/color';
 import font from '../../../../../assets/font';
 
+
 export default function PostDetail({ navigation, route }) {
     const { post } = route.params;
 

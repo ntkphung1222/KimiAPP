@@ -1,7 +1,7 @@
 import { BASE_URL } from '../config';
 
 // eslint-disable-next-line camelcase
-const order = (hdx_kh, hdx_soluong, hdx_tongtien, hdx_diachi, chitiet) =>
+const order = (hdx_soluong, hdx_tongtien, hdx_diachi, chitiet) =>
   //this.refs.form.submit();
   //eslint-disable-next-line no-undef
   fetch(`${BASE_URL}/api/invoiceexport`, {
@@ -11,7 +11,6 @@ const order = (hdx_kh, hdx_soluong, hdx_tongtien, hdx_diachi, chitiet) =>
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      hdx_kh,
       hdx_soluong,
       hdx_tongtien,
       hdx_diachi,

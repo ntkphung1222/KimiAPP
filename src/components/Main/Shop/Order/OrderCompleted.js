@@ -125,7 +125,7 @@ export default function OrderCompleted({ navigation, route }) {
                                                 >
                                                     <NumericFormat
                                                         type="text"
-                                                        value={data.dongia}
+                                                        value={data.sp_giaban}
                                                         allowLeadingZeros
                                                         thousandSeparator=","
                                                         displayType="text"

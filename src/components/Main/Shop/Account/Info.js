@@ -8,6 +8,7 @@ import {
     TouchableOpacity,
 } from 'react-native';
 import { Icon } from 'react-native-elements';
+import moment from 'moment';
 import Header from '../Header';
 import font from '../../../../../assets/font';
 import color from '../../../../../assets/color';
@@ -85,7 +86,11 @@ export default function ChangeInfo({ navigation, route }) {
                             {user.kh_ngaysinh === null ? (
                                 <Text style={label}>Chưa cập nhật</Text>
                             ) : (
-                                <Text style={label}>{user.kh_ngaysinh}</Text>
+                                <Text style={label}>
+                                    {moment(user.kh_ngaysinh).format(
+                                        'DD-MM-YYYY'
+                                    )}
+                                </Text>
                             )}
                         </View>
                     </View>
@@ -163,7 +168,8 @@ const styles = StyleSheet.create({
         height: avatarsize,
         borderRadius: avatarsize,
         resizeMode: 'cover',
-        backgroundColor: '#333',
+        borderColor: color.white,
+        borderWidth: 2,
     },
     infoView: {
         paddingHorizontal: 20,

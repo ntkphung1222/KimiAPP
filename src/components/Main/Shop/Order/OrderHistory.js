@@ -131,7 +131,7 @@ export default function OrderProcessing({ navigation, route }) {
                             </View>
                             {/* <Text>{JSON.stringify(arr[0])}</Text> */}
                             {Object.entries(serverData)
-                                .sort(() => -1)
+                                //.sort(() => -1)
                                 .map(([i, value]) => (
                                     <TouchableOpacity
                                         onPress={() =>
@@ -202,7 +202,7 @@ export default function OrderProcessing({ navigation, route }) {
                                                     >
                                                         <NumericFormat
                                                             type="text"
-                                                            value={data.dongia}
+                                                            value={data.sp_giaban}
                                                             allowLeadingZeros
                                                             thousandSeparator=","
                                                             displayType="text"

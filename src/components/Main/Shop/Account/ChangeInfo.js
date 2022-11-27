@@ -27,8 +27,7 @@ export default function ChangeInfo({ navigation, route }) {
     //const [userCurrent, setUserCurrent] = useState(user);
     const [name, setName] = useState(user.kh_ten);
     const [gender, setGender] = useState(user.kh_gioitinh);
-    const [selectedDate, setSelectedDate] = useState(null);
-    const [ngaysinh, setNgaySinh] = useState(user.kh_ngaysinh);
+    const [selectedDate, setSelectedDate] = useState(user.kh_ngaysinh);
 
     const [number, setNumber] = useState(user.kh_sodienthoai);
     //const [data, setData] = useState(null);
@@ -132,8 +131,7 @@ export default function ChangeInfo({ navigation, route }) {
     };
     //const renderLabel = (text) => <Text style={styles.renderlabel}>{text}</Text>;
     function handleSubmit() {
-        setNgaySinh(moment(selectedDate).format('DD/MM/YYYY').toString());
-        if (name === '' || ngaysinh === null || number === '') {
+        if (name === '' || selectedDate === null || number === '') {
             Alert.alert('Vui lòng nhập đầy đủ thông tin.');
             return;
         }
@@ -141,7 +139,7 @@ export default function ChangeInfo({ navigation, route }) {
             user.kh_email,
             name,
             gender,
-            moment(selectedDate).format('DD/MM/YYYY').toString(),
+            moment(selectedDate).format('YYYY-MM-DD').toString(),
             number
         )
             .then((res) => {
@@ -244,14 +242,14 @@ export default function ChangeInfo({ navigation, route }) {
                     </View>
                     <View style={{ flexDirection: 'row' }}>
                         <Text style={font.textNormal}>Ngày sinh </Text>
-                        <Text style={font.textBoldRed}>*</Text>
+                        <Text style={font.textBoldRed}>* </Text>
                     </View>
                     {/* <Text style={label}>{pickedImagePath }</Text> */}
                     <View style={styles.choosedateView}>
                         <Text>{`${
                             selectedDate
-                                ? moment(selectedDate).format('DD/MM/YYYY')
-                                : ngaysinh
+                                ? moment(selectedDate).format('DD-MM-YYYY')
+                                : 'Chọn ngày sinh'
                         }`}</Text>
 
                         <Icon
@@ -319,10 +317,8 @@ const styles = StyleSheet.create({
         paddingHorizontal: 20,
     },
     avatarView: {
-        //backgroundColor: color.blue,
-        width,
+        width: itemWidth,
         height: 200,
-        position: 'relative',
         alignItems: 'center',
         justifyContent: 'center',
     },
@@ -349,11 +345,12 @@ const styles = StyleSheet.create({
         borderRadius: 15,
     },
     avatar: {
-        position: 'relative',
         width: avatarsize,
         height: avatarsize,
         borderRadius: avatarsize,
         resizeMode: 'cover',
+        borderColor: color.white,
+        borderWidth: 2,
     },
     iconCamera: {
         position: 'absolute',
@@ -378,13 +375,8 @@ const styles = StyleSheet.create({
         backgroundColor: color.primary,
         borderRadius: 10,
         paddingVertical: 10,
-        marginTop: 10,
-        marginBottom: 25,
-        //flex: 0.2,
+        marginTop: 30,
         width: width - 40,
-        //marginHorizontal: 20,
-        right: 0,
-        bottom: 0,
     },
     textSaveChangeButton: {
         fontSize: 18,

@@ -92,14 +92,14 @@ export default function Payment({ navigation, route }) {
     useEffect(() => {
         loadDCMD();
     }, []);
-    const soluong = onLoadToTalQuan();
+    //const soluong = onLoadToTalQuan();
     function handleSubmit() {
         //this.ref.form.submit();
         if (dcmd === []) {
             Alert.alert('Fail');
             return;
         }
-        order(user.kh_ma, soluong, onLoadToTal(), dcmd[0].dc_ma, dataCart)
+        order(onLoadToTalQuan(), onLoadToTal(), dcmd[0].dc_ma, dataCart)
             .then((res) => {
                 if (res.success) {
                     AsyncStorage.removeItem('cart');
@@ -211,7 +211,6 @@ export default function Payment({ navigation, route }) {
                             </View>
                         </View>
                     ))}
-
                     <View style={styles.subtotalView}>
                         <Text style={font.textBold}>Tổng tiền -</Text>
                         <NumericFormat

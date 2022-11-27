@@ -60,7 +60,7 @@ export default function OrderCancled({ navigation, route }) {
                     >
                         {/* <Text>{JSON.stringify(arr)}</Text> */}
                         {Object.entries(arr)
-                            .sort(() => -1)
+                            //.sort(() => -1)
                             .map(([i, value]) => (
                                 <TouchableOpacity
                                     onPress={() =>
@@ -124,7 +124,7 @@ export default function OrderCancled({ navigation, route }) {
                                                 >
                                                     <NumericFormat
                                                         type="text"
-                                                        value={data.dongia}
+                                                        value={data.sp_giaban}
                                                         allowLeadingZeros
                                                         thousandSeparator=","
                                                         displayType="text"

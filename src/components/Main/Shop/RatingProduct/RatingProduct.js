@@ -84,9 +84,9 @@ export default function RatingProduct({ navigation, route }) {
                     <View style={{ marginTop: 0 }}>
                         <CustomRatingBar />
                     </View>
-                    <View style={{ marginTop: 0 }}>
+                    {/* <View style={{ marginTop: 0 }}>
                         <CustomRatingBar />
-                    </View>
+                    </View> */}
                     <View style={{ paddingHorizontal: 20 }}>
                         <TextInput
                             placeholder="Nhập đánh giá của bạn"

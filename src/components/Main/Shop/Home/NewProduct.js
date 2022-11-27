@@ -93,11 +93,11 @@ export default function NewProduct({ navigation }) {
                                         </Text>
                                     )}
                                 />
-                                {/* <View>
+                                <View>
                                         <Text style={font.textNormalSmall}>
                                             Đã bán {item.sp_daban}
                                         </Text>
-                                    </View> */}
+                                    </View>
                             </View>
                         </TouchableOpacity>
                     ))}

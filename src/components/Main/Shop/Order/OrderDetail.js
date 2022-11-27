@@ -79,7 +79,7 @@ export default function OrderDetail({ navigation, route }) {
                                 <View style={{ flexDirection: 'row' }}>
                                     <NumericFormat
                                         type="text"
-                                        value={data.dongia}
+                                        value={data.sp_giaban}
                                         allowLeadingZeros
                                         thousandSeparator=","
                                         displayType="text"
@@ -95,7 +95,7 @@ export default function OrderDetail({ navigation, route }) {
                                         x {data.soluong}
                                     </Text>
                                 </View>
-                                {productList[0].hdx_trangthai === '2' ? (
+                                {data.dadanhgia === '0' ? (
                                     <TouchableOpacity
                                         onPress={() => {
                                             // Alert.alert('ok');
@@ -202,7 +202,7 @@ export default function OrderDetail({ navigation, route }) {
                         style={{
                             flexDirection: 'row',
                             justifyContent: 'space-between',
-                            paddingVertical: 5,
+                            //paddingVertical: 5,
                             marginTop: 40,
                         }}
                     >
@@ -215,7 +215,7 @@ export default function OrderDetail({ navigation, route }) {
                         style={{
                             flexDirection: 'row',
                             justifyContent: 'space-between',
-                            paddingVertical: 5,
+                            //paddingVertical: 5,
                         }}
                     >
                         <Text style={font.textNormal}>Thời gian đặt hàng:</Text>
@@ -223,6 +223,39 @@ export default function OrderDetail({ navigation, route }) {
                             {productList[0].created_at}
                         </Text>
                     </View>
+                    {productList[0].hdx_trangthai === '-1' ? (
+                        <View
+                            style={{
+                                flexDirection: 'row',
+                                justifyContent: 'space-between',
+                                //paddingVertical: 5,
+                            }}
+                        >
+                            <Text style={font.textNormal}>
+                                Thời gian hủy:
+                            </Text>
+                            <Text style={font.textNormal}>
+                                {productList[0].updated_at}
+                            </Text>
+                        </View>
+                    ) : productList[0].hdx_trangthai === '2' ? (
+                        <View
+                            style={{
+                                flexDirection: 'row',
+                                justifyContent: 'space-between',
+                                //paddingVertical: 5,
+                            }}
+                        >
+                            <Text style={font.textNormal}>
+                                Thời gian nhận hàng:
+                            </Text>
+                            <Text style={font.textNormal}>
+                                {productList[0].updated_at}
+                            </Text>
+                        </View>
+                    ) : null
+                    }
+                    {/* <Text>{JSON.stringify(productList[0])}</Text> */}
                     <View
                         style={{
                             //paddingHorizontal: 20,
@@ -232,7 +265,7 @@ export default function OrderDetail({ navigation, route }) {
                     >
                         <Text style={font.textNormal}>
                             {productList[0].hdx_soluong} sản phẩm
-                        </Text>
+                        </Text> 
                         <View
                             style={{
                                 flexDirection: 'row',
