@@ -12,28 +12,28 @@ import { Icon } from 'react-native-elements';
 import color from '../../../../../assets/color';
 import font from '../../../../../assets/font';
 
-
 export default function PostDetail({ navigation, route }) {
     const { post } = route.params;
 
     return (
         <View style={styles.container}>
+            <TouchableOpacity
+                style={styles.headerIcon}
+                onPress={() => {
+                    navigation.goBack();
+                }}
+            >
+                <Icon
+                    name="angle-left"
+                    type="font-awesome"
+                    size={30}
+                    color={color.primary}
+                />
+                <Text style={styles.textGoBack}>Trở về</Text>
+            </TouchableOpacity>
             <ScrollView style={styles.wrapper}>
                 <View style={styles.itemView}>
-                    <TouchableOpacity
-                        style={styles.headerIcon}
-                        onPress={() => {
-                            navigation.goBack();
-                        }}
-                    >
-                        <Icon
-                            name="angle-left"
-                            type="font-awesome"
-                            size={30}
-                            color={color.primary}
-                        />
-                    </TouchableOpacity>
-                    <View>
+                    <View style={styles.contentView}>
                         <Image
                             style={styles.itemImagePost}
                             resizeMode="contain"
@@ -57,31 +57,37 @@ const { width } = Dimensions.get('window');
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: color.primary,
-        paddingHorizontal: 20,
-        paddingTop: 30,
+        paddingTop: 22,
     },
     wrapper: {
         flex: 1,
     },
-    itemView: {
-        borderRadius: 20,
-        backgroundColor: color.white,
-    },
+    itemView: { backgroundColor: color.white, paddingHorizontal: 20, },
     headerIcon: {
-        width: 50,
+        width,
         height: 50,
-        justifyContent: 'center',
+        backgroundColor: color.white,
+        paddingHorizontal: 20,
+        justifyContent: 'flex-start',
+        alignItems: 'center',
+        flexDirection: 'row',
+    },
+    textGoBack: {
+        fontFamily: 'SFProDisPlayRegular',
+        color: color.primary,
+        marginLeft: 20,
+        fontSize: 20
+    },
+    contentView: {
     },
     itemImagePost: {
         width: width - 40,
-        height: 180,
+        height: 180, 
         borderTopLeftRadius: 10,
         borderTopRightRadius: 10,
     },
     postNameView: { paddingHorizontal: 10 },
     postContentView: {
-        paddingHorizontal: 10,
         paddingVertical: 10,
     },
 });

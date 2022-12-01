@@ -93,7 +93,11 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         paddingHorizontal: 20,
+        paddingTop: 30,
         backgroundColor: color.backgroundColor,
+        //elevation: 5,
+        borderTopRightRadius: 30,
+        borderTopLeftRadius: 30
     },
     label: {
         fontSize: 18,

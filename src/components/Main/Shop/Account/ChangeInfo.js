@@ -61,7 +61,9 @@ export default function ChangeInfo({ navigation, route }) {
         setGender(val);
     };
     // The path of the picked image
-    const [pickedImagePath, setPickedImagePath] = useState(`http://kimimylife.site/kh_avatar/${user.kh_anhdaidien}`);
+    const [pickedImagePath, setPickedImagePath] = useState(
+        `http://kimimylife.site/kh_avatar/${user.kh_anhdaidien}`
+    );
 
     // This function is triggered when the "Select an image" button pressed
     const showImagePicker = async () => {
@@ -97,7 +99,6 @@ export default function ChangeInfo({ navigation, route }) {
         // eslint-disable-next-line no-undef
         const formData = new FormData();
         formData.append('file', { uri: localUri, name: filename, type });
-        console.log(JSON.stringify(formData));
 
         // eslint-disable-next-line no-undef
         return await fetch(
@@ -160,7 +161,8 @@ export default function ChangeInfo({ navigation, route }) {
             <ScrollView style={wrapper}>
                 <View style={avatarView}>
                     <View>
-                        {pickedImagePath !== 'http://kimimylife.site/kh_avatar/null' ? (
+                        {pickedImagePath !==
+                        'http://kimimylife.site/kh_avatar/null' ? (
                             <Image
                                 source={{
                                     uri: pickedImagePath,
@@ -170,9 +172,9 @@ export default function ChangeInfo({ navigation, route }) {
                             />
                         ) : (
                             <Image
-                            source={{
-                                uri: 'http://kimimylife.site/kh_avatar/userAvatar.png',
-                            }}
+                                source={{
+                                    uri: 'http://kimimylife.site/kh_avatar/userAvatar.png',
+                                }}
                                 resizeMode="contain"
                                 style={avatar}
                             />
@@ -200,7 +202,7 @@ export default function ChangeInfo({ navigation, route }) {
                         onChangeText={(text) => setName(text)}
                         value={name}
                     />
-                   <View style={{ flexDirection: 'row' }}>
+                    <View style={{ flexDirection: 'row' }}>
                         <Text style={font.textNormal}>Giới tính </Text>
                         <Text style={font.textBoldRed}>*</Text>
                     </View>

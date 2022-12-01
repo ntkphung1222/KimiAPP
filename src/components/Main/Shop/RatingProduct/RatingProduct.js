@@ -20,6 +20,7 @@ export default function RatingProduct({ navigation, route }) {
     const [noidungdg, setNoiDungDG] = useState('');
     const { container, wrapper, input } = styles;
     const [defaultRating, setDefaultRating] = useState(5);
+    
     // To set the max number of Stars
     const [maxRating] = useState([1, 2, 3, 4, 5]);
 

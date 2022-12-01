@@ -97,6 +97,7 @@ export default function Account({ navigation }) {
 
     const logout = () => {
         AsyncStorage.removeItem('user');
+        AsyncStorage.removeItem('cart');
         setUser([]);
         Alert.alert('Đăng xuất thành công!');
         navigation.navigate('Signin');
@@ -287,7 +288,7 @@ const styles = StyleSheet.create({
     icon: {},
     betaView: {
         position: 'absolute',
-        bottom: 74,
+        bottom: 70,
         right: 40,
         borderRadius: 5,
         borderWidth: 1,

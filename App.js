@@ -41,7 +41,12 @@ import AllRatingByProduct from './src/components/Main/Shop/ProductDetail/AllRati
 import Home from './src/components/Main/Shop/Home/Home';
 import MyRating from './src/components/Main/Shop/MyRating/MyRating';
 import ModalMessage from './src/components/ModalMessage';
+import Notification from './src/components/Main/Shop/Home/Notification';
+
 //import global from './src/components/global';
+
+//import Momo from './src/components/Main/Shop/Cart/Momo';
+
 
 const Stack = createNativeStackNavigator();
 
@@ -242,6 +247,16 @@ export default function App() {
                     component={ModalMessage}
                     options={{ headerShown: false }}
                 />
+                <Stack.Screen
+                    name="Notification"
+                    component={Notification}
+                    options={{ headerShown: false }}
+                />
+                {/* <Stack.Screen
+                    name="Momo"
+                    component={Momo}
+                    options={{ headerShown: false }}
+                /> */}
             </Stack.Navigator>
         </NavigationContainer>
     );

@@ -49,21 +49,18 @@ export default function Payment({ navigation, route }) {
     } = styles;
     const onLoadToTal = () => {
         let total = 0;
-
         const cart = dataCart;
         for (let i = 0; i < cart.length; i++) {
             total += cart[i].product.sp_giaban * cart[i].quantity;
-            //totalSoLuong += cart[i].quantity;
         }
         return total;
     };
     const onLoadToTalQuan = () => {
         let total = 0;
-
+        
         const cart = dataCart;
         for (let i = 0; i < cart.length; i++) {
-            total += cart[i].quantity;
-            //totalSoLuong += cart[i].quantity;
+            total += Number(cart[i].quantity);
         }
         return total;
     };
@@ -227,7 +224,6 @@ export default function Payment({ navigation, route }) {
                             )}
                         />
                     </View>
-                    {/* {console.log(dataCart)} */}
                 </ScrollView>
             </View>
             <View
@@ -320,9 +316,7 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: color.borderSecond,
         borderRadius: 6,
-        //paddingHorizontal: 10,
         paddingVertical: 10,
-        //marginBottom: 10,
     },
     dcctView: {
         width: width * 0.8,

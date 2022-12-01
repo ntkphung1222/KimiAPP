@@ -9,6 +9,7 @@ import {
     RefreshControl,
     Image,
     Dimensions,
+    Alert,
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import moment from 'moment';
@@ -23,9 +24,7 @@ export default function Home({ navigation, route }) {
     const [user, setUser] = useState(null);
     const [dataCart, setDataCart] = useState([]);
     const [refreshing, setRefreshing] = useState(false);
-    const [count, setCount] = useState();
     //get Weather
-
     const [temperature, setTemperature] = useState();
     const [city, setCity] = useState();
     const [country, setCountry] = useState();
@@ -38,20 +37,19 @@ export default function Home({ navigation, route }) {
             if (cart !== null) {
                 const cartS = JSON.parse(cart);
                 setDataCart(cartS);
-                setCount(dataCart.length);
             }
         });
     }
     const getWeather = async (e) => {
         const Api_Key = '8d2de98e089f1c28e1a22fc19a24ef04';
-        const city = 'An Giang';
+        const city = 'Cần Thơ';
         const country = 'Viet Nam';
         const lang = 'vi';
         const api_call = await fetch(
             `http://api.openweathermap.org/data/2.5/weather?q=${city},${country}&appid=${Api_Key}&lang=${lang}&units=metric`
         );
         const response = await api_call.json();
-        console.log(response);
+        //console.log(response);
         setTemperature(response.main.temp),
             setCity(response.name),
             setCountry(response.sys.country),
@@ -63,6 +61,7 @@ export default function Home({ navigation, route }) {
     const onRefresh = React.useCallback(() => {
         setRefreshing(true);
         loadData();
+        getWeather();
         setRefreshing(false);
     }, []);
     const { container, header, textHeader } = styles;
@@ -97,6 +96,22 @@ export default function Home({ navigation, route }) {
                 <View style={{ flexDirection: 'row' }}>
                     <TouchableOpacity
                         style={{ marginRight: 10 }}
+                        onPress={() => {
+                            if(user !== null)
+                            navigation.navigate('Notification', { user });
+                            else
+                            Alert.alert('Đăng nhập để xem thông báo nha!');
+                        }}
+                    >
+                        <Icon
+                            type="feather"
+                            name="bell"
+                            color={color.white}
+                            size={25}
+                        />
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        style={{ marginRight: 10 }}
                         onPress={() => navigation.navigate('Search')}
                     >
                         <Icon
@@ -106,6 +121,7 @@ export default function Home({ navigation, route }) {
                             size={25}
                         />
                     </TouchableOpacity>
+
                     <TouchableOpacity
                         onPress={() => {
                             navigation.navigate('Cart');
@@ -114,7 +130,7 @@ export default function Home({ navigation, route }) {
                         <Badge
                             style={{}}
                             status="error"
-                            value={count}
+                            value={dataCart.length}
                             containerStyle={{
                                 position: 'absolute',
                                 top: -10,
@@ -233,7 +249,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     iconWeather: {
-        width: weatherWidth / 3,
-        height: weatherWidth / 3,
+        width: weatherWidth / 4,
+        height: weatherWidth / 4,
     },
 });

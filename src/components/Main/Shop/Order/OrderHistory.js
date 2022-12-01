@@ -298,7 +298,7 @@ export default function OrderProcessing({ navigation, route }) {
                                                         </Text>
                                                     )}
                                                 />
-                                                {/* <Text style={font.textPrice}>{data.hdx_tongtien} </Text> */}
+                                                {/* <Text style={font.textPrice}>{data} </Text> */}
                                             </View>
                                         </View>
                                     </TouchableOpacity>

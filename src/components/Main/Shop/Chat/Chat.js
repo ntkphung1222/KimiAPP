@@ -12,10 +12,21 @@ import {
     FlatList,
     Dimensions,
 } from 'react-native';
-
+//import Echo from 'laravel-echo';
+//import socketio from 'socket.io-client';
 import { Icon } from 'react-native-elements';
 import color from '../../../../../assets/color';
 import chat from '../../../../api/chat';
+
+// const echo = new Echo({
+//   host: 'http://kimimylife',
+//   broadcaster: 'socket.io',
+//   client: socketio,
+// });
+
+// echo
+//   .channel('chats.1')
+//   .listen('ChatMessageCreated', ev => console.log(ev.message.text));
 
 export default function Chat({ navigation, route }) {
     const [chatUser] = useState({

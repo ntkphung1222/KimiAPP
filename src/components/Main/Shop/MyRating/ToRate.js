@@ -22,7 +22,7 @@ export default function OrderCompleted({ navigation, route }) {
         // const [serverDataToAccept, setServerDataToAccept] = useState([]);
         useEffect(() => {
             // eslint-disable-next-line no-undef
-            fetch(`http://kimimylife.site/api/orderhistory?hdx_kh=${user.kh_ma}`)
+            fetch(`http://kimimylife.site/api/getToRate?hdx_kh=${user.kh_ma}`)
                 .then((response) => response.json())
                 .then((responseJson) => {
                     //Successful response from the API Call
@@ -34,15 +34,13 @@ export default function OrderCompleted({ navigation, route }) {
                     console.error(error);
                 });
         }, []);
-        const arr = Object.values(serverData).filter(
-            (f) => f.trangthai === '2'
-        );
+       
         return (
             <View style={{ flex: 1 }}>
-                {Object.keys(arr).length > 0 ? (
+                {Object.keys(serverData).length > 0 ? (
                     <ScrollView style={styles.container}>
                         {/* <Text>{JSON.stringify(arr)}</Text> */}
-                        {Object.entries(arr)
+                        {Object.entries(serverData)
                             .sort(() => -1)
                             .map(([i, value]) => (
                                 <TouchableOpacity
@@ -108,7 +106,7 @@ export default function OrderCompleted({ navigation, route }) {
                                                 >
                                                     <NumericFormat
                                                         type="text"
-                                                        value={data.dongia}
+                                                        value={data.sp_giaban}
                                                         allowLeadingZeros
                                                         thousandSeparator=","
                                                         displayType="text"

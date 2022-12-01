@@ -17,7 +17,6 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Feather as Icon, FontAwesome as FAIcon } from '@expo/vector-icons';
 import { Badge } from 'react-native-elements';
 import { Rating, AirbnbRating } from 'react-native-ratings';
-import userAvatar from '../../../../images/userAvatar.png';
 import dgTB from '../../../../api/dgTB';
 import color from '../../../../../assets/color';
 import Header from '../Header';
@@ -33,6 +32,8 @@ export default function ProductDetail({ navigation, route }) {
     const [tcdg, setTCDG] = useState([]);
     const [dght, setDGHT] = useState([]);
     const [hethang, setHetHang] = useState(false);
+    const [isFavourite, setFavourite] = useState(false);
+    const [seeFullDescription, setSeeFullDescription] = useState(false);
     const scrollRef = useRef();
 
     const goToTop = () => {
@@ -51,13 +52,6 @@ export default function ProductDetail({ navigation, route }) {
         setRefreshing(false);
     }, []);
     const { container, wrapper, imageView, itemImage } = styles;
-    const [productDescription] = useState(
-        // eslint-disable-next-line max-len
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce ut ornare urna. Duis egestas ligula quam, ut tincidunt ipsum blandit at. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam vitae justo congue, tempor urna vitae, placerat elit. Nulla nec consectetur dolor, in convallis erat. Fusce hendrerit id sem tristique congue. \n\nVestibulum mauris sapien, vulputate in lacus in, lacinia efficitur magna. Sed id massa ut magna eleifend lacinia et id tellus. Sed dignissim mollis lacus. Etiam laoreet ex eu sem euismod congue. In maximus porttitor imperdiet. Nulla eu dolor vehicula ligula mollis tristique ut in enim. Phasellus quis tempor velit. Vivamus sit amet orci ornare, pulvinar purus et, commodo magna. Nunc eu tortor vitae leo varius vehicula quis volutpat dolor.\n\nDonec interdum rutrum tellus, et rhoncus risus dignissim at. Aliquam sed imperdiet tortor, non aliquam sapien. Cras quis enim a elit fringilla vehicula. Aenean pulvinar ipsum a magna feugiat, a fermentum ante pellentesque. Mauris tincidunt placerat placerat. Quisque tincidunt enim sed metus fermentum maximus. Fusce eu tempus est.'
-    );
-    const [isFavourite, setFavourite] = useState(false);
-    const [seeFullDescription, setSeeFullDescription] = useState(false);
-
     async function loadCart() {
         await AsyncStorage.getItem('cart').then(async (cart) => {
             if (cart !== null) {
@@ -115,20 +109,15 @@ export default function ProductDetail({ navigation, route }) {
         });
     }
     const onSuccess = () => {
-        Alert.alert(
-            'Đã thêm sản phẩm vào giỏ hàng.',
-            '',
-            [
-                {
-                    text: 'Đi đến giỏ hàng',
-                    onPress: () => navigation.navigate('Cart'),  
-                },
-                {
-                    text: 'OK',
-                }
-            ],
-            
-        );
+        Alert.alert('Đã thêm sản phẩm vào giỏ hàng.', '', [
+            {
+                text: 'Đi đến giỏ hàng',
+                onPress: () => navigation.navigate('Cart'),
+            },
+            {
+                text: 'OK',
+            },
+        ]);
     };
     useEffect(() => {
         loadCart();
@@ -153,20 +142,18 @@ export default function ProductDetail({ navigation, route }) {
                     if (item) {
                         item.quantity += quan;
                         //if (item.sp_soluong > item.product.sp_soluonggioihan){
-                            if (
-                                item.quantity > item.product.sp_soluonggioihan
-                            ) {
-                                item.quantity = item.product.sp_soluonggioihan;
-                                Alert.alert(
-                                    'Bạn đã đạt số lượng mua giới hạn cho sản phẩm này.'
-                                );
-                            } 
-                            //else {
-                                //item.quantity = item.product.sp_soluong;
-                                //Alert.alert(
-                                  //  'Bạn đã đạt số lượng mua giới hạn cho sản phẩm này.'
-                               // );
-                           // }
+                        if (item.quantity > item.product.sp_soluonggioihan) {
+                            item.quantity = item.product.sp_soluonggioihan;
+                            Alert.alert(
+                                'Bạn đã đạt số lượng mua giới hạn cho sản phẩm này.'
+                            );
+                        }
+                        //else {
+                        //item.quantity = item.product.sp_soluong;
+                        //Alert.alert(
+                        //  'Bạn đã đạt số lượng mua giới hạn cho sản phẩm này.'
+                        // );
+                        // }
                         //}
                     } else {
                         cart.push(itemcart);
@@ -267,29 +254,32 @@ export default function ProductDetail({ navigation, route }) {
                 style={wrapper}
                 showsVerticalScrollIndicator={false}
             >
-                 {product.sp_soluong === '0' ? (
-                <View style={imageView}>
-                    <Image
-                        style={itemImage}
-                        blurRadius={50}
-                        resizeMode="contain"
-                        source={{
-                            uri: `http://kimimylife.site/sp_hinhanh/${product.sp_hinhanh}`,
-                        }}
-                    />
-                   
-                        <View style={{ position: 'absolute', top: 70 }}>
-                        <Text style={font.textTitle1}>Sản phẩm đã hết hàng</Text>
-                        </View>
-                </View>  ) : (
+                {product.sp_soluong === '0' ? (
                     <View style={imageView}>
-                    <Image
-                        style={itemImage}
-                        resizeMode="contain"
-                        source={{
-                            uri: `http://kimimylife.site/sp_hinhanh/${product.sp_hinhanh}`,
-                        }}
-                    />
+                        <Image
+                            style={itemImage}
+                            blurRadius={50}
+                            resizeMode="contain"
+                            source={{
+                                uri: `http://kimimylife.site/sp_hinhanh/${product.sp_hinhanh}`,
+                            }}
+                        />
+
+                        <View style={{ position: 'absolute', top: 70 }}>
+                            <Text style={font.textTitle1}>
+                                Sản phẩm đã hết hàng
+                            </Text>
+                        </View>
+                    </View>
+                ) : (
+                    <View style={imageView}>
+                        <Image
+                            style={itemImage}
+                            resizeMode="contain"
+                            source={{
+                                uri: `http://kimimylife.site/sp_hinhanh/${product.sp_hinhanh}`,
+                            }}
+                        />
                     </View>
                 )}
                 <TouchableOpacity
@@ -502,21 +492,37 @@ export default function ProductDetail({ navigation, route }) {
                             Đánh giá
                         </Text>
                     </View>
-                    {
-                    tcdg.length > 0 ? (
+                    {console.log(tcdg)}
+                    {tcdg.length > 0 ? (
                         <View>
                             {tcdg.map((itemDG, i) => (
                                 <View key={i} style={styles.itemRatingView}>
                                     <View style={styles.leftView}>
-                                        <Image
-                                            style={{
-                                                width: 30,
-                                                height: 30,
-                                                borderRadius: 30,
-                                            }}
-                                            source={userAvatar}
-                                            resizeMode="cover"
-                                        />
+                                        {itemDG.kh_anhdaidien === null ? (
+                                            <Image
+                                                style={{
+                                                    width: 30,
+                                                    height: 30,
+                                                    borderRadius: 30,
+                                                }}
+                                                source={{
+                                                    uri: 'http://kimimylife.site/kh_avatar/userAvatar.png',
+                                                }}
+                                                resizeMode="cover"
+                                            />
+                                        ) : (
+                                            <Image
+                                                style={{
+                                                    width: 30,
+                                                    height: 30,
+                                                    borderRadius: 30,
+                                                }}
+                                                source={{
+                                                    uri: `http://kimimylife.site/kh_avatar/${itemDG.kh_anhdaidien}`,
+                                                }}
+                                                resizeMode="cover"
+                                            />
+                                        )}
                                     </View>
                                     <View style={styles.rightView}>
                                         <View
@@ -569,9 +575,8 @@ export default function ProductDetail({ navigation, route }) {
                         </View>
                     )}
                 </View>
-                {
-                    serverData.length > 0 ? (
-                        <View style={{ marginTop: 10 }}>
+                {serverData.length > 0 ? (
+                    <View style={{ marginTop: 10 }}>
                         <Text
                             style={{
                                 fontFamily: 'SFProDisPlayRegular',
@@ -595,15 +600,20 @@ export default function ProductDetail({ navigation, route }) {
                                 {serverData.map((item) => (
                                     <TouchableOpacity
                                         onPress={() => {
-                                            navigation.navigate('ProductDetail', {
-                                                product: item,
-                                            });
+                                            navigation.navigate(
+                                                'ProductDetail',
+                                                {
+                                                    product: item,
+                                                }
+                                            );
                                             goToTop();
                                         }}
                                         key={item.sp_ma}
                                         style={styles.itemView}
                                     >
-                                        <View style={styles.newProductImageView}>
+                                        <View
+                                            style={styles.newProductImageView}
+                                        >
                                             <Image
                                                 resizeMode="contain"
                                                 style={{ flex: 1 }}
@@ -626,7 +636,9 @@ export default function ProductDetail({ navigation, route }) {
                                                 {item.sp_ten}
                                             </Text>
                                             <View
-                                                style={styles.newProductPriceView}
+                                                style={
+                                                    styles.newProductPriceView
+                                                }
                                             >
                                                 <NumericFormat
                                                     type="text"
@@ -635,7 +647,9 @@ export default function ProductDetail({ navigation, route }) {
                                                     thousandSeparator=","
                                                     displayType="text"
                                                     suffix={'đ'}
-                                                    renderText={(formatValue) => (
+                                                    renderText={(
+                                                        formatValue
+                                                    ) => (
                                                         <Text
                                                             style={
                                                                 styles.newProductPrice
@@ -645,7 +659,9 @@ export default function ProductDetail({ navigation, route }) {
                                                         </Text>
                                                     )}
                                                 />
-                                                <Text style={font.textNormalSmall}>
+                                                <Text
+                                                    style={font.textNormalSmall}
+                                                >
                                                     Đã bán {item.sp_daban}
                                                 </Text>
                                             </View>
@@ -655,9 +671,7 @@ export default function ProductDetail({ navigation, route }) {
                             </View>
                         </ScrollView>
                     </View>
-                    ) : null
-                }
-               
+                ) : null}
             </ScrollView>
         </View>
     );

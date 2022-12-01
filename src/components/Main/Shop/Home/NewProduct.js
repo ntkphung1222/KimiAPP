@@ -31,7 +31,7 @@ export default function NewProduct({ navigation }) {
     }, []);
     return (
         <View style={styles.container}>
-            <View style={{ paddingLeft: 20 }}>
+            <View style={{ paddingLeft: 20, marginTop: 20 }}>
                 <Text style={font.textTitle1}> Sản phẩm mới nhất </Text>
             </View>
             <ScrollView>
@@ -112,6 +112,10 @@ const itemW = (width - 40) / 2;
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        backgroundColor: color.white,
+        borderTopRightRadius: 30,
+        borderTopLeftRadius: 30,
+        elevation: 1
     },
     label: {
         fontSize: 18,

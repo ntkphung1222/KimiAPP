@@ -30,6 +30,7 @@
     "expo-status-bar": "~1.4.0",
     "firebase": "^9.12.1",
     "html-entities": "^2.3.3",
+    "laravel-echo": "^1.14.2",
     "moment": "^2.29.4",
     "native-base": "^3.4.15",
     "navigator": "^1.0.1",
@@ -71,6 +72,7 @@
     "react-native-web": "^0.18.8",
     "react-number-format": "^5.1.0",
     "react-select": "^5.4.0",
+    "socket.io-client": "^4.5.4",
     "swiper": "^8.3.2",
     "validate-form-in-expo-style": "^1.0.9"
   },

@@ -10,6 +10,7 @@ import {
     Dimensions,
     Alert,
 } from 'react-native';
+import { Icon } from 'react-native-elements';
 import { NumericFormat } from 'react-number-format';
 import Header from '../Header';
 import cancleOrder from '../../../../api/cancleOrder';
@@ -52,6 +53,33 @@ export default function OrderDetail({ navigation, route }) {
                 style={styles.wrapper}
                 showsVerticalScrollIndicator={false}
             >
+                <View style={styles.shippingAddressView}>
+                    {/* <Text style={font.textNormal}>Địa chỉ nhận hàng</Text> */}
+                    <View style={{ flexDirection: 'row' }}>
+                        <View style={{ width: width * 0.1 }}>
+                            <Icon
+                                name="location-pin"
+                                size={35}
+                                color={color.red}
+                            />
+                        </View>
+                        <View style={{ width: width * 0.9 }}>
+                            <View style={{ flexDirection: 'row' }}>
+                                <Text style={font.textNormal}>
+                                    {productList[0].dc_nguoinhan.toString()}{' '}
+                                    {' | '}{' '}
+                                    {productList[0].dc_sdtnguoinhan.toString()}
+                                </Text>
+                            </View>
+                            <Text style={styles.dcctView}>
+                                {productList[0].dc_chitiet.toString()},{' '}
+                                {productList[0].xpttname.toString()},{' '}
+                                {productList[0].qhname.toString()},{' '}
+                                {productList[0].ttpname.toString()}
+                            </Text>
+                        </View>
+                    </View>
+                </View>
                 {productList.map((data, i) => (
                     <View key={data.hdxct_ma} style={styles.itemStyle}>
                         <View style={styles.itemImageStyle}>
@@ -95,7 +123,7 @@ export default function OrderDetail({ navigation, route }) {
                                         x {data.soluong}
                                     </Text>
                                 </View>
-                                {data.dadanhgia === '0' ? (
+                                {productList[0].hdx_trangthai === '2' && data.dadanhgia === '0' ? (
                                     <TouchableOpacity
                                         onPress={() => {
                                             // Alert.alert('ok');
@@ -231,9 +259,7 @@ export default function OrderDetail({ navigation, route }) {
                                 //paddingVertical: 5,
                             }}
                         >
-                            <Text style={font.textNormal}>
-                                Thời gian hủy:
-                            </Text>
+                            <Text style={font.textNormal}>Thời gian hủy:</Text>
                             <Text style={font.textNormal}>
                                 {productList[0].updated_at}
                             </Text>
@@ -253,9 +279,7 @@ export default function OrderDetail({ navigation, route }) {
                                 {productList[0].updated_at}
                             </Text>
                         </View>
-                    ) : null
-                    }
-                    {/* <Text>{JSON.stringify(productList[0])}</Text> */}
+                    ) : null}
                     <View
                         style={{
                             //paddingHorizontal: 20,
@@ -265,7 +289,7 @@ export default function OrderDetail({ navigation, route }) {
                     >
                         <Text style={font.textNormal}>
                             {productList[0].hdx_soluong} sản phẩm
-                        </Text> 
+                        </Text>
                         <View
                             style={{
                                 flexDirection: 'row',
@@ -306,6 +330,18 @@ const styles = StyleSheet.create({
     },
     wrapper: {
         backgroundColor: color.white,
+    },
+    shippingAddressView: {
+        width,
+        elevation: 2,
+        paddingVertical: 10,
+        marginBottom: 10 
+    },
+    dcctView: {
+        width: width * 0.9,
+        fontFamily: 'SFProDisPlayRegular',
+        fontSize: 16,
+        color: color.darkblue,
     },
     itemStyle: {
         flexDirection: 'row',

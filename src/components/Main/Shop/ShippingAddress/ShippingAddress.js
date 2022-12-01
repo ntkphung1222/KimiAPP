@@ -157,7 +157,21 @@ export default function ShippingAddress({ navigation, route }) {
                                     </TouchableOpacity>
                                     <TouchableOpacity
                                         onPress={() =>
-                                            deleteAddress(item.dc_ma)
+                                           
+                                                Alert.alert(
+                                                    'Xóa địa chỉ này?',
+                                                    '',
+                                                    [
+                                                        { text: 'Trở về' },
+                                                        {
+                                                            text: 'OK',
+                                                            onPress: () => {
+                                                                //dataAddress.splice(i, 1);
+                                                                deleteAddress(item.dc_ma)
+                                                            },
+                                                        },
+                                                    ]
+                                                )
                                         }
                                         style={styles.actionDelete}
                                     >
