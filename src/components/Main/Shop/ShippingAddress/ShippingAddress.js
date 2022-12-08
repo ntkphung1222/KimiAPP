@@ -134,8 +134,8 @@ export default function ShippingAddress({ navigation, route }) {
                                     {item.dc_nguoinhan} | {item.dc_sdtnguoinhan}
                                 </Text>
                                 <Text style={font.textNormal}>
-                                    {item.dc_chitiet}, {item.xpttname},{' '}
-                                    {item.qhname}, {item.ttpname}
+                                    {item.dc_chitiet}, {item.xptt_ten},{' '}
+                                    {item.qh_ten}, {item.ttp_ten}
                                 </Text>
                                 <View style={styles.actionView}>
                                     <TouchableOpacity

@@ -73,9 +73,9 @@ export default function OrderDetail({ navigation, route }) {
                             </View>
                             <Text style={styles.dcctView}>
                                 {productList[0].dc_chitiet.toString()},{' '}
-                                {productList[0].xpttname.toString()},{' '}
-                                {productList[0].qhname.toString()},{' '}
-                                {productList[0].ttpname.toString()}
+                                {productList[0].xptt_ten.toString()},{' '}
+                                {productList[0].qh_ten.toString()},{' '}
+                                {productList[0].ttp_ten.toString()}
                             </Text>
                         </View>
                     </View>

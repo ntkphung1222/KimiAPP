@@ -57,7 +57,7 @@ export default function Payment({ navigation, route }) {
     };
     const onLoadToTalQuan = () => {
         let total = 0;
-        
+
         const cart = dataCart;
         for (let i = 0; i < cart.length; i++) {
             total += Number(cart[i].quantity);
@@ -153,9 +153,9 @@ export default function Payment({ navigation, route }) {
                                         </View>
                                         <Text style={styles.dcctView}>
                                             {dcmd[0].dc_chitiet.toString()},{' '}
-                                            {dcmd[0].xpttname.toString()},{' '}
-                                            {dcmd[0].qhname.toString()},{' '}
-                                            {dcmd[0].ttpname.toString()}
+                                            {dcmd[0].xptt_ten.toString()},{' '}
+                                            {dcmd[0].qh_ten.toString()},{' '}
+                                            {dcmd[0].ttp_ten.toString()}
                                         </Text>
                                     </View>
                                 ) : (
@@ -209,7 +209,9 @@ export default function Payment({ navigation, route }) {
                         </View>
                     ))}
                     <View style={styles.subtotalView}>
-                        <Text style={font.textBold}>Tổng tiền -</Text>
+                        <Text style={font.textBold}>
+                            Tổng tiền (Đã bao gồm thuế) -
+                        </Text>
                         <NumericFormat
                             type="text"
                             value={onLoadToTal()}
@@ -259,6 +261,18 @@ export default function Payment({ navigation, route }) {
                         <Text style={font.textNormal}>Ví điện tử MoMo</Text>
                         <RadioButton value="second" style={radioButton} />
                     </TouchableOpacity>
+                    <View
+                        style={{
+                            position: 'absolute',
+                            bottom: 41,
+                            left: 40,
+                            backgroundColor: 'white',
+                        }}
+                    >
+                        <Text style={font.textNormalSmall}>
+                            Đang phát triển
+                        </Text>
+                    </View>
                     {/* </View> */}
                 </RadioButton.Group>
                 <TouchableOpacity

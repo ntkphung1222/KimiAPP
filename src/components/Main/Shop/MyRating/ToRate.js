@@ -10,7 +10,6 @@ import {
     //FlatList,
     Dimensions,
 } from 'react-native';
-import { NumericFormat } from 'react-number-format';
 import color from '../../../../../assets/color';
 import font from '../../../../../assets/font';
 //import font from '../../../../../assets/font';
@@ -34,164 +33,48 @@ export default function OrderCompleted({ navigation, route }) {
                     console.error(error);
                 });
         }, []);
-       
+
         return (
-            <View style={{ flex: 1 }}>
-                {Object.keys(serverData).length > 0 ? (
-                    <ScrollView style={styles.container}>
-                        {/* <Text>{JSON.stringify(arr)}</Text> */}
-                        {Object.entries(serverData)
-                            .sort(() => -1)
-                            .map(([i, value]) => (
+            <View style={styles.container}>
+                {serverData.length > 0 ? (
+                    <ScrollView>
+                        <View>
+                            {serverData.map((item, i) => (
                                 <TouchableOpacity
-                                    onPress={() =>
-                                        navigation.navigate('OrderDetail', {
-                                            productList: value.data,
-                                            userID: user.kh_ma,
-                                        })
-                                    }
                                     key={i}
-                                    style={{
-                                        marginBottom: 10,
-                                        paddingBottom: 80,
-                                        backgroundColor: color.white,
-                                    }}
+                                    onPress={() => {}}
+                                    style={styles.productView}
                                 >
-                                    <View
-                                        style={{
-                                            flexDirection: 'row',
-                                            paddingVertical: 2,
-                                            justifyContent: 'space-between',
-                                            paddingHorizontal: 20,
-                                            borderBottomWidth: 0.5,
-                                            borderBottomColor: color.greylight,
-                                            width,
-                                        }}
-                                    >
-                                        <Text style={font.textNormal}>Mã đơn hàng</Text>
-                                        <Text
-                                            style={font.textNormalItalic}
-                                        >
-                                            {value.hdx_ma}
-                                        </Text>
-                                    </View>
-                                    {/* <Text>console.log{JSON.stringify(serverData)}</Text> */}
-                                    {value.data.map((data) => (
-                                        <View
-                                            key={data.hdxct_ma}
-                                            style={styles.itemStyle}
-                                        >
-                                            <View style={styles.itemImageStyle}>
-                                                <Image
-                                                    style={styles.itemImage}
-                                                    resizeMode="contain"
-                                                    source={{ uri: `http://kimimylife.site/sp_hinhanh/${data.sp_hinhanh}` }}
-
-                                                />
-                                            </View>
-                                            <View style={styles.orderInfo}>
-                                                <Text style={font.textNormal}>{data.sp_ten}</Text>
-                                                <View
-                                                    style={{
-                                                        position: 'absolute',
-                                                        bottom: 0,
-                                                        paddingHorizontal: 10,
-                                                        width: width * 0.7,
-                                                        //backgroundColor: '#333',
-                                                        flexDirection: 'row',
-                                                        justifyContent:
-                                                            'space-between',
-                                                            alignItems: 'center'
-                                                    }}
-                                                >
-                                                    <NumericFormat
-                                                        type="text"
-                                                        value={data.sp_giaban}
-                                                        allowLeadingZeros
-                                                        thousandSeparator=","
-                                                        displayType="text"
-                                                        suffix={'đ'}
-                                                        renderText={(
-                                                            formatValue
-                                                        ) => (
-                                                            <Text style={font.textBold}>
-                                                                {formatValue}
-                                                            </Text>
-                                                        )}
-                                                    />
-                                                    <Text style={font.textBold}>
-                                                        x {data.soluong}
-                                                    </Text>
-                                                </View>
-                                            </View>
-                                        </View>
-                                    ))}
-                                    <View
-                                        style={{
-                                            position: 'absolute',
-                                            bottom: 40,
-                                            right: 20,
-                                            borderRadius: 10,
-                                            backgroundColor: color.star,
-                                            //borderColor: color.primary,
-                                            //borderWidth: 1,
-                                            paddingHorizontal: 10,
-                                            paddingVertical: 2,
-                                        }}
-                                    >
-                                        <Text
-                                            style={{
-                                                color: color.white,
-                                                fontFamily: 'SFProDisPlayRegular',
-                                                fontStyle: 'italic',
+                                    <View style={styles.leftView}>
+                                        <Image
+                                            source={{
+                                                uri: `http://kimimylife.site/sp_hinhanh/${item.sp_hinhanh}`,
                                             }}
-                                        >
-                                            Đánh giá
-                                        </Text>
+                                            resizeMode="contain"
+                                            style={styles.productImage}
+                                        />
                                     </View>
-
-                                    <View
-                                        style={{
-                                            position: 'absolute',
-                                            bottom: 5,
-                                            right: 20,
-                                            left: 20,
-                                            flexDirection: 'row',
-                                            justifyContent: 'space-between',
-                                            alignItems: 'center'
-                                        }}
-                                    >
-                                        <Text style={font.textNormal}>
-                                            {value.soluong} sản phẩm
+                                    <View style={styles.rightView}>
+                                        <Text style={styles.productName}>
+                                            {item.sp_ten}
                                         </Text>
-                                        <View
-                                            style={{
-                                                flexDirection: 'row',
-                                                alignItems: 'center'
-                                            }}
+                                        <TouchableOpacity
+                                            onPress={() =>
+                                                navigation.navigate(
+                                                    'RatingProduct',
+                                                    { product: item }
+                                                )
+                                            }
+                                            style={styles.ratingButton}
                                         >
-                                            <Text style={font.textNormal}>
-                                                Thành tiền : {' '}
+                                            <Text style={font.textNormalWhite}>
+                                                Đánh giá
                                             </Text>
-                                            <NumericFormat
-                                                type="text"
-                                                value={value.thanhtien}
-                                                allowLeadingZeros
-                                                thousandSeparator=","
-                                                displayType="text"
-                                                suffix={'đ'}
-                                                renderText={(formatValue) => (
-                                                    <Text
-                                                    style={font.textBoldPrimary}
-                                                    >
-                                                        {formatValue}
-                                                    </Text>
-                                                )}
-                                            />
-                                        </View>
+                                        </TouchableOpacity>
                                     </View>
                                 </TouchableOpacity>
                             ))}
+                        </View>
                     </ScrollView>
                 ) : (
                     <View style={styles.emptyView}>
@@ -208,31 +91,51 @@ export default function OrderCompleted({ navigation, route }) {
 }
 
 const { width } = Dimensions.get('window');
+const itemWidth = width - 20;
 const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: color.backgroundColor,
     },
-    itemStyle: {
+    productView: {
         flexDirection: 'row',
-        borderBottomWidth: 0.5,
-        borderBottomColor: color.borderSecond,
-        width,
-        padding: 10,
-    },
-    itemImageStyle: {
-        width: width * 0.25,
-    },
-    itemImage: {
-        width: 90,
-        height: 90,
-        elevation: 1,
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        width: itemWidth,
+        marginHorizontal: 10,
+        marginVertical: 5,
+        //borderColor: 'gray',
+        backgroundColor: color.white,
         borderRadius: 8,
+        elevation: 1
+        //borderWidth: 0.5,
     },
-    orderInfo: {
+    leftView: {
+        width: itemWidth * 0.3,
+        padding: 5,
+    },
+    productImage: {
+        width: itemWidth * 0.25,
+        height: itemWidth * 0.25,
+    },
+    rightView: {
+        width: itemWidth * 0.7,
+        padding: 5,
+        height: 0.3 * itemWidth,
+        justifyContent: 'space-between',
+    },
+    productName: {
+        fontFamily: 'SFProDisPlayRegular',
+        fontSize: 16,
+    },
+    ratingButton: {
+        alignItems: 'center',
         paddingHorizontal: 10,
-        width: width * 0.73,
-        height: 90,
+        borderRadius: 40,
+        width: 80,
+        justifyContent: 'center',
+        backgroundColor: color.star,
+        marginLeft: 160,
     },
     emptyView: {
         flex: 1,

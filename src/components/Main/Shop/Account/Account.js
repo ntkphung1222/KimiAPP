@@ -61,20 +61,20 @@ const optionArray = [
         icontype: 'feather',
         color: color.darkblue,
     },
-    {
-        id: '6',
-        value: 'Chat với nhân viên',
-        iconname: 'hipchat',
-        icontype: 'fontisto',
-        color: color.blue,
-    },
-    {
-        id: '7',
-        value: 'Giới thiệu về ứng dụng',
-        iconname: 'infocirlce',
-        icontype: 'antdesign',
-        color: color.darkblue,
-    },
+    // {
+    //     id: '6',
+    //     value: 'Chat với nhân viên',
+    //     iconname: 'hipchat',
+    //     icontype: 'fontisto',
+    //     color: color.blue,
+    // },
+    // {
+    //     id: '7',
+    //     value: 'Giới thiệu về ứng dụng',
+    //     iconname: 'infocirlce',
+    //     icontype: 'antdesign',
+    //     color: color.darkblue,
+    // },
 ];
 export default function Account({ navigation }) {
     const [user, setUser] = useState([]);
@@ -187,7 +187,7 @@ export default function Account({ navigation }) {
                 </TouchableOpacity>
                 <TouchableOpacity
                     style={styles.action2}
-                    onPress={() => navigation.navigate('Favorite')}
+                    onPress={() => navigation.navigate('Favorite', { user })}
                 >
                     <FAIcon name="heart" size={20} color={color.like} />
                     <Text style={font.textNormal}>Yêu thích</Text>
@@ -206,10 +206,9 @@ export default function Account({ navigation }) {
                     numColumns={1}
                     //ListHeaderComponent={getHeader}
                 />
-                <View style={styles.betaView}>
-                    {/* <Image source={beta} style={{ width: 30, height: 30 }}/> */}
+                {/* <View style={styles.betaView}>
                     <Text style={font.textBoldSmall}>BETA</Text>
-                </View>
+                </View> */}
             </View>
         </View>
     );

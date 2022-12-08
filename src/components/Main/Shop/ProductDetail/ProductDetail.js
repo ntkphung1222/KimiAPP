@@ -24,6 +24,8 @@ import font from '../../../../../assets/font';
 
 export default function ProductDetail({ navigation, route }) {
     const { product } = route.params;
+    const [user, setUser] = useState(null);
+
     const [serverData, setServerData] = useState([]);
     const [refreshing, setRefreshing] = useState(false);
     const [quan, setQuan] = useState(1);
@@ -119,14 +121,20 @@ export default function ProductDetail({ navigation, route }) {
             },
         ]);
     };
-    useEffect(() => {
-        loadCart();
-        loadDGTB(product.sp_ma);
-        loadAllDG();
-        loadSPCungDM();
-        loadSPYT(product.sp_ma);
-    }, [product.sp_ma]);
-
+    async function loadUser() {
+        await AsyncStorage.getItem('user').then((userR) => {
+            if (userR !== null) {
+                const userCurrent = JSON.parse(userR);
+                setUser(userCurrent);
+                console.log(`favorite${userCurrent.kh_ma}`);
+            }
+        });
+    }
+    const xulySPYT = () => {
+        if (user !== null) {
+        } else {
+        }
+    };
     async function onClickAddCart(data) {
         const itemcart = {
             product: data,
@@ -162,6 +170,8 @@ export default function ProductDetail({ navigation, route }) {
                         'cart',
                         JSON.stringify(cart)
                     ).then();
+                    onSuccess();
+                    //Alert.alert('Đã thêm sản phẩm vào giỏ.')
                 } else {
                     const cart = [];
                     cart.push(itemcart);
@@ -170,7 +180,8 @@ export default function ProductDetail({ navigation, route }) {
                         JSON.stringify(cart)
                     ).then();
                 }
-                //onSuccess();
+                onSuccess();
+                //Alert.alert('Đã thêm sản phẩm vào giỏ.')
             })
             .catch((error) => {
                 Alert.alert(error);
@@ -182,7 +193,7 @@ export default function ProductDetail({ navigation, route }) {
             state: true,
         };
 
-        AsyncStorage.getItem('favorite')
+        AsyncStorage.getItem(`favorite${user.kh_ma}`)
             .then((datafav) => {
                 if (datafav != null) {
                     const list = JSON.parse(datafav);
@@ -196,14 +207,14 @@ export default function ProductDetail({ navigation, route }) {
                     }
 
                     AsyncStorage.setItem(
-                        'favorite',
+                        `favorite${user.kh_ma}`,
                         JSON.stringify(list)
                     ).then();
                 } else {
                     const list = [];
                     list.push(itemfav);
                     AsyncStorage.setItem(
-                        'favorite',
+                        `favorite${user.kh_ma}`,
                         JSON.stringify(list)
                     ).then();
                 }
@@ -213,6 +224,14 @@ export default function ProductDetail({ navigation, route }) {
                 Alert.alert(error);
             });
     };
+    useEffect(() => {
+        loadCart();
+        loadDGTB(product.sp_ma);
+        loadAllDG();
+        loadSPCungDM();
+        loadSPYT(product.sp_ma);
+        loadUser();
+    }, [product.sp_ma]);
     return (
         <View style={container}>
             <Header navigation={navigation} title={title} />
@@ -282,23 +301,26 @@ export default function ProductDetail({ navigation, route }) {
                         />
                     </View>
                 )}
-                <TouchableOpacity
-                    style={{
-                        position: 'absolute',
-                        right: 0,
-                        top: 20,
-                    }}
-                    onPress={() => {
-                        setFavourite(!isFavourite);
-                        onClickAddFavorite(product);
-                    }}
-                >
-                    <FAIcon
-                        name={isFavourite ? 'heart' : 'heart-o'}
-                        size={22}
-                        color={isFavourite ? '#FD6C57' : '#D8D8D8'}
-                    />
-                </TouchableOpacity>
+                {user !== null ? (
+                    <TouchableOpacity
+                        style={{
+                            position: 'absolute',
+                            right: 0,
+                            top: 20,
+                        }}
+                        onPress={() => {
+                            setFavourite(!isFavourite);
+                            onClickAddFavorite(product);
+                        }}
+                    >
+                        <FAIcon
+                            name={isFavourite ? 'heart' : 'heart-o'}
+                            size={22}
+                            color={isFavourite ? '#FD6C57' : '#D8D8D8'}
+                        />
+                    </TouchableOpacity>
+                ) : null}
+
                 <Text style={font.productNameLarge}>{product.sp_ten}</Text>
                 <View style={styles.productPriceView}>
                     <View style={{ flexDirection: 'row' }}>
@@ -315,7 +337,7 @@ export default function ProductDetail({ navigation, route }) {
                                 </Text>
                             )}
                         />
-                        <NumericFormat
+                        {/* <NumericFormat
                             type="text"
                             value={40000}
                             allowLeadingZeros
@@ -327,7 +349,7 @@ export default function ProductDetail({ navigation, route }) {
                                     {formatValue}
                                 </Text>
                             )}
-                        />
+                        /> */}
                     </View>
 
                     <Text style={font.textNormal}>
@@ -492,7 +514,7 @@ export default function ProductDetail({ navigation, route }) {
                             Đánh giá
                         </Text>
                     </View>
-                    {console.log(tcdg)}
+
                     {tcdg.length > 0 ? (
                         <View>
                             {tcdg.map((itemDG, i) => (
@@ -625,7 +647,7 @@ export default function ProductDetail({ navigation, route }) {
                                         <View
                                             style={{
                                                 marginTop: 0,
-                                                justifyContent: 'center',
+                                                justifyContent: 'space-between',
                                                 alignContent: 'center',
                                             }}
                                         >
@@ -706,6 +728,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',
+        //width: itemW - 5,
     },
     discountedPriceText: { fontFamily: 'SFProDisplaySemiBold', fontSize: 20 },
     actualPriceText: {
@@ -771,12 +794,15 @@ const styles = StyleSheet.create({
     newProductName: {
         fontFamily: 'SFProDisplaySemiBold',
         fontSize: 14,
+        width: itemW - 5,
         justifyContent: 'space-between',
+        paddingHorizontal: 10
     },
     newProductPriceView: {
         alignItems: 'center',
         justifyContent: 'space-between',
         marginTop: 2,
+        paddingHorizontal: 10,
         flexDirection: 'row',
     },
     newProductPrice: {

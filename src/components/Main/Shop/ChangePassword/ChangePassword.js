@@ -11,13 +11,14 @@ export default function ChangePassword({ navigation, route }) {
     const { user } = route.params;
     const [oldpassword, setOldPassword] = useState('');
     const [newpassword, setNewPassword] = useState('');
+    const [confirmnewpassword, setConfirmNewPassword] = useState('');
 
     function handleSubmit() {
-        if (oldpassword === '' || newpassword === '') {
+        if (oldpassword === '' || newpassword === '' || confirmnewpassword === '') {
             Alert.alert('Vui lòng nhập đầy đủ thông tin.');
             return;
         }
-        changePassword(user.kh_email, oldpassword, newpassword)
+        changePassword(user.kh_email, oldpassword, newpassword, confirmnewpassword)
             .then((res) => {
                 if (res.success) {
                     Alert.alert(res.message);
@@ -60,7 +61,7 @@ export default function ChangePassword({ navigation, route }) {
                         ]}
                         type="text"
                         value={oldpassword}
-                        placeholder="Mật khẩu cũ"
+                        placeholder="Mật khẩu hiện tại"
                         leftIcon={
                             <FontAwesome
                                 name="lock"
@@ -110,6 +111,47 @@ export default function ChangePassword({ navigation, route }) {
                             />
                         }
                         onChangeText={(text) => setNewPassword(text)}
+                        labelStyle={styles.labelStyle}
+                        style={styles.inputStyle}
+                        containerStyle={styles.input}
+                        floatingTopValue={5}
+                        floatingFontSize={5}
+                    />
+                    <InputText
+                        name="confirmnewpassword"
+                        secureTextEntry
+                        passwordHideIcon={
+                            <Icon
+                                name="eye-off"
+                                color={color.darkblue}
+                                size={20}
+                                type="feather"
+                            />
+                        }
+                        passwordShowIcon={
+                            <Icon
+                                name="eye"
+                                color={color.darkblue}
+                                size={20}
+                                type="feather"
+                            />
+                        }
+                        validateNames={['minStringLength:6', 'required']}
+                        errorMessages={[
+                            'Tối thiểu 6 kí tự',
+                            'Vui lòng nhập mật khẩu',
+                        ]}
+                        type="text"
+                        value={confirmnewpassword}
+                        placeholder="Xác nhận mật khẩu mới"
+                        leftIcon={
+                            <FontAwesome
+                                name="lock"
+                                color={color.darkblue}
+                                size={20}
+                            />
+                        }
+                        onChangeText={(text) => setConfirmNewPassword(text)}
                         labelStyle={styles.labelStyle}
                         style={styles.inputStyle}
                         containerStyle={styles.input}
@@ -172,3 +214,4 @@ const styles = StyleSheet.create({
         height: 50,
     },
 });
+

@@ -12,6 +12,7 @@ import { Icon } from 'react-native-elements';
 import Header from '../Header';
 import font from '../../../../../assets/font';
 import color from '../../../../../assets/color';
+import postTBDaDoc from '../../../../api/postTBDaDoc';
 
 export default function Notification({ navigation, route }) {
     const { user } = route.params;
@@ -35,7 +36,13 @@ export default function Notification({ navigation, route }) {
         loadData();
         setRefreshing(false);
     }, []);
-
+    const tbDaDoc = (tb_ma) => {
+        postTBDaDoc(tb_ma)
+            .then((res) => {
+                console.log(res);
+            })
+            .catch((error) => console.log(error));
+    };
     useEffect(() => {
         loadData();
     }, []);
@@ -57,17 +64,24 @@ export default function Notification({ navigation, route }) {
                             <TouchableOpacity
                                 key={item.tb_ma}
                                 style={styles.itemView}
+                                onPress={() => {
+                                    tbDaDoc(item.tb_ma);
+                                    loadData();
+                                }}
                             >
                                 <View style={styles.topItemView}>
                                     <View style={styles.topLeftItemView}>
                                         <View
                                             style={[
                                                 styles.iconView,
-                                                item.tb_trangthai === '-1'
+                                                item.tb_tieude ===
+                                                'Đơn hàng đã hủy'
                                                     ? styles.bgRed
-                                                    : item.tb_trangthai === '1'
+                                                    : item.tb_tieude ===
+                                                      'Đơn hàng đã được xác nhận'
                                                     ? styles.bgBlue
-                                                    : item.tb_trangthai === '2'
+                                                    : item.tb_tieude ===
+                                                      'Đơn hàng đã được giao thành công'
                                                     ? styles.bgGreen
                                                     : styles.iconView,
                                             ]}
@@ -78,6 +92,11 @@ export default function Notification({ navigation, route }) {
                                                 size={20}
                                                 color="white"
                                             />
+                                            {item.tb_trangthai === '0' ? (
+                                                <View
+                                                    style={styles.newNotiView}
+                                                />
+                                            ) : null}
                                         </View>
                                     </View>
                                     <View style={styles.topRightItemView}>
@@ -100,12 +119,12 @@ export default function Notification({ navigation, route }) {
                 ) : (
                     <View
                         style={styles.emptyView}
-                        refreshControl={
-                            <RefreshControl
-                                refreshing={refreshing}
-                                onRefresh={onRefresh}
-                            />
-                        }
+                        // refreshControl={
+                        //     <RefreshControl
+                        //         refreshing={refreshing}
+                        //         onRefresh={onRefresh}
+                        //     />
+                        // }
                     >
                         <Text style={font.textTitle1}>
                             Chưa có thông báo nào.{' '}
@@ -133,6 +152,7 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         elevation: 0.8,
         marginBottom: 10,
+        backgroundColor: color.white,
     },
     topItemView: {
         flexDirection: 'row',
@@ -171,5 +191,16 @@ const styles = StyleSheet.create({
     },
     bgBlue: {
         backgroundColor: color.primary,
+    },
+    newNotiView: {
+        width: 10,
+        height: 10,
+        borderRadius: 10,
+        backgroundColor: color.red,
+        position: 'absolute',
+        top: 0,
+        right: 0,
+        borderWidth: 1,
+        borderColor: color.white,
     },
 });

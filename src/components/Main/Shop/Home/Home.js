@@ -110,7 +110,7 @@ export default function Home({ navigation, route }) {
                             size={25}
                         />
                     </TouchableOpacity>
-                    <TouchableOpacity
+                    {/* <TouchableOpacity
                         style={{ marginRight: 10 }}
                         onPress={() => navigation.navigate('Search')}
                     >
@@ -120,7 +120,7 @@ export default function Home({ navigation, route }) {
                             color={color.white}
                             size={25}
                         />
-                    </TouchableOpacity>
+                    </TouchableOpacity> */}
 
                     <TouchableOpacity
                         onPress={() => {
@@ -176,7 +176,7 @@ export default function Home({ navigation, route }) {
                         <Text style={font.textNormal}>{description}</Text>
                     </View>
                 </View>
-                <View style={{ marginTop: 100 }}>
+                <View style={{ marginTop: 20 }}>
                     <Category refreshControl navigation={navigation} />
                     <NewProduct refreshControl navigation={navigation} />
                 </View>

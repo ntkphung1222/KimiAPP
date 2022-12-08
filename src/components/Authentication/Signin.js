@@ -49,6 +49,7 @@ const Signin = ({ navigation }) => {
                 //saveToken(res.access_token);
                 //Alert.alert(res.user);
                 if (res.success) {
+                    Alert.alert('Đăng nhập thành công.');
                     onSignIn();
                     await AsyncStorage.setItem(
                         'user',

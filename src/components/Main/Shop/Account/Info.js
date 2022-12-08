@@ -146,6 +146,7 @@ export default function ChangeInfo({ navigation, route }) {
     );
 }
 const { width } = Dimensions.get('window');
+const itemWidth = width - 40;
 const avatarsize = 120;
 const styles = StyleSheet.create({
     container: {
@@ -178,14 +179,15 @@ const styles = StyleSheet.create({
     },
     rowView: {
         flexDirection: 'row',
+        width: itemWidth,
         alignItems: 'center',
         height: 40,
     },
     labelView: {
-        width: width * 0.3,
+        width: itemWidth * 0.25,
     },
     textView: {
-        width: width * 0.7,
+        width: itemWidth * 0.75,
         marginLeft: 10,
     },
     textChangeInfo: {

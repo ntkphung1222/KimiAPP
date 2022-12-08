@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import { BASE_URL } from '../config';
 /* eslint-disable camelcase */
-const changePassword = (kh_email, matkhaucu, matkhaumoi) =>
+const changePassword = (kh_email, matkhaucu, matkhaumoi, xacnhanmatkhaumoi) =>
   //eslint-disable-next-line no-undef
   fetch(`${BASE_URL}/api/customer/changePassword`, {
     method: 'POST',
@@ -10,7 +10,7 @@ const changePassword = (kh_email, matkhaucu, matkhaumoi) =>
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      kh_email, matkhaucu, matkhaumoi
+      kh_email, matkhaucu, matkhaumoi, xacnhanmatkhaumoi
     }),
   }).then((res) => res.json());
 

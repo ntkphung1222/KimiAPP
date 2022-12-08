@@ -40,18 +40,38 @@ export default function MyReview({ route, navigation }) {
                         {serverDataReview.map((item, i) => (
                             <View key={i} style={styles.itemView}>
                                 <View style={styles.leftView}>
-                                    <Image
-                                        source={{
-                                            uri: `http://kimimylife.site/kh_avatar/${user.kh_anhdaidien}`,
-                                        }}
-                                        resizeMode="cover"
-                                        style={{ width: 50, height: 50, borderRadius: 50 }}
-                                    />
+                                    {user.kh_anhdaidien !== null ? (
+                                        <Image
+                                            source={{
+                                                uri: `http://kimimylife.site/kh_avatar/${user.kh_anhdaidien}`,
+                                            }}
+                                            resizeMode="cover"
+                                            style={{
+                                                width: 50,
+                                                height: 50,
+                                                borderRadius: 50,
+                                            }}
+                                        />
+                                    ) : (
+                                        <Image
+                                            source={{
+                                                uri: 'http://kimimylife.site/kh_avatar/userAvatar.png',
+                                            }}
+                                            resizeMode="cover"
+                                            style={{
+                                                width: 50,
+                                                height: 50,
+                                                borderRadius: 50,
+                                            }}
+                                        />
+                                    )}
                                 </View>
 
                                 <View style={styles.rightView}>
                                     <View style={styles.rightTopView}>
-                                        <Text style={font.textNormal}>{user.kh_ten}</Text>
+                                        <Text style={font.textNormal}>
+                                            {user.kh_ten}
+                                        </Text>
                                         <Text style={font.textNormal}>
                                             {moment(
                                                 new Date(item.dg_ngay)
@@ -90,7 +110,7 @@ export default function MyReview({ route, navigation }) {
                                             style={styles.productImage}
                                         />
                                         <Text style={styles.productName}>
-                                           {item.sp_ten}
+                                            {item.sp_ten}
                                         </Text>
                                     </TouchableOpacity>
                                 </View>
@@ -128,7 +148,7 @@ const styles = StyleSheet.create({
     },
     rightView: {
         width: itemWidth * 0.85,
-        paddingRight: 5
+        paddingRight: 5,
     },
     rightTopView: {
         flexDirection: 'row',

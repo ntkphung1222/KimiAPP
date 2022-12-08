@@ -10,8 +10,9 @@ import {
 import { Icon } from 'react-native-elements';
 import { Form, InputText } from 'validate-form-in-expo-style'; 
 import color from '../../../assets/color';
+import forgotpassword from '../../api/forgotpassword';
 
-class DateChoose extends React.Component {
+class ForgotPassword extends React.Component {
   state = {
     email: '',
   }; 
@@ -21,10 +22,21 @@ class DateChoose extends React.Component {
   };
 
   submit = () => {
-    Alert.alert('form submit, thank you.');
+    //Alert.alert('form submit, thank you.');
   };
   handleSubmit = () => {
     this.refs.form.submit();
+    forgotpassword(this.state.email)
+            .then(async (res) => {
+                // eslint-disable-next-line no-const-assign
+                if (res.success) {
+                  Alert.alert(res.message);
+                  this.props.navigation.navigate('Signin');
+                } else {
+                    Alert.alert(res.message);
+                }
+            })
+            .catch((error) => console.log(error));
   };
   render() {
     return (
@@ -42,7 +54,7 @@ class DateChoose extends React.Component {
                 validateNames={['required', 'validEmail']}
                 errorMessages={[
                   'Vui lòng nhập địa chỉ email',
-                  'Enter chưa hợp lệ',
+                  'Email chưa hợp lệ',
                 ]}
                 placeholder="Email"
                 type="text"
@@ -60,8 +72,6 @@ class DateChoose extends React.Component {
                 }
                 style={styles.inputStyle}
                 containerStyle={styles.input}
-                // floatingTopValue={5}
-                // floatingFontSize={5}
               />
               <TouchableOpacity
                 activeOpacity={0.8}
@@ -78,7 +88,7 @@ class DateChoose extends React.Component {
   }
 }
 
-export default DateChoose;
+export default ForgotPassword;
 const { width } = Dimensions.get('window');
 
 const styles = StyleSheet.create({

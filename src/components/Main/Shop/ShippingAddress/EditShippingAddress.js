@@ -22,9 +22,9 @@ const EditShippingAddress = ({ navigation, route }) => {
     const [cityData, setCityData] = useState([]);
     const [districtData, setDistrictData] = useState([]);
     const [wardData, setWardData] = useState([]);
-    const [city, setCity] = useState(diachi.matp);
-    const [district, setDistrict] = useState(diachi.maqh);
-    const [ward, setWard] = useState(diachi.xaid);
+    const [city, setCity] = useState(diachi.ttp_ma);
+    const [district, setDistrict] = useState(diachi.qh_ma);
+    const [ward, setWard] = useState(diachi.xptt_ma);
     const [road, setRoad] = useState(diachi.dc_chitiet);
 
     const handleCity = () => {
@@ -38,8 +38,8 @@ const EditShippingAddress = ({ navigation, route }) => {
                 const cityArray = [];
                 for (let i = 0; i < count; i++) {
                     cityArray.push({
-                        value: responseJson.results[i].matp,
-                        label: responseJson.results[i].ttpname,
+                        value: responseJson.results[i].ttp_ma,
+                        label: responseJson.results[i].ttp_ten,
                     });
                 }
                 setCityData(cityArray);
@@ -58,8 +58,8 @@ const EditShippingAddress = ({ navigation, route }) => {
                 const districtArray = [];
                 for (let i = 0; i < count1; i++) {
                     districtArray.push({
-                        value: resJson.results[i].maqh,
-                        label: resJson.results[i].qhname,
+                        value: resJson.results[i].qh_ma,
+                        label: resJson.results[i].qh_ten,
                     });
                 }
                 setDistrictData(districtArray);
@@ -78,8 +78,8 @@ const EditShippingAddress = ({ navigation, route }) => {
                 const wardArray = [];
                 for (let i = 0; i < count2; i++) {
                     wardArray.push({
-                        value: resJson.results[i].xaid,
-                        label: resJson.results[i].xpttname,
+                        value: resJson.results[i].xptt_ma,
+                        label: resJson.results[i].xptt_ten,
                     });
                 }
                 setWardData(wardArray);
@@ -92,8 +92,8 @@ const EditShippingAddress = ({ navigation, route }) => {
     const renderLabel = (text) => <Text style={styles.label}>{text}</Text>;
     useEffect(() => {
         handleCity();
-        handleDistrict(diachi.matp);
-        handleWard(diachi.maqh);
+        handleDistrict(diachi.ttp_ma);
+        handleWard(diachi.qh_ma);
     }, []);
 
     function handleSubmit() {

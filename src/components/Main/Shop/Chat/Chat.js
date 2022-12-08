@@ -31,7 +31,7 @@ import chat from '../../../../api/chat';
 export default function Chat({ navigation, route }) {
     const [chatUser] = useState({
         name: 'Nhà thuốc Kim Minh',
-        profile_image: 'https://randomuser.me/api/portraits/men/0.jpg',
+        //profile_image: 'https://i.imgur.com/gRBjCU1.png',
         last_seen: 'online',
     });
     const { user } = route.params;

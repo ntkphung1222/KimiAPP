@@ -150,6 +150,7 @@ export default function Search({ navigation }) {
                     onFocus={() => {
                         setIsHighlighted(true);
                     }}
+                    autoFocus
                     onBlur={() => setIsHighlighted(false)}
                     placeholderTextColor={color.text}
                     style={[
@@ -163,7 +164,7 @@ export default function Search({ navigation }) {
                 {search ? (
                     <TouchableOpacity
                         onPress={() => setSearch('')}
-                        style={{ position: 'absolute', right: 108 }}
+                        style={{ position: 'absolute', right: 110 }}
                     >
                         <Icon
                             style={styles.clearSearch}
@@ -451,7 +452,8 @@ const styles = StyleSheet.create({
         backgroundColor: color.white,
         borderRadius: 6,
         //marginHorizontal: 20,
-        paddingHorizontal: 15,
+        paddingHorizontal: 10,
+        //paddingVertical: 5,
         fontSize: 16,
         fontFamily: 'SFProDisPlayRegular',
         color: color.text,

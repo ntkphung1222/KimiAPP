@@ -93,7 +93,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         paddingHorizontal: 20,
-        paddingTop: 30,
+        paddingTop: 10,
         backgroundColor: color.backgroundColor,
         //elevation: 5,
         borderTopRightRadius: 30,
@@ -108,13 +108,11 @@ const styles = StyleSheet.create({
         marginRight: 13,
         alignItems: 'center',
         justifyContent: 'center',
-        elevation: 8,
     },
     itemImageView: {
         borderRadius: 60,
         width: 60,
         height: 60,
-        //paddingHorizontal: 5,
         padding: 0,
         justifyContent: 'center',
         alignItems: 'center',
@@ -133,7 +131,7 @@ const styles = StyleSheet.create({
     },
     textView: {
         height: 40,
-        width: itemWidth - 15,
+        width: 60,
         alignItems: 'center',
         justifyContent: 'center',
     },
