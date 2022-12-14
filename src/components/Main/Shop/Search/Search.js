@@ -9,6 +9,7 @@ import {
     Image,
     ScrollView,
     Alert,
+    RefreshControl
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { NumericFormat } from 'react-number-format';
@@ -22,6 +23,7 @@ export default function Search({ navigation }) {
     const [isHighlighted, setIsHighlighted] = useState(false);
     const [serverData, setServerData] = useState([10]);
     const [masterDataSource, setMasterDataSource] = useState([]);
+    const [refreshing, setRefreshing] = useState(false);
 
     function loadAllProduct() {
         fetch('http://kimimylife.site/api/allproduct')
@@ -43,6 +45,25 @@ export default function Search({ navigation }) {
             }
         });
     }
+    async function searchProduct(search){
+        fetch(`http://kimimylife.site/api/searchproduct?keyword=${search}`)
+        .then((response) => response.json())
+        .then((res) => {
+            if(res.success){
+                setServerData(res.results);
+            } else {
+                Alert.alert('Không có sản phẩm nào');
+            }  
+        })
+        .catch((error) => {
+            console.error(error);
+        });
+    }
+    const onRefresh = React.useCallback(() => {
+        setRefreshing(true);
+        loadAllProduct();
+        setRefreshing(false);
+    }, []);
     useEffect(() => {
         loadAllProduct();
         loadSearchHistory();
@@ -109,13 +130,12 @@ export default function Search({ navigation }) {
             // Filter the masterDataSource and update FilteredDataSource
             const newData = masterDataSource.filter((item) => {
                 // Applying filter for the inserted text in search bar
-                const itemData = item.sp_ten
-                    ? item.sp_ten.toUpperCase()
+                const itemData = item.sp_mota
+                    ? item.sp_mota.toUpperCase()
                     : ''.toUpperCase();
                 const textData = text.toUpperCase();
                 return itemData.indexOf(textData) > -1;
             });
-
             setServerData(newData);
             setSearch(text);
         } else {
@@ -142,15 +162,16 @@ export default function Search({ navigation }) {
                     />
                 </TouchableOpacity>
                 <TextInput
-                    placeholder="Nhập tên sản phẩm"
+                    placeholder="Tìm kiếm ở đây"
                     onChangeText={(text) => {
-                        searchFilterFunction(text);
+                        setSearch(text);
+                        //searchFilterFunction(text);
                     }}
                     value={search}
                     onFocus={() => {
                         setIsHighlighted(true);
                     }}
-                    autoFocus
+                    //autoFocus
                     onBlur={() => setIsHighlighted(false)}
                     placeholderTextColor={color.text}
                     style={[
@@ -185,7 +206,8 @@ export default function Search({ navigation }) {
                         borderRadius: 10,
                     }}
                     onPress={() => {
-                        searchFilterFunction(search);
+                        //searchFilterFunction(search);
+                        searchProduct(search);
                         onClickAddSearchHistory(search);
                     }}
                 >
@@ -270,7 +292,14 @@ export default function Search({ navigation }) {
                 <View style={{ paddingLeft: 20 }}>
                     <Text style={font.textTitle1}> Tất cả sản phẩm </Text>
                 </View>
-                <ScrollView>
+                <ScrollView
+                refreshControl={
+                    <RefreshControl
+                        refreshing={refreshing}
+                        onRefresh={onRefresh}
+                    />
+                }
+                >
                     {serverData
                         //.sort(() => -1)
                         .map((item, i) => (

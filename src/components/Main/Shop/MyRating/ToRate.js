@@ -7,7 +7,7 @@ import {
     StyleSheet,
     Image,
     ScrollView,
-    //FlatList,
+    RefreshControl,
     Dimensions,
 } from 'react-native';
 import color from '../../../../../assets/color';
@@ -17,10 +17,10 @@ import font from '../../../../../assets/font';
 export default function OrderCompleted({ navigation, route }) {
     try {
         const { user } = route.params;
+        const [refreshing, setRefreshing] = useState(false);
+
         const [serverData, setServerData] = useState({});
-        // const [serverDataToAccept, setServerDataToAccept] = useState([]);
-        useEffect(() => {
-            // eslint-disable-next-line no-undef
+        async function loadData() {
             fetch(`http://kimimylife.site/api/getToRate?hdx_kh=${user.kh_ma}`)
                 .then((response) => response.json())
                 .then((responseJson) => {
@@ -32,12 +32,29 @@ export default function OrderCompleted({ navigation, route }) {
                 .catch((error) => {
                     console.error(error);
                 });
+        }
+        // const [serverDataToAccept, setServerDataToAccept] = useState([]);
+        const onRefresh = React.useCallback(() => {
+            setRefreshing(true);
+            loadData();
+            setRefreshing(false);
+        }, []);
+        useEffect(() => {
+            loadData();
         }, []);
 
         return (
             <View style={styles.container}>
                 {serverData.length > 0 ? (
-                    <ScrollView>
+                    <ScrollView
+                        showsVerticalScrollIndicator={false}
+                        refreshControl={
+                            <RefreshControl
+                                refreshing={refreshing}
+                                onRefresh={onRefresh}
+                            />
+                        }
+                    >
                         <View>
                             {serverData.map((item, i) => (
                                 <TouchableOpacity
@@ -107,7 +124,7 @@ const styles = StyleSheet.create({
         //borderColor: 'gray',
         backgroundColor: color.white,
         borderRadius: 8,
-        elevation: 1
+        elevation: 1,
         //borderWidth: 0.5,
     },
     leftView: {

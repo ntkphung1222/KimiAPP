@@ -105,7 +105,7 @@ export default function RatingProduct({ navigation, route }) {
                 <TouchableOpacity
                     style={styles.ratingButton}
                     onPress={() => {
-                        console.log(product.hdx_ma, JSON.parse(product.sp_ma), 5, noidungdg);
+                        //console.log(product.hdx_ma, JSON.parse(product.sp_ma), 5, noidungdg);
                         handleSubmit(
                            product.hdx_ma,
                             JSON.parse(product.sp_ma),

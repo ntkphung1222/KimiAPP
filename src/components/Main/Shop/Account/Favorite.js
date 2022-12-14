@@ -17,13 +17,13 @@ import Header from '../Header';
 import font from '../../../../../assets/font';
 import color from '../../../../../assets/color';
 
-export default function Favorite({ navigation, route }) {
-    const { user } = route.params;
+export default function Favorite({ navigation }) {
+    //const { user } = route.params;
 
     const [dataList, setDataList] = useState([]);
 
     const loadData = () => {
-        AsyncStorage.getItem(`favorite${user.kh_ma}`).then((list) => {
+        AsyncStorage.getItem('favorite').then((list) => {
             if (list !== null) {
                 const listF = JSON.parse(list);
                 setDataList(listF);

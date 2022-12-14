@@ -98,6 +98,8 @@ export default function Account({ navigation }) {
     const logout = () => {
         AsyncStorage.removeItem('user');
         AsyncStorage.removeItem('cart');
+        AsyncStorage.removeItem('searchhistory');
+        AsyncStorage.removeItem('favorite');
         setUser([]);
         Alert.alert('Đăng xuất thành công!');
         navigation.navigate('Signin');

@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "KimiAPP",
-    "slug": "KimiAPP",
+    "name": "KimiGo",
+    "slug": "KimiGo",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/kimi.png",
@@ -21,6 +21,7 @@
       "supportsTablet": true
     },
     "android": {
+      "package": "ntkphung1222.kimigo",
       "adaptiveIcon": {
         "foregroundImage": "./assets/kimi.png",
         "backgroundColor": "#2FAAF7"

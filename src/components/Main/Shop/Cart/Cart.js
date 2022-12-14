@@ -174,7 +174,7 @@ function Cart({ navigation }) {
                           <View style={styles.quantityView}>
                             <TouchableOpacity
                               onPress={() => {
-                                if (item.quantity === 1) {
+                                if (Number(item.quantity === 1)) {
                                   return Alert.alert(
                                     'Xóa sản phẩm này khỏi giỏ hàng?',
                                     '',
@@ -198,7 +198,7 @@ function Cart({ navigation }) {
                                     ]
                                   );
                                 }
-                                dataCart[i].quantity -= 1;
+                                Number(dataCart[i].quantity -= 1);
                                 setDataCart(dataCart);
                                 AsyncStorage.setItem(
                                   'cart',
@@ -216,8 +216,8 @@ function Cart({ navigation }) {
                             <Text style={font.textBold}>{item.quantity}</Text>
                             <TouchableOpacity
                               onPress={() => {
-                                if (dataCart[i].quantity < item.product.sp_soluonggioihan) {
-                                  dataCart[i].quantity += 1;
+                                if (Number(dataCart[i].quantity) < item.product.sp_soluonggioihan && Number(dataCart[i].quantity) < item.product.sp_soluong) {
+                                  dataCart[i].quantity = Number(dataCart[i].quantity) + 1;
                                   setDataCart(dataCart);
                                   AsyncStorage.setItem(
                                     'cart',

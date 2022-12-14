@@ -63,7 +63,20 @@ export default function OrderProcessing({ navigation, route }) {
                 setSearch(text);
             }
         };
-
+        async function searchOrder(search){
+            fetch(`http://kimimylife.site/api/searchorder?keyword=${search}&hdx_kh=${user.kh_ma}`)
+        .then((response) => response.json())
+        .then((res) => {
+            if(res.success){
+                setServerData(res.results);
+            } else {
+                Alert.alert('Không có đơn hàng nào.');
+            }  
+        })
+        .catch((error) => {
+            console.error(error);
+        });
+        }
         const onRefresh = React.useCallback(() => {
             setRefreshing(true);
             loadData();
@@ -97,7 +110,7 @@ export default function OrderProcessing({ navigation, route }) {
                             >
                                 {/* <Text>{JSON.stringify(masterDataSource)}</Text> */}
                                 <TextInput
-                                    placeholder="Nhập mã đơn hàng"
+                                    placeholder="Nhập mã đơn hàng/ tên sản phẩm"
                                     onChangeText={(text) => setSearch(text)}
                                     value={search}
                                     style={{
@@ -114,7 +127,7 @@ export default function OrderProcessing({ navigation, route }) {
                                     }}
                                 />
                                 <TouchableOpacity
-                                    onPress={() => searchFilterFunction(search)}
+                                    onPress={() => searchOrder(search)}
                                     style={{
                                         width: width * 0.2,
                                         backgroundColor: color.primary,

@@ -67,7 +67,7 @@ const Signup = ({ navigation }) => {
                 if (res.success) {
                     onSuccess();
                 } else {
-                    onFail();
+                    Alert.alert('Thông tin không hợp lệ.');
                 }
             })
             .catch(() => onFail());

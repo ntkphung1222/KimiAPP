@@ -17,7 +17,7 @@ import { NumericFormat } from 'react-number-format';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Header from '../Header';
 import order from '../../../../api/order';
-import momo from '../../../../images/momo.png';
+//import momo from '../../../../images/momo.png';
 import cod from '../../../../images/cod.png';
 import color from '../../../../../assets/color';
 import font from '../../../../../assets/font';
@@ -110,7 +110,7 @@ export default function Payment({ navigation, route }) {
     return (
         <View style={container}>
             <Header title="Kiểm tra" navigation={navigation} />
-            <View style={{ flex: 0.7 }}>
+            <View style={{ flex: 0.78 }}>
                 <ScrollView
                     style={wrapper}
                     showsVerticalScrollIndicator={false}
@@ -132,16 +132,16 @@ export default function Payment({ navigation, route }) {
                             <View
                                 style={{
                                     width: width * 0.1,
-                                    justifyContent: 'center',
+                                    justifyContent: 'flex-start',
                                 }}
                             >
                                 <Icon
                                     name="location-pin"
-                                    size={35}
+                                    size={25}
                                     color={color.red}
                                 />
                             </View>
-                            <View style={{ width: width * 0.9 }}>
+                            <View style={{ width: width * 0.9, paddingRight: 5 }}>
                                 {dcmd.length > 0 ? (
                                     <View>
                                         <View style={{ flexDirection: 'row' }}>
@@ -230,7 +230,7 @@ export default function Payment({ navigation, route }) {
             </View>
             <View
                 style={{
-                    flex: 0.3,
+                    flex: 0.22,
                     elevation: 18,
                     paddingHorizontal: 20,
                     borderColor: color.borderSecond,
@@ -256,7 +256,7 @@ export default function Payment({ navigation, route }) {
                         </TouchableOpacity>
                     </View>
                     {/* <View style={paymentmethodContainer}> */}
-                    <TouchableOpacity style={paymentmethod}>
+                    {/* <TouchableOpacity style={paymentmethod}>
                         <Image source={momo} style={imageIcon} />
                         <Text style={font.textNormal}>Ví điện tử MoMo</Text>
                         <RadioButton value="second" style={radioButton} />
@@ -272,7 +272,7 @@ export default function Payment({ navigation, route }) {
                         <Text style={font.textNormalSmall}>
                             Đang phát triển
                         </Text>
-                    </View>
+                    </View> */}
                     {/* </View> */}
                 </RadioButton.Group>
                 <TouchableOpacity
@@ -328,7 +328,7 @@ const styles = StyleSheet.create({
     shippingAddress: {
         flexDirection: 'row',
         borderWidth: 1,
-        borderColor: color.borderSecond,
+        borderColor: color.primary,
         borderRadius: 6,
         paddingVertical: 10,
     },

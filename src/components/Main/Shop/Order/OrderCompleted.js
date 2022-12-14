@@ -43,7 +43,7 @@ export default function OrderCompleted({ navigation, route }) {
             loadData();
         }, []);
         const arr = Object.values(serverData).filter(
-            (f) => f.trangthai === '2'
+            (f) => f.trangthai === '2' || f.trangthai === '3'
         );
         return (
             <View style={{ flex: 1 }}>

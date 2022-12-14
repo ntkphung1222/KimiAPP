@@ -21,7 +21,7 @@ import font from '../../../../../assets/font';
 
 export default function OrderDetail({ navigation, route }) {
     const { productList } = route.params;
-    const userID = route.params.userID;
+    //const userID = route.params.userID;
 
     // eslint-disable-next-line camelcase
     function handleSubmit(hdx_ma) {
@@ -29,6 +29,7 @@ export default function OrderDetail({ navigation, route }) {
         cancleOrder(hdx_ma).then((res) => {
             if (res.success) {
                 Alert.alert('Hủy đơn hàng thành công.');
+                navigation.goBack();
             } else {
                 Alert.alert('Thao tác thất bại.');
             }
@@ -80,7 +81,7 @@ export default function OrderDetail({ navigation, route }) {
                         </View>
                     </View>
                 </View>
-                {productList.map((data, i) => (
+                {productList.map((data) => (
                     <View key={data.hdxct_ma} style={styles.itemStyle}>
                         <View style={styles.itemImageStyle}>
                             <Image
@@ -123,7 +124,8 @@ export default function OrderDetail({ navigation, route }) {
                                         x {data.soluong}
                                     </Text>
                                 </View>
-                                {productList[0].hdx_trangthai === '2' && data.dadanhgia === '0' ? (
+                                {/* {productList[0].hdx_trangthai === '2' 
+                                && data.dadanhgia === '0' ? (
                                     <TouchableOpacity
                                         onPress={() => {
                                             // Alert.alert('ok');
@@ -144,7 +146,7 @@ export default function OrderDetail({ navigation, route }) {
                                             Đánh giá
                                         </Text>
                                     </TouchableOpacity>
-                                ) : null}
+                                ) : null} */}
                             </View>
                         </View>
                     </View>
@@ -175,7 +177,7 @@ export default function OrderDetail({ navigation, route }) {
                         >
                             <Text style={{ color: color.white }}>Hủy</Text>
                         </TouchableOpacity>
-                    ) : productList[0].hdx_trangthai === '1' ? (
+                    ) : productList[0].hdx_trangthai === '2' ? (
                         <TouchableOpacity
                             style={{
                                 position: 'absolute',
@@ -220,8 +222,10 @@ export default function OrderDetail({ navigation, route }) {
                                 {productList[0].hdx_trangthai === '-1'
                                     ? 'Đã hủy'
                                     : productList[0].hdx_trangthai === '1'
-                                    ? 'Đã nhận hàng'
-                                    : 'Đã giao'}
+                                    ? 'Đang giao'
+                                    : productList[0].hdx_trangthai === '2'
+                                    ? 'Đã giao'
+                                    : 'Đã hoàn thành'}
                             </Text>
                         </View>
                     )}

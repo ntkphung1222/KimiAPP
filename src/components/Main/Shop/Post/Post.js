@@ -121,7 +121,7 @@ export default function Post({ navigation }) {
                 {/* <Text style={font.label16blackbold}>Bài viết gần đây</Text> */}
                 <View style={{ marginHorizontal: 20 }}>
                     {dataPost
-                        .sort(() => -1)
+                        //.sort(() => -1)
                         .map((item) => (
                             <TouchableOpacity
                                 key={item.bv_ma}

@@ -118,11 +118,12 @@ export default function Products({ navigation, route }) {
                             style={styles.icon}
                             name="long-arrow-down"
                             size={14}
-                            color= {
-                                isFocus === 'Giá cao' ? color.white : color.darkblue
+                            color={
+                                isFocus === 'Giá cao'
+                                    ? color.white
+                                    : color.darkblue
                             }
                         />
-                        
                     </TouchableOpacity>
                     <TouchableOpacity
                         onPress={() => {
@@ -146,84 +147,94 @@ export default function Products({ navigation, route }) {
                             style={styles.icon}
                             name="long-arrow-up"
                             size={14}
-                            color= {
-                                isFocus === 'Giá thấp' ? color.white : color.darkblue
+                            color={
+                                isFocus === 'Giá thấp'
+                                    ? color.white
+                                    : color.darkblue
                             }
-                           
                         />
                     </TouchableOpacity>
                 </View>
-                
+
                 <ScrollView>
-                    {
-                        serverData.length > 0 ? (
-<View style={styles.newProductView}>
-                        {/* <Text>{JSON.stringify(serverData)}</Text> */}
-                        {serverData.map((item) => (
-                            <TouchableOpacity
-                                onPress={() =>
-                                    navigation.navigate('ProductDetail', {
-                                        product: item,
-                                    })
-                                }
-                                key={item.sp_ma}
-                                style={styles.itemView}
-                            >
-                                <View style={styles.newProductImageView}>
-                                    <Image
-                                        resizeMode="contain"
-                                        style={{ flex: 1 }}
-                                        source={{
-                                            uri: `http://kimimylife.site/sp_hinhanh/${item.sp_hinhanh}`,
-                                        }}
-                                    />
-                                </View>
-                                <View
-                                    style={{
-                                        marginTop: 0,
-                                    }}
+                    {serverData.length > 0 ? (
+                        <View style={styles.newProductView}>
+                            {/* <Text>{JSON.stringify(serverData)}</Text> */}
+                            {serverData.map((item) => (
+                                <TouchableOpacity
+                                    onPress={() =>
+                                        navigation.navigate('ProductDetail', {
+                                            product: item,
+                                        })
+                                    }
+                                    key={item.sp_ma}
+                                    style={styles.itemView}
                                 >
-                                    <Text
-                                        adjustsFontSizeToFit
-                                        style={styles.newProductName}
+                                    <View style={styles.newProductImageView}>
+                                        <Image
+                                            resizeMode="contain"
+                                            style={{ flex: 1 }}
+                                            source={{
+                                                uri: `http://kimimylife.site/sp_hinhanh/${item.sp_hinhanh}`,
+                                            }}
+                                        />
+                                    </View>
+                                    <View
+                                        style={{
+                                            marginTop: 0,
+                                        }}
                                     >
-                                        {item.sp_ten}
-                                    </Text>
-                                </View>
-                                <View style={styles.newProductPriceView}>
-                                    <NumericFormat
-                                        type="text"
-                                        value={item.sp_giaban}
-                                        allowLeadingZeros
-                                        thousandSeparator=","
-                                        displayType="text"
-                                        suffix={'đ'}
-                                        renderText={(formatValue) => (
-                                            <Text
-                                                style={styles.newProductPrice}
-                                            >
-                                                {formatValue}
-                                            </Text>
-                                        )}
-                                    />
-                                    <View>
-                                        <Text style={font.textNormalSmall}>
-                                            Đã bán {item.sp_daban}
+                                        <Text
+                                            adjustsFontSizeToFit
+                                            style={styles.newProductName}
+                                        >
+                                            {item.sp_ten}
                                         </Text>
                                     </View>
-                                </View>
-                            </TouchableOpacity>
-                        ))}
-                    </View>
-                        ) : (
-                            <View style={styles.emptyView}>
+                                    <View style={styles.newProductPriceView}>
+                                        <NumericFormat
+                                            type="text"
+                                            value={item.sp_giaban}
+                                            allowLeadingZeros
+                                            thousandSeparator=","
+                                            displayType="text"
+                                            suffix={'đ'}
+                                            renderText={(formatValue) => (
+                                                <Text
+                                                    style={
+                                                        styles.newProductPrice
+                                                    }
+                                                >
+                                                    {formatValue}
+                                                </Text>
+                                            )}
+                                        />
+                                        <View>
+                                            {/* {isFocus === 'Bán chạy' ? (
+                                                <Text
+                                                    style={font.textNormalSmall}
+                                                >
+                                                    Đã bán {item.sp_daban}
+                                                </Text>
+                                            ) : ( */}
+                                                <Text
+                                                    style={font.textNormalSmall}
+                                                >
+                                                    Đã bán {item.sp_daban}
+                                                </Text>
+                                            {/* )} */}
+                                        </View>
+                                    </View>
+                                </TouchableOpacity>
+                            ))}
+                        </View>
+                    ) : (
+                        <View style={styles.emptyView}>
                             <Text style={font.textTitle1}>
                                 Không có sản phẩm nào.{' '}
                             </Text>
                         </View>
-                        )
-                    }
-                    
+                    )}
                 </ScrollView>
             </View>
         </View>

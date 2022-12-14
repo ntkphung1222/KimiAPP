@@ -126,7 +126,7 @@ export default function ProductDetail({ navigation, route }) {
             if (userR !== null) {
                 const userCurrent = JSON.parse(userR);
                 setUser(userCurrent);
-                console.log(`favorite${userCurrent.kh_ma}`);
+                //console.log(`favorite${userCurrent.kh_ma}`);
             }
         });
     }
@@ -155,7 +155,13 @@ export default function ProductDetail({ navigation, route }) {
                             Alert.alert(
                                 'Bạn đã đạt số lượng mua giới hạn cho sản phẩm này.'
                             );
-                        }
+                        } 
+                        if (item.quantity > item.product.sp_soluong) {
+                            item.quantity = item.product.sp_soluong;
+                            Alert.alert(
+                                'Bạn đã đạt số lượng mua giới hạn cho sản phẩm này.'
+                            );
+                        } 
                         //else {
                         //item.quantity = item.product.sp_soluong;
                         //Alert.alert(
@@ -170,7 +176,7 @@ export default function ProductDetail({ navigation, route }) {
                         'cart',
                         JSON.stringify(cart)
                     ).then();
-                    onSuccess();
+                    //onSuccess();
                     //Alert.alert('Đã thêm sản phẩm vào giỏ.')
                 } else {
                     const cart = [];
@@ -180,7 +186,7 @@ export default function ProductDetail({ navigation, route }) {
                         JSON.stringify(cart)
                     ).then();
                 }
-                onSuccess();
+                //onSuccess();
                 //Alert.alert('Đã thêm sản phẩm vào giỏ.')
             })
             .catch((error) => {
@@ -193,7 +199,7 @@ export default function ProductDetail({ navigation, route }) {
             state: true,
         };
 
-        AsyncStorage.getItem(`favorite${user.kh_ma}`)
+        AsyncStorage.getItem('favorite')
             .then((datafav) => {
                 if (datafav != null) {
                     const list = JSON.parse(datafav);
@@ -207,14 +213,14 @@ export default function ProductDetail({ navigation, route }) {
                     }
 
                     AsyncStorage.setItem(
-                        `favorite${user.kh_ma}`,
+                        'favorite',
                         JSON.stringify(list)
                     ).then();
                 } else {
                     const list = [];
                     list.push(itemfav);
                     AsyncStorage.setItem(
-                        `favorite${user.kh_ma}`,
+                        'favorite',
                         JSON.stringify(list)
                     ).then();
                 }
@@ -388,6 +394,11 @@ export default function ProductDetail({ navigation, route }) {
                             </View>
                         )}
                     </View>
+                    <View>
+                    <Text style={font.textNormal}>
+                               Có sẵn: {product.sp_soluong} 
+                            </Text>
+                    </View>
                 </View>
                 <View
                     style={{
@@ -429,7 +440,7 @@ export default function ProductDetail({ navigation, route }) {
                         </Text>
                         <TouchableOpacity
                             onPress={() => {
-                                if (quan < product.sp_soluonggioihan)
+                                if (quan < product.sp_soluonggioihan && quan < product.sp_soluong)
                                     setQuan(quan + 1);
                             }}
                         >
@@ -728,7 +739,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',
-        //width: itemW - 5,
+        // width: itemW - 5,
     },
     discountedPriceText: { fontFamily: 'SFProDisplaySemiBold', fontSize: 20 },
     actualPriceText: {

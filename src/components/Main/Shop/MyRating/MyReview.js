@@ -7,6 +7,7 @@ import {
     Text,
     Image,
     Dimensions,
+    RefreshControl
 } from 'react-native';
 import { AirbnbRating } from 'react-native-ratings';
 import moment from 'moment/moment';
@@ -16,8 +17,9 @@ import font from '../../../../../assets/font';
 export default function MyReview({ route, navigation }) {
     const { user } = route.params;
     const [serverDataReview, setServerDataReview] = useState([]);
-    useEffect(() => {
-        // eslint-disable-next-line no-undef
+
+    const [refreshing, setRefreshing] = useState(false);
+    async function loadData(){
         fetch(`http://kimimylife.site/api/getAllDGByID?kh_ma=${user.kh_ma}`)
             .then((response) => response.json())
             .then((responseJson) => {
@@ -28,12 +30,26 @@ export default function MyReview({ route, navigation }) {
             .catch((error) => {
                 console.error(error);
             });
+    }
+    const onRefresh = React.useCallback(() => {
+        setRefreshing(true);
+        loadData();
+        setRefreshing(false);
+    }, []);
+    useEffect(() => {
+       loadData();
     }, []);
     return (
         <View style={styles.container}>
             <ScrollView
                 style={styles.wrapper}
                 showsVerticalScrollIndicator={false}
+                        refreshControl={
+                            <RefreshControl
+                                refreshing={refreshing}
+                                onRefresh={onRefresh}
+                            />
+                        }
             >
                 {serverDataReview.length > 0 ? (
                     <View>
@@ -74,7 +90,7 @@ export default function MyReview({ route, navigation }) {
                                         </Text>
                                         <Text style={font.textNormal}>
                                             {moment(
-                                                new Date(item.dg_ngay)
+                                                (item.dg_ngay)
                                             ).format('DD/MM/YYYY')}
                                         </Text>
                                     </View>
